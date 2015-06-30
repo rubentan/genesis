@@ -1,0 +1,256 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section plugins{
+    <script src="@Url.Content("~/Content/assets/global/plugins/select2/select2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/datatables/media/js/jquery.dataTables.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js")" type="text/javascript"></script>
+
+
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Content/assets/global/scripts/metronic.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/admin/layout3/scripts/layout.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/admin/layout3/scripts/demo.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/scripts/datatable.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js")" type="text/javascript"></script>
+
+
+
+
+
+}
+@section css{
+    <link href="@Url.Content("~/Content/assets/global/plugins/select2/select2.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css">
+
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-datepicker/css/datepicker3.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css")" rel="stylesheet" type="text/css">
+
+}
+
+
+<div class="row">
+    <div class="col-md-6">
+
+        <!-- Begin: Receivables -->
+        <div id="portletReceivables" data-url="@Url.Action("GetReceivables", "Administration", new { area = "Administration" }, null)" class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-sharp"></i>
+                    <span class="caption-subject font-green-sharp bold uppercase">Receivables</span>
+                    @*<span class="caption-helper">weekly stats...</span>*@
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+
+                    <a data-bind="click:asyncOperationReceivables" class="reload">
+                    </a>
+
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="alert display-hide alert-danger problemAjax">
+                    <button class="close" data-close="alert"></button>
+                    <span>
+                        Ajax encountered a problem, Please contact system administrator.
+                    </span>
+                </div>
+                <div class="scroller" style="height:350px" data-always-visible="1" data-rail-visible="1" data-rail-color="red" data-handle-color="blue">
+                    <div class="table-container" data-bind="loadingWhen: isLoadingReceivables">
+
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr class="uppercase">
+                                    <th>
+                                        Client
+                                    </th>
+                                    <th>
+                                        Date Created
+                                    </th>
+                                    <th>
+                                        Due
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: receivables">
+                                <tr>
+                                    <td>
+                                        <a href="javascript:;" data-bind="text:clientName">
+                                        </a>
+                                    </td>
+                                    <td data-bind="text:convertDateTimeFromJson(dateCreated)"></td>
+                                    <td data-bind="text:convertToCurrency(due)"></td>
+                                    <td>
+                                        <a data-bind="click: $parent.viewReceivableDocument" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
+                                            <i class="fa fa-folder-open-o "></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- End: Receivables -->
+    </div>
+    <div class="col-md-6">
+
+        <!-- Begin: Payables -->
+        <div id="portletPayables" data-url="@Url.Action("GetPayables", "Administration", new { area = "Administration" }, null)" class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-sharp"></i>
+                    <span class="caption-subject font-green-sharp bold uppercase">Payables</span>
+                    @*<span class="caption-helper">weekly stats...</span>*@
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+
+                    <a data-bind="click:asyncOperationPayables" class="reload">
+                    </a>
+
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="alert display-hide alert-danger problemAjax">
+                    <button class="close" data-close="alert"></button>
+                    <span>
+                        Ajax encountered a problem, Please contact system administrator.
+                    </span>
+                </div>
+                <div class="scroller" style="height:350px" data-always-visible="1" data-rail-visible="1" data-rail-color="red" data-handle-color="blue">
+
+                    <div class="table-container" data-bind="loadingWhen: isLoadingPayables">
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr class="uppercase">
+                                    <th>
+                                        Supplier
+                                    </th>
+                                    <th>
+                                        Date Created
+                                    </th>
+                                    <th>
+                                        Due
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: payables">
+                                <tr>
+                                    <td>
+                                        <a href="javascript:;" data-bind="text:supplierName">
+                                        </a>
+                                    </td>
+                                    <td data-bind="text:convertDateTimeFromJson(dateCreated)"></td>
+                                    <td data-bind="text:convertToCurrency(due)"></td>
+                                    <td>
+                                        <a data-bind="click: $parent.viewPayableDocument" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
+                                            <i class="fa fa-folder-open-o "></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- End: Payables -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+
+        <!-- Begin: Reorders -->
+        <div id="portletReorders" data-url="@Url.Action("GetReorders", "Administration", new { area = "Administration" }, null)" class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-sharp"></i>
+                    <span class="caption-subject font-green-sharp bold uppercase">Re-order Alert</span>
+                    @*<span class="caption-helper">weekly stats...</span>*@
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+
+                    <a data-bind="click:asyncOperationReorders" class="reload">
+                    </a>
+
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="alert display-hide alert-danger problemAjax">
+                    <button class="close" data-close="alert"></button>
+                    <span>
+                        Ajax encountered a problem, Please contact system administrator.
+                    </span>
+                </div>
+                <div class="scroller" style="height:350px" data-always-visible="1" data-rail-visible="1" data-rail-color="red" data-handle-color="blue">
+                    <div class="table-container" data-bind="loadingWhen: isLoadingReorders">
+
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr class="uppercase">
+                                    <th>
+                                        Code
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Ending
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: reorders">
+                                <tr>
+                                    <td>
+                                        <a href="javascript:;" data-bind="text:productCode">
+                                        </a>
+                                    </td>
+                                    <td data-bind="text:productDescription"></td>
+                                    <td data-bind="text:ending"></td>
+                                    <td>
+                                        <a data-bind="click: $parent.viewReorderProduct" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
+                                            <i class="fa fa-folder-open-o "></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- End: Reorders -->
+    </div>
+</div>
+
+<input type="hidden" id="viewReceivableDocumentUrl" data-url="@Url.Action("EditBranchSalesInvoice", "Sales", new { area = "Modules" }, null)" />
+<input type="hidden" id="viewPurchaseDocumentUrl" data-url="@Url.Action("EditBranchPurchaseOrder", "Purchase", new { area = "Modules" }, null)" />
+<input type="hidden" id="viewProductDocumentUrl" data-url="@Url.Action("ViewProductDetails", "Product", new { area = "Administration" }, null)" />
+
+
+<script src="@Url.Content("~/Areas/Administration/Scripts/Dashboard.js")"></script>
+

@@ -1,0 +1,4 @@
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\bin\Release\Genesis.DTO.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\bin\Release\Genesis.DTO.pdb
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\obj\Release\Genesis.DTO.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\obj\Release\Genesis.DTO.pdb

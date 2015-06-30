@@ -1,0 +1,24 @@
+﻿using System.Web.Mvc;
+
+namespace Genesis.Areas.Modules
+{
+    public class ModulesAreaRegistration : AreaRegistration
+    {
+        public override string AreaName
+        {
+            get
+            {
+                return "Modules";
+            }
+        }
+
+        public override void RegisterArea(AreaRegistrationContext context)
+        {
+            context.MapRoute(
+                "Modules_default",
+                "Modules/{controller}/{action}/{id}",
+                new { action = "Index", id = UrlParameter.Optional }
+            );
+        }
+    }
+}

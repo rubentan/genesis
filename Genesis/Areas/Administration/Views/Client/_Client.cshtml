@@ -1,0 +1,85 @@
+﻿
+
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h4 class="modal-title">ADD NEW CLIENT</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" role="form">
+                <div class="form-body">
+
+                    <div class="form-group has-success">
+                        <label class="col-md-3 control-label">Client Code</label>
+                        <div class="col-md-9">
+                            <div class="input-icon right">
+                                <i class="fa fa-check tooltips" data-original-title="Client Code Available" data-container="body"></i>
+                                <input type="text" class="form-control" id="txtCodeModal">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-error">
+                        <label class="col-md-3 control-label">Client Name</label>
+                        <div class="col-md-9">
+                            <div class="input-icon right">
+                                <i class="fa fa-exclamation tooltips" data-original-title="Client Name Already Exists" data-container="body"></i>
+                                <input type="text" class="form-control" id="txtNameModal">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Client Address</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" rows="3" id="txtAddressModal"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Contact Number</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="" id="txtContactNumberModal">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Contact Person</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="" id="txtContactPersonModal">
+                        </div>
+                    </div>
+
+                   @* <div class="form-group">
+                        <label class="col-md-3 control-label">Branch</label>
+                        <div class="col-md-9">
+                            <select class="form-control input-sm " id="cbBranchModal" name="branchId" >
+                                <option value="0">Select</option>
+                            </select>
+                        </div>
+                    </div>*@
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Is Active</label>
+                        <div class="col-md-9">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" checked id="chkStatusModal" value="option1">
+                                </label>
+                        </div>
+                    </div>
+
+                    
+
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn default" data-dismiss="modal" id="btnClose">Close</button>
+    <button type="button" class="btn blue" id="btnSave">Save</button>
+</div>

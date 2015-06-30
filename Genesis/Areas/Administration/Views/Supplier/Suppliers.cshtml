@@ -1,0 +1,276 @@
+﻿@{
+    ViewBag.Title = "Suppliers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section plugins{
+    <script src="@Url.Content("~/Content/assets/global/plugins/select2/select2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js")" type="text/javascript"></script>
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Content/assets/global/scripts/metronic.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/admin/layout3/scripts/layout.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/admin/layout3/scripts/demo.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/scripts/datatable.js")" type="text/javascript"></script>
+    
+    <script src="@Url.Content("~/Content/assets/admin/pages/scripts/ui-extended-modals.js")" type="text/javascript"></script>
+
+}
+@section css{
+    <link href="@Url.Content("~/Content/assets/global/plugins/select2/select2.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css">
+
+}
+<!-- Begin: Search Parameters -->
+<div class="portlet light">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-search font-green-sharp"></i>
+            <span class="caption-subject font-green-sharp bold uppercase">Search Parameters</span>
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse">
+            </a>
+            <a href="javascript:;" class="reload">
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <div class="form-horizontal filterContainer" role="form">
+            <div class="form-body">
+                <div class="form-group">
+                    <label class="col-md-2 control-labels" style="padding-top:5px;width:12% !important;">Code</label>
+                    <div class="col-md-4" style="margin-right:90px !important;">
+                        <input type="text" class="form-control input-sm formItem" placeholder="Code" name="supplierCode" id="txtSupplierCode">
+                    </div>
+                    <label class="col-md-2 control-labels" style="padding-top:5px;width:12% !important;">Supplier Name</label>
+                    <div class="col-md-4" >
+                        <input type="text" class="form-control input-sm formItem" placeholder="Supplier Name" name="supplierName" id="txtSupplierName">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-labels" style="padding-top:5px;width:12% !important;">Contact Num</label>
+                    <div class="col-md-4" style="margin-right:90px !important;">
+                        <input type="text" class="form-control input-sm formItem" placeholder="Contact Number" name="supplierContactNumber" id="txtContactNumber">                        
+                    </div>
+                    <label class="col-md-2 control-labels" style="padding-top:5px;width:12% !important;">Contact Person</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control input-sm formItem" placeholder="Contact Person" name="supplierContactPerson" id="txtContactPerson">
+                    </div>
+                </div>
+                
+                @*<div class="form-group">
+                    <label class="col-md-2 control-labels" style="padding-top:5px;width:12% !important;">Status</label>
+                    <div class="col-md-4" style="margin-right:90px !important;">
+                        <select name="status" id="ddlStatus" class="form-control input-sm">
+                            <option value="-1">Select</option>
+                            <option value="1">Enabled</option>
+                            <option value="0">Disabled</option>
+                        </select>
+                    </div>
+                </div>*@
+            </div>
+            <div class="form-actions" style="padding: 10px 10px 0px 0px !important;">
+                <div class="row">
+                    <div class="col-md-12" style="text-align: right;">
+                        <input type="button" class="btn yellow formItem"  id="btnSubmitFilter" data-bind="click: asyncOperation" value="SUBMIT">
+                        <button type="button" class="btn red" id="btnResetFilter">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: Search form Portlet-->
+
+<!-- Begin: User List Portlet-->
+<div class="portlet light">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-shopping-cart font-green-sharp"></i>
+            <span class="caption-subject font-green-sharp bold uppercase">System Suppliers Listing</span>
+        </div>
+        <div class="actions">
+            <a id="btnAddNew" data-bind="click:addRow" class="btn btn-default btn-circle">
+                <i class="fa fa-plus"></i>
+                <span class="hidden-480">
+                    New Supplier
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="alert display-hide alert-danger problemAjax">
+            <button class="close" data-close="alert"></button>
+            <span>
+                Ajax encountered a problem, Please contact system administrator.
+            </span>
+        </div>
+
+        <div class="table-container" data-bind="loadingWhen: isLoading">
+            <table class="table table-striped table-bordered table-hover table-advance" id="datatable_ajax">
+                <thead>
+                    <tr role="row" class="heading">
+
+                        <th width="20%">
+                            Code
+                        </th>
+                        <th class="display-hide">
+                            ID
+                        </th>
+                        <th width="25%">
+                            Supplier Name
+                        </th>
+                        <th width="15%">
+                            Contact Number
+                        </th>
+                        <th width="25%">
+                            Contact Person
+                        </th>
+                        <th width="15%">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: suppliers">
+                    <tr>
+
+                        <td class="highlight">
+                            <div data-bind="css : status == 1 ? 'success' : 'danger' ">
+                            </div>
+                            <a href="javascript:;" data-bind="text:supplierCode"></a>
+
+                        </td>
+                        <td class="display-hide" data-bind="text:supplierId"></td>
+                        <td data-bind="text:supplierName"></td>
+                        <td data-bind="text:supplierContactNumber"></td>
+                        <td data-bind="text:supplierContactPerson"></td>
+                        <td>
+                            <a data-bind="click: $parent.viewSupplier" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
+                                <i class="fa fa-folder-open-o "></i> View
+                            </a>
+                            <a data-bind="click: $parent.editRow" class="btn default btn-xs purple" style="margin-bottom: 2px !important;">
+                                <i class="fa fa-edit"></i> Edit
+                            </a>
+
+                            <a data-bind="css : status == 1 ? 'red' : 'green', click: status == 1 ? $parent.deactivate : $parent.activate" class="btn default btn-xs display-hide" style="margin-bottom: 2px !important;">
+                                <i data-bind="css : status == 1 ? 'fa fa-times' : 'fa fa-check' "></i>
+                                <span data-bind="text: status == 1 ? 'Deactivate' : 'Activate' "></span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- End: life time stats -->
+
+<div id="AddEdit" class="modal fade" tabindex="-1" data-width="570">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title" data-bind="text: supplier.supplierId() == 0? 'Add New Supplier':'Edit Supplier Details'"></h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form action="javascript:;" id="formAddEdit" class="form-horizontal">
+                    <div class="form-body">
+                        <div class="alert display-hide alert-danger problemAjaxAdd">
+                            <button class="close" data-close="alert"></button>
+                            <span>
+                                Ajax encountered a problem, Please contact system administrator.
+                            </span>
+                        </div>
+                        <div class="alert alert-danger display-hide problemForm">
+                            <button class="close" data-close="alert"></button>
+                            You have some form errors. Please check below.
+                        </div>
+                        <div class="alert alert-success display-hide">
+                            <button class="close" data-close="alert"></button>
+                            Your form validation is successful!
+                        </div>
+                        <input data-bind="value : supplier.supplierId" type="text" name="supplierId" id="supplierId" class="form-control formItem display-hide">
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Supplier Code<span class="required" aria-required="true">*</span></label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    @*<i class="fa fa-check tooltips" data-original-title="Supplier Code Available" data-container="body"></i>*@
+                                    <input type="text" data-bind="value : supplier.supplierCode" class="form-control" name="supplierCode" id="supplierCode">
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="form-group has-error">*@
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Supplier Name<span class="required" aria-required="true">*</span></label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    @*<i class="fa fa-exclamation tooltips" data-original-title="Supplier Name Already Exists" data-container="body"></i>*@
+                                    <input type="text" data-bind="value : supplier.supplierName" class="form-control" name="supplierName" id="supplierName">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Supplier Address</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" data-bind="value : supplier.supplierAddress" rows="3" name="supplierAddress" id="supplierAddress"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Contact Number</label>
+                            <div class="col-md-9">
+                                <input type="text" data-bind="value : supplier.supplierContactNumber" class="form-control" name="supplierContactNumber" id="supplierContactNumber">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Contact Person</label>
+                            <div class="col-md-9">
+                                <input type="text" data-bind="value : supplier.supplierContactPerson" class="form-control" name="supplierContactPerson" id="supplierContactPerson">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Status</label>
+                            <div class="col-md-9">    
+                            
+                                <div class="checkbox-list">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="status" name="status" data-bind="checked: supplier.status">Active
+                                    </label>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn default" data-dismiss="modal">Close</button>
+        <input data-bind="value: supplier.supplierId() == 0? 'Add':'Save'" type="button" class="btn blue formItem" id="btnAddSubmit">
+    </div>
+</div>
+
+<input type="hidden" id="hdnLoadSuppliersUrl" data-url="@Url.Action("GetAllSuppliers", "Supplier", new { area = "Administration" }, null)" />
+<input type="hidden" id="hdnViewSupplierUrl" data-url="@Url.Action("ViewSupplier", "Supplier", new { area = "Administration" }, null)" />
+<input type="hidden" id="hdnAddEditUrl" data-url="@Url.Action("AddEditSupplier", "Supplier", new { area = "Administration" }, null)" />
+<input type="hidden" id="hdnSupplierCodeExistsUrl" data-url="@Url.Action("CheckSupplierCodeExists", "supplier", new { area = "Administration" }, null)" />
+
+<script src="@Url.Content("~/Areas/Administration/Scripts/Supplier.js")"></script>
+
+

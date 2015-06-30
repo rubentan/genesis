@@ -1,0 +1,887 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GenesisModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_branch">
+          <Key>
+            <PropertyRef Name="branchId" />
+          </Key>
+          <Property Name="branchId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="branchCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="branchName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="branchAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="dateCreated" Type="datetime" />
+          <Property Name="createdBy" Type="int" />
+          <Property Name="dateLastModified" Type="datetime" />
+          <Property Name="lastModifiedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_client">
+          <Key>
+            <PropertyRef Name="clientId" />
+          </Key>
+          <Property Name="clientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clientCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="clientName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="clientAddress" Type="nvarchar" MaxLength="150" />
+          <Property Name="clientContactNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="clientContactPerson" Type="nvarchar" MaxLength="150" />
+          <Property Name="branchId" Type="int" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="int" Nullable="false" />
+          <Property Name="dateLastModified" Type="datetime" />
+          <Property Name="modifiedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_document">
+          <Key>
+            <PropertyRef Name="documentId" />
+          </Key>
+          <Property Name="documentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="referenceId" Type="int" />
+          <Property Name="documentNumber" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="documentType" Type="int" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="int" Nullable="false" />
+          <Property Name="transactionDate" Type="datetime" />
+          <Property Name="payment" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_documentType">
+          <Key>
+            <PropertyRef Name="documentTypeId" />
+          </Key>
+          <Property Name="documentTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="documentTypeName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="documentPrefix" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_payment">
+          <Key>
+            <PropertyRef Name="paymentId" />
+          </Key>
+          <Property Name="paymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="supplierId" Type="int" />
+          <Property Name="referenceNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="paymentDate" Type="datetime" />
+          <Property Name="cashAmount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="chequeAmount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="chequeNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="chequeDate" Type="datetime" />
+          <Property Name="chequeBank" Type="nvarchar" MaxLength="50" />
+          <Property Name="totalPayment" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="dateCreated" Type="datetime" />
+          <Property Name="createdBy" Type="int" />
+          <Property Name="dateLastModified" Type="datetime" />
+          <Property Name="lastModifiedBy" Type="int" />
+          <Property Name="runningBalance" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="TypeOfPayment" Type="varchar" MaxLength="50" />
+          <Property Name="ModeOfPayment" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_paymentDetails">
+          <Key>
+            <PropertyRef Name="paymentDetailsId" />
+          </Key>
+          <Property Name="paymentDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="documentId" Type="int" />
+          <Property Name="paymentId" Type="int" />
+          <Property Name="paymentPrice" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="dateCreated" Type="datetime" />
+          <Property Name="createdBy" Type="int" />
+          <Property Name="dateLastModified" Type="datetime" />
+          <Property Name="lastModifiedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_product">
+          <Key>
+            <PropertyRef Name="productId" />
+          </Key>
+          <Property Name="productId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="productName" Type="nvarchar" MaxLength="150" />
+          <Property Name="productDescription" Type="nvarchar" MaxLength="150" />
+          <Property Name="categoryId" Type="int" />
+          <Property Name="reorderLevel" Type="int" />
+          <Property Name="UOM" Type="nvarchar" MaxLength="50" />
+          <Property Name="branchId" Type="int" />
+          <Property Name="unitPrice" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="beginning" Type="int" />
+          <Property Name="incoming" Type="int" />
+          <Property Name="outgoing" Type="int" />
+          <Property Name="ending" Type="int" />
+          <Property Name="modifiedBy" Type="int" />
+          <Property Name="dateLastModified" Type="datetime" />
+          <Property Name="createdBy" Type="int" />
+          <Property Name="dateCreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_productCategory">
+          <Key>
+            <PropertyRef Name="categoryId" />
+          </Key>
+          <Property Name="categoryId" Type="int" Nullable="false" />
+          <Property Name="categoryCode" Type="nvarchar" MaxLength="15" />
+          <Property Name="categoryName" Type="nvarchar" MaxLength="150" />
+          <Property Name="dateCreated" Type="datetime" />
+          <Property Name="createdBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_productPriceHistory">
+          <Key>
+            <PropertyRef Name="priceHistoryId" />
+          </Key>
+          <Property Name="priceHistoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productId" Type="int" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_receivable">
+          <Key>
+            <PropertyRef Name="receivableId" />
+          </Key>
+          <Property Name="receivableId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clientId" Type="int" />
+          <Property Name="referenceNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="paymentDate" Type="datetime" />
+          <Property Name="cashAmount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="chequeNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="chequeDate" Type="datetime" />
+          <Property Name="chequeBank" Type="nvarchar" MaxLength="50" />
+          <Property Name="totalPayment" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="dateCreated" Type="datetime" />
+          <Property Name="createdBy" Type="int" />
+          <Property Name="dateLastModified" Type="datetime" />
+          <Property Name="lastModifiedBy" Type="int" />
+          <Property Name="isNewPayment" Type="bit" />
+          <Property Name="isCash" Type="bit" />
+          <Property Name="transactionId" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_receivableDetails">
+          <Key>
+            <PropertyRef Name="receivableDetailsId" />
+          </Key>
+          <Property Name="receivableDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="documentId" Type="int" />
+          <Property Name="receivableId" Type="int" />
+          <Property Name="paymentPrice" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="dateCreated" Type="datetime" />
+          <Property Name="createdBy" Type="int" />
+          <Property Name="dateLastModified" Type="datetime" />
+          <Property Name="lastModifiedBy" Type="int" />
+          <Property Name="transactionId" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_supplier">
+          <Key>
+            <PropertyRef Name="supplierId" />
+          </Key>
+          <Property Name="supplierId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="supplierCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="supplierName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="supplierAddress" Type="nvarchar" MaxLength="150" />
+          <Property Name="supplierContactNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="supplierContactPerson" Type="nvarchar" MaxLength="150" />
+          <Property Name="branchId" Type="int" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="int" Nullable="false" />
+          <Property Name="dateLastModified" Type="datetime" />
+          <Property Name="modifiedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_transaction">
+          <Key>
+            <PropertyRef Name="transactionId" />
+          </Key>
+          <Property Name="transactionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productId" Type="int" Nullable="false" />
+          <Property Name="documentId" Type="int" Nullable="false" />
+          <Property Name="transactionType" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="unitPrice" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+          <Property Name="discountA" Type="float" />
+          <Property Name="discountB" Type="float" />
+          <Property Name="discountC" Type="float" />
+        </EntityType>
+        <EntityType Name="tbl_transactionType">
+          <Key>
+            <PropertyRef Name="transactionTypeId" />
+          </Key>
+          <Property Name="transactionTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="transactionTypeName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="transactionOperation" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_users">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="passWord" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="emailAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="middleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="dateLastLogin" Type="datetime" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+          <Property Name="dateLastPasswordChange" Type="datetime" />
+          <Property Name="status" Type="int" />
+          <Property Name="isAdmin" Type="int" />
+        </EntityType>
+        <Function Name="GetAllDocument" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="skip" Type="int" Mode="In" />
+          <Parameter Name="take" Type="int" Mode="In" />
+          <Parameter Name="documentNumber" Type="varchar" Mode="In" />
+          <Parameter Name="documentType" Type="varchar" Mode="In" />
+          <Parameter Name="supplierCode" Type="varchar" Mode="In" />
+          <Parameter Name="supplierName" Type="varchar" Mode="In" />
+          <Parameter Name="dateFrom" Type="varchar" Mode="In" />
+          <Parameter Name="dateTo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetAllDocumentByType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="skip" Type="int" Mode="In" />
+          <Parameter Name="take" Type="int" Mode="In" />
+          <Parameter Name="documentNumber" Type="varchar" Mode="In" />
+          <Parameter Name="supplierCode" Type="varchar" Mode="In" />
+          <Parameter Name="supplierName" Type="varchar" Mode="In" />
+          <Parameter Name="dateFrom" Type="varchar" Mode="In" />
+          <Parameter Name="dateTo" Type="varchar" Mode="In" />
+          <Parameter Name="documentType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetAllOrderItems" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="decumentId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetAllSuppliers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="skip" Type="int" Mode="In" />
+          <Parameter Name="take" Type="int" Mode="In" />
+          <Parameter Name="documentNumber" Type="varchar" Mode="In" />
+          <Parameter Name="supplierCode" Type="varchar" Mode="In" />
+          <Parameter Name="supplierName" Type="varchar" Mode="In" />
+          <Parameter Name="dateFrom" Type="varchar" Mode="In" />
+          <Parameter Name="dateTo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="insert_client" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="clientCode" Type="varchar" Mode="In" />
+          <Parameter Name="clientName" Type="varchar" Mode="In" />
+          <Parameter Name="clientAddress" Type="varchar(max)" Mode="In" />
+          <Parameter Name="clientContactNumber" Type="varchar" Mode="In" />
+          <Parameter Name="clientContactPerson" Type="varchar" Mode="In" />
+          <Parameter Name="status" Type="int" Mode="In" />
+          <Parameter Name="createdBy" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="GenesisModelStoreContainer">
+          <EntitySet Name="tbl_branch" EntityType="Self.tbl_branch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_client" EntityType="Self.tbl_client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_document" EntityType="Self.tbl_document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_documentType" EntityType="Self.tbl_documentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_payment" EntityType="Self.tbl_payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_paymentDetails" EntityType="Self.tbl_paymentDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_product" EntityType="Self.tbl_product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_productCategory" EntityType="Self.tbl_productCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_productPriceHistory" EntityType="Self.tbl_productPriceHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_receivable" EntityType="Self.tbl_receivable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_receivableDetails" EntityType="Self.tbl_receivableDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_supplier" EntityType="Self.tbl_supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_transaction" EntityType="Self.tbl_transaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_transactionType" EntityType="Self.tbl_transactionType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_users" EntityType="Self.tbl_users" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GenesisModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="GenesisEntities" p1:LazyLoadingEnabled="true">
+          <FunctionImport Name="GetAllDocument">
+            <Parameter Name="skip" Mode="In" Type="Int32" />
+            <Parameter Name="take" Mode="In" Type="Int32" />
+            <Parameter Name="documentNumber" Mode="In" Type="String" />
+            <Parameter Name="documentType" Mode="In" Type="String" />
+            <Parameter Name="supplierCode" Mode="In" Type="String" />
+            <Parameter Name="supplierName" Mode="In" Type="String" />
+            <Parameter Name="dateFrom" Mode="In" Type="String" />
+            <Parameter Name="dateTo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllDocumentByType">
+            <Parameter Name="skip" Mode="In" Type="Int32" />
+            <Parameter Name="take" Mode="In" Type="Int32" />
+            <Parameter Name="documentNumber" Mode="In" Type="String" />
+            <Parameter Name="supplierCode" Mode="In" Type="String" />
+            <Parameter Name="supplierName" Mode="In" Type="String" />
+            <Parameter Name="dateFrom" Mode="In" Type="String" />
+            <Parameter Name="dateTo" Mode="In" Type="String" />
+            <Parameter Name="documentType" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllOrderItems" ReturnType="Collection(GenesisModel.GetAllOrderItems_Result)">
+          <Parameter Name="decumentId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllSuppliers">
+            <Parameter Name="skip" Mode="In" Type="Int32" />
+            <Parameter Name="take" Mode="In" Type="Int32" />
+            <Parameter Name="documentNumber" Mode="In" Type="String" />
+            <Parameter Name="supplierCode" Mode="In" Type="String" />
+            <Parameter Name="supplierName" Mode="In" Type="String" />
+            <Parameter Name="dateFrom" Mode="In" Type="String" />
+            <Parameter Name="dateTo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="insert_client">
+            <Parameter Name="clientCode" Mode="In" Type="String" />
+            <Parameter Name="clientName" Mode="In" Type="String" />
+            <Parameter Name="clientAddress" Mode="In" Type="String" />
+            <Parameter Name="clientContactNumber" Mode="In" Type="String" />
+            <Parameter Name="clientContactPerson" Mode="In" Type="String" />
+            <Parameter Name="status" Mode="In" Type="Int32" />
+            <Parameter Name="createdBy" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tbl_branch" EntityType="GenesisModel.tbl_branch" />
+          <EntitySet Name="tbl_client" EntityType="GenesisModel.tbl_client" />
+          <EntitySet Name="tbl_document" EntityType="GenesisModel.tbl_document" />
+          <EntitySet Name="tbl_documentType" EntityType="GenesisModel.tbl_documentType" />
+          <EntitySet Name="tbl_payment" EntityType="GenesisModel.tbl_payment" />
+          <EntitySet Name="tbl_paymentDetails" EntityType="GenesisModel.tbl_paymentDetails" />
+          <EntitySet Name="tbl_product" EntityType="GenesisModel.tbl_product" />
+          <EntitySet Name="tbl_productCategory" EntityType="GenesisModel.tbl_productCategory" />
+          <EntitySet Name="tbl_productPriceHistory" EntityType="GenesisModel.tbl_productPriceHistory" />
+          <EntitySet Name="tbl_receivable" EntityType="GenesisModel.tbl_receivable" />
+          <EntitySet Name="tbl_receivableDetails" EntityType="GenesisModel.tbl_receivableDetails" />
+          <EntitySet Name="tbl_supplier" EntityType="GenesisModel.tbl_supplier" />
+          <EntitySet Name="tbl_transaction" EntityType="GenesisModel.tbl_transaction" />
+          <EntitySet Name="tbl_transactionType" EntityType="GenesisModel.tbl_transactionType" />
+          <EntitySet Name="tbl_users" EntityType="GenesisModel.tbl_users" />
+          </EntityContainer>
+        <ComplexType Name="GetAllOrderItems_Result">
+          <Property Type="Int32" Name="transactionId" Nullable="false" />
+          <Property Type="Int32" Name="productId" Nullable="false" />
+          <Property Type="Int32" Name="documentId" Nullable="false" />
+          <Property Type="Int32" Name="transactionType" Nullable="false" />
+          <Property Type="Int32" Name="quantity" Nullable="false" />
+          <Property Type="Decimal" Name="unitPrice" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="DateTime" Name="dateCreated" Nullable="false" Precision="23" />
+          <Property Type="Double" Name="discountA" Nullable="true" />
+          <Property Type="Double" Name="discountB" Nullable="true" />
+          <Property Type="Double" Name="discountC" Nullable="true" />
+          <Property Type="Decimal" Name="originalPrice" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Double" Name="discountPrice" Nullable="true" />
+          <Property Type="String" Name="productName" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <EntityType Name="tbl_branch">
+          <Key>
+            <PropertyRef Name="branchId" />
+          </Key>
+          <Property Name="branchId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branchCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="branchName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="branchAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="dateCreated" Type="DateTime" Precision="3" />
+          <Property Name="createdBy" Type="Int32" />
+          <Property Name="dateLastModified" Type="DateTime" Precision="3" />
+          <Property Name="lastModifiedBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_client">
+          <Key>
+            <PropertyRef Name="clientId" />
+          </Key>
+          <Property Name="clientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clientCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="clientName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="clientAddress" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="clientContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="clientContactPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="branchId" Type="Int32" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int32" Nullable="false" />
+          <Property Name="dateLastModified" Type="DateTime" Precision="3" />
+          <Property Name="modifiedBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_document">
+          <Key>
+            <PropertyRef Name="documentId" />
+          </Key>
+          <Property Name="documentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="referenceId" Type="Int32" />
+          <Property Name="documentNumber" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="documentType" Type="Int32" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int32" Nullable="false" />
+          <Property Name="transactionDate" Type="DateTime" Precision="3" />
+          <Property Name="payment" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_documentType">
+          <Key>
+            <PropertyRef Name="documentTypeId" />
+          </Key>
+          <Property Name="documentTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="documentTypeName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="documentPrefix" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_payment">
+          <Key>
+            <PropertyRef Name="paymentId" />
+          </Key>
+          <Property Name="paymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="supplierId" Type="Int32" />
+          <Property Name="referenceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="paymentDate" Type="DateTime" Precision="3" />
+          <Property Name="cashAmount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="chequeAmount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="chequeNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="chequeDate" Type="DateTime" Precision="3" />
+          <Property Name="chequeBank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="totalPayment" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="dateCreated" Type="DateTime" Precision="3" />
+          <Property Name="createdBy" Type="Int32" />
+          <Property Name="dateLastModified" Type="DateTime" Precision="3" />
+          <Property Name="lastModifiedBy" Type="Int32" />
+          <Property Name="runningBalance" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="TypeOfPayment" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModeOfPayment" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_paymentDetails">
+          <Key>
+            <PropertyRef Name="paymentDetailsId" />
+          </Key>
+          <Property Name="paymentDetailsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="documentId" Type="Int32" />
+          <Property Name="paymentId" Type="Int32" />
+          <Property Name="paymentPrice" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="dateCreated" Type="DateTime" Precision="3" />
+          <Property Name="createdBy" Type="Int32" />
+          <Property Name="dateLastModified" Type="DateTime" Precision="3" />
+          <Property Name="lastModifiedBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_product">
+          <Key>
+            <PropertyRef Name="productId" />
+          </Key>
+          <Property Name="productId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="productName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="productDescription" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="categoryId" Type="Int32" />
+          <Property Name="reorderLevel" Type="Int32" />
+          <Property Name="UOM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="branchId" Type="Int32" />
+          <Property Name="unitPrice" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="beginning" Type="Int32" />
+          <Property Name="incoming" Type="Int32" />
+          <Property Name="outgoing" Type="Int32" />
+          <Property Name="ending" Type="Int32" />
+          <Property Name="modifiedBy" Type="Int32" />
+          <Property Name="dateLastModified" Type="DateTime" Precision="3" />
+          <Property Name="createdBy" Type="Int32" />
+          <Property Name="dateCreated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_productCategory">
+          <Key>
+            <PropertyRef Name="categoryId" />
+          </Key>
+          <Property Name="categoryId" Type="Int32" Nullable="false" />
+          <Property Name="categoryCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="categoryName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="dateCreated" Type="DateTime" Precision="3" />
+          <Property Name="createdBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_productPriceHistory">
+          <Key>
+            <PropertyRef Name="priceHistoryId" />
+          </Key>
+          <Property Name="priceHistoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productId" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_receivable">
+          <Key>
+            <PropertyRef Name="receivableId" />
+          </Key>
+          <Property Name="receivableId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clientId" Type="Int32" />
+          <Property Name="referenceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="paymentDate" Type="DateTime" Precision="3" />
+          <Property Name="cashAmount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="chequeNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="chequeDate" Type="DateTime" Precision="3" />
+          <Property Name="chequeBank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="totalPayment" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="dateCreated" Type="DateTime" Precision="3" />
+          <Property Name="createdBy" Type="Int32" />
+          <Property Name="dateLastModified" Type="DateTime" Precision="3" />
+          <Property Name="lastModifiedBy" Type="Int32" />
+          <Property Name="isNewPayment" Type="Boolean" />
+          <Property Name="isCash" Type="Boolean" />
+          <Property Name="transactionId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_receivableDetails">
+          <Key>
+            <PropertyRef Name="receivableDetailsId" />
+          </Key>
+          <Property Name="receivableDetailsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="documentId" Type="Int32" />
+          <Property Name="receivableId" Type="Int32" />
+          <Property Name="paymentPrice" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="dateCreated" Type="DateTime" Precision="3" />
+          <Property Name="createdBy" Type="Int32" />
+          <Property Name="dateLastModified" Type="DateTime" Precision="3" />
+          <Property Name="lastModifiedBy" Type="Int32" />
+          <Property Name="transactionId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_supplier">
+          <Key>
+            <PropertyRef Name="supplierId" />
+          </Key>
+          <Property Name="supplierId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="supplierCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="supplierName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="supplierAddress" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="supplierContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="supplierContactPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="branchId" Type="Int32" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int32" Nullable="false" />
+          <Property Name="dateLastModified" Type="DateTime" Precision="3" />
+          <Property Name="modifiedBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_transaction">
+          <Key>
+            <PropertyRef Name="transactionId" />
+          </Key>
+          <Property Name="transactionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productId" Type="Int32" Nullable="false" />
+          <Property Name="documentId" Type="Int32" Nullable="false" />
+          <Property Name="transactionType" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="unitPrice" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="discountA" Type="Double" />
+          <Property Name="discountB" Type="Double" />
+          <Property Name="discountC" Type="Double" />
+        </EntityType>
+        <EntityType Name="tbl_transactionType">
+          <Key>
+            <PropertyRef Name="transactionTypeId" />
+          </Key>
+          <Property Name="transactionTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="transactionTypeName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="transactionOperation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_users">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="passWord" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="emailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="firstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="middleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="lastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="dateLastLogin" Type="DateTime" Precision="3" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dateLastPasswordChange" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="isAdmin" Type="Int32" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GenesisModelStoreContainer" CdmEntityContainer="GenesisEntities">
+          <FunctionImportMapping FunctionImportName="GetAllDocument" FunctionName="GenesisModel.Store.GetAllDocument" />
+          <FunctionImportMapping FunctionImportName="GetAllDocumentByType" FunctionName="GenesisModel.Store.GetAllDocumentByType" />
+          <FunctionImportMapping FunctionImportName="GetAllOrderItems" FunctionName="GenesisModel.Store.GetAllOrderItems">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GenesisModel.GetAllOrderItems_Result">
+                <ScalarProperty Name="transactionId" ColumnName="transactionId" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="documentId" ColumnName="documentId" />
+                <ScalarProperty Name="transactionType" ColumnName="transactionType" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="unitPrice" ColumnName="unitPrice" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="discountA" ColumnName="discountA" />
+                <ScalarProperty Name="discountB" ColumnName="discountB" />
+                <ScalarProperty Name="discountC" ColumnName="discountC" />
+                <ScalarProperty Name="originalPrice" ColumnName="originalPrice" />
+                <ScalarProperty Name="discountPrice" ColumnName="discountPrice" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllSuppliers" FunctionName="GenesisModel.Store.GetAllSuppliers" />
+          <FunctionImportMapping FunctionImportName="insert_client" FunctionName="GenesisModel.Store.insert_client" />
+          <EntitySetMapping Name="tbl_branch">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_branch">
+              <MappingFragment StoreEntitySet="tbl_branch">
+                <ScalarProperty Name="lastModifiedBy" ColumnName="lastModifiedBy" />
+                <ScalarProperty Name="dateLastModified" ColumnName="dateLastModified" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="branchAddress" ColumnName="branchAddress" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="branchCode" ColumnName="branchCode" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_client">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_client">
+              <MappingFragment StoreEntitySet="tbl_client">
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="dateLastModified" ColumnName="dateLastModified" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="clientContactPerson" ColumnName="clientContactPerson" />
+                <ScalarProperty Name="clientContactNumber" ColumnName="clientContactNumber" />
+                <ScalarProperty Name="clientAddress" ColumnName="clientAddress" />
+                <ScalarProperty Name="clientName" ColumnName="clientName" />
+                <ScalarProperty Name="clientCode" ColumnName="clientCode" />
+                <ScalarProperty Name="clientId" ColumnName="clientId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_document">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_document">
+              <MappingFragment StoreEntitySet="tbl_document">
+                <ScalarProperty Name="payment" ColumnName="payment" />
+                <ScalarProperty Name="transactionDate" ColumnName="transactionDate" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="documentType" ColumnName="documentType" />
+                <ScalarProperty Name="documentNumber" ColumnName="documentNumber" />
+                <ScalarProperty Name="referenceId" ColumnName="referenceId" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="documentId" ColumnName="documentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_documentType">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_documentType">
+              <MappingFragment StoreEntitySet="tbl_documentType">
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="documentPrefix" ColumnName="documentPrefix" />
+                <ScalarProperty Name="documentTypeName" ColumnName="documentTypeName" />
+                <ScalarProperty Name="documentTypeId" ColumnName="documentTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_payment">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_payment">
+              <MappingFragment StoreEntitySet="tbl_payment">
+                <ScalarProperty Name="ModeOfPayment" ColumnName="ModeOfPayment" />
+                <ScalarProperty Name="TypeOfPayment" ColumnName="TypeOfPayment" />
+                <ScalarProperty Name="runningBalance" ColumnName="runningBalance" />
+                <ScalarProperty Name="lastModifiedBy" ColumnName="lastModifiedBy" />
+                <ScalarProperty Name="dateLastModified" ColumnName="dateLastModified" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="totalPayment" ColumnName="totalPayment" />
+                <ScalarProperty Name="chequeBank" ColumnName="chequeBank" />
+                <ScalarProperty Name="chequeDate" ColumnName="chequeDate" />
+                <ScalarProperty Name="chequeNumber" ColumnName="chequeNumber" />
+                <ScalarProperty Name="chequeAmount" ColumnName="chequeAmount" />
+                <ScalarProperty Name="cashAmount" ColumnName="cashAmount" />
+                <ScalarProperty Name="paymentDate" ColumnName="paymentDate" />
+                <ScalarProperty Name="referenceNumber" ColumnName="referenceNumber" />
+                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
+                <ScalarProperty Name="paymentId" ColumnName="paymentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_paymentDetails">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_paymentDetails">
+              <MappingFragment StoreEntitySet="tbl_paymentDetails">
+                <ScalarProperty Name="lastModifiedBy" ColumnName="lastModifiedBy" />
+                <ScalarProperty Name="dateLastModified" ColumnName="dateLastModified" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="paymentPrice" ColumnName="paymentPrice" />
+                <ScalarProperty Name="paymentId" ColumnName="paymentId" />
+                <ScalarProperty Name="documentId" ColumnName="documentId" />
+                <ScalarProperty Name="paymentDetailsId" ColumnName="paymentDetailsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_product">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_product">
+              <MappingFragment StoreEntitySet="tbl_product">
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateLastModified" ColumnName="dateLastModified" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="ending" ColumnName="ending" />
+                <ScalarProperty Name="outgoing" ColumnName="outgoing" />
+                <ScalarProperty Name="incoming" ColumnName="incoming" />
+                <ScalarProperty Name="beginning" ColumnName="beginning" />
+                <ScalarProperty Name="unitPrice" ColumnName="unitPrice" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="UOM" ColumnName="UOM" />
+                <ScalarProperty Name="reorderLevel" ColumnName="reorderLevel" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="productDescription" ColumnName="productDescription" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="productCode" ColumnName="productCode" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_productCategory">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_productCategory">
+              <MappingFragment StoreEntitySet="tbl_productCategory">
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+                <ScalarProperty Name="categoryCode" ColumnName="categoryCode" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_productPriceHistory">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_productPriceHistory">
+              <MappingFragment StoreEntitySet="tbl_productPriceHistory">
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="priceHistoryId" ColumnName="priceHistoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_receivable">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_receivable">
+              <MappingFragment StoreEntitySet="tbl_receivable">
+                <ScalarProperty Name="transactionId" ColumnName="transactionId" />
+                <ScalarProperty Name="isCash" ColumnName="isCash" />
+                <ScalarProperty Name="isNewPayment" ColumnName="isNewPayment" />
+                <ScalarProperty Name="lastModifiedBy" ColumnName="lastModifiedBy" />
+                <ScalarProperty Name="dateLastModified" ColumnName="dateLastModified" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="totalPayment" ColumnName="totalPayment" />
+                <ScalarProperty Name="chequeBank" ColumnName="chequeBank" />
+                <ScalarProperty Name="chequeDate" ColumnName="chequeDate" />
+                <ScalarProperty Name="chequeNumber" ColumnName="chequeNumber" />
+                <ScalarProperty Name="cashAmount" ColumnName="cashAmount" />
+                <ScalarProperty Name="paymentDate" ColumnName="paymentDate" />
+                <ScalarProperty Name="referenceNumber" ColumnName="referenceNumber" />
+                <ScalarProperty Name="clientId" ColumnName="clientId" />
+                <ScalarProperty Name="receivableId" ColumnName="receivableId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_receivableDetails">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_receivableDetails">
+              <MappingFragment StoreEntitySet="tbl_receivableDetails">
+                <ScalarProperty Name="transactionId" ColumnName="transactionId" />
+                <ScalarProperty Name="lastModifiedBy" ColumnName="lastModifiedBy" />
+                <ScalarProperty Name="dateLastModified" ColumnName="dateLastModified" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="paymentPrice" ColumnName="paymentPrice" />
+                <ScalarProperty Name="receivableId" ColumnName="receivableId" />
+                <ScalarProperty Name="documentId" ColumnName="documentId" />
+                <ScalarProperty Name="receivableDetailsId" ColumnName="receivableDetailsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_supplier">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_supplier">
+              <MappingFragment StoreEntitySet="tbl_supplier">
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="dateLastModified" ColumnName="dateLastModified" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="supplierContactPerson" ColumnName="supplierContactPerson" />
+                <ScalarProperty Name="supplierContactNumber" ColumnName="supplierContactNumber" />
+                <ScalarProperty Name="supplierAddress" ColumnName="supplierAddress" />
+                <ScalarProperty Name="supplierName" ColumnName="supplierName" />
+                <ScalarProperty Name="supplierCode" ColumnName="supplierCode" />
+                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_transaction">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_transaction">
+              <MappingFragment StoreEntitySet="tbl_transaction">
+                <ScalarProperty Name="discountC" ColumnName="discountC" />
+                <ScalarProperty Name="discountB" ColumnName="discountB" />
+                <ScalarProperty Name="discountA" ColumnName="discountA" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="unitPrice" ColumnName="unitPrice" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="transactionType" ColumnName="transactionType" />
+                <ScalarProperty Name="documentId" ColumnName="documentId" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="transactionId" ColumnName="transactionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_transactionType">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_transactionType">
+              <MappingFragment StoreEntitySet="tbl_transactionType">
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="transactionOperation" ColumnName="transactionOperation" />
+                <ScalarProperty Name="transactionTypeName" ColumnName="transactionTypeName" />
+                <ScalarProperty Name="transactionTypeId" ColumnName="transactionTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_users">
+            <EntityTypeMapping TypeName="GenesisModel.tbl_users">
+              <MappingFragment StoreEntitySet="tbl_users">
+                <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="dateLastPasswordChange" ColumnName="dateLastPasswordChange" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="dateLastLogin" ColumnName="dateLastLogin" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="middleName" ColumnName="middleName" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="emailAddress" ColumnName="emailAddress" />
+                <ScalarProperty Name="passWord" ColumnName="passWord" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

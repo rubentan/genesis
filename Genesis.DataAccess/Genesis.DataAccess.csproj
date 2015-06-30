@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D36923F1-A631-4D28-B676-A214D5D2CA8D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Genesis.DataAccess</RootNamespace>
+    <AssemblyName>Genesis.DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Providers">
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.2\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GenesisDBContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GenesisDBContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GenesisDBContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GenesisDBContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GenesisDBContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="GetAllOrderItems_Result.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\IBase.cs" />
+    <Compile Include="Interfaces\IBranch.cs" />
+    <Compile Include="Interfaces\IClientAccount.cs" />
+    <Compile Include="Interfaces\IDashboard.cs" />
+    <Compile Include="Interfaces\IPayment.cs" />
+    <Compile Include="Interfaces\IProduct.cs" />
+    <Compile Include="Interfaces\IProductCategory.cs" />
+    <Compile Include="Interfaces\IPurchase.cs" />
+    <Compile Include="Interfaces\ISales.cs" />
+    <Compile Include="Interfaces\ISupplierAccount.cs" />
+    <Compile Include="Interfaces\IUserAccount.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\RepoBase.cs" />
+    <Compile Include="Repositories\RepoBranch.cs" />
+    <Compile Include="Repositories\RepoClientAccount.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\RepoDashboard.cs" />
+    <Compile Include="Repositories\RepoPayment.cs" />
+    <Compile Include="Repositories\RepoProduct.cs" />
+    <Compile Include="Repositories\RepoProductCategory.cs" />
+    <Compile Include="Repositories\RepoPurchase.cs" />
+    <Compile Include="Repositories\RepoReceivable.cs" />
+    <Compile Include="Repositories\RepoSales.cs" />
+    <Compile Include="Repositories\RepoSupplierAccount.cs" />
+    <Compile Include="Repositories\RepoUserAccount.cs" />
+    <Compile Include="tbl_branch.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_client.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_document.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_documentType.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_payment.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_paymentDetails.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_product.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_productCategory.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_productPriceHistory.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_receivable.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_receivableDetails.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_supplier.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_transaction.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_transactionType.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_users.cs">
+      <DependentUpon>GenesisDBContext.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Genesis.DTO\Genesis.DTO.csproj">
+      <Project>{bca9bde3-86e3-4347-a638-faa2db1f3a2b}</Project>
+      <Name>Genesis.DTO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="GenesisDBContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GenesisDBContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="GenesisDBContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GenesisDBContext.edmx</DependentUpon>
+      <LastGenOutput>GenesisDBContext.Context.cs</LastGenOutput>
+    </None>
+    <None Include="GenesisDBContext.edmx.diagram">
+      <DependentUpon>GenesisDBContext.edmx</DependentUpon>
+    </None>
+    <None Include="GenesisDBContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GenesisDBContext.edmx</DependentUpon>
+      <LastGenOutput>GenesisDBContext.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GenesisDBContext.edmx.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

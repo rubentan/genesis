@@ -1,0 +1,554 @@
+﻿@{
+    ViewBag.Title = "View Branch Payment Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section plugins{
+    <script src="@Url.Content("~/Content/assets/global/plugins/select2/select2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/datatables/media/js/jquery.dataTables.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js")" type="text/javascript"></script>
+
+
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Content/assets/global/scripts/metronic.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/admin/layout3/scripts/layout.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/admin/layout3/scripts/demo.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/scripts/datatable.js")" type="text/javascript"></script>
+    
+    <script src="@Url.Content("~/Content/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js")" type="text/javascript"></script>
+
+
+
+
+
+}
+@section css{
+    <link href="@Url.Content("~/Content/assets/global/plugins/select2/select2.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css">
+
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-datepicker/css/datepicker3.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css")" rel="stylesheet" type="text/css">
+
+}
+
+<!-- Begin: life time stats -->
+<div class="portlet light">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-basket font-green-sharp"></i>
+            <span class="caption-subject font-green-sharp bold uppercase">
+                Payment Details: 
+            </span>
+
+        </div>
+
+        <div class="actions">
+            <a href="javascript:;" class="btn btn-default btn-circle">
+                <i class="fa fa-angle-left"></i>
+                <span class="hidden-480">
+                    Back
+                </span>
+            </a>
+        </div>
+
+
+
+    </div>
+    <div class="portlet-body">
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+
+                <div class="portlet box grey-cascade ">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Supplier Details
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <!-- BEGIN FORM-->
+                        <form action="javascript:;" class="form-horizontal form-bordered form-row-stripped">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Supplier</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="txtSupplier" class="form-control input-sm" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- END FORM-->
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row" id="newPaymentDiv">
+            <div class="col-md-12 col-sm-12">
+
+                <div class="portlet box grey-cascade ">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Payment Details
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <!-- BEGIN FORM-->
+                        <form action="javascript:;" class="form-horizontal form-bordered form-row-stripped">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Ref #</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control input-sm" id="txtDocumentNumber" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Mode Of Payment</label>
+                                    <div class="col-md-9">
+                                        <div class="radio-list">
+                                            <label class="radio-inline">
+                                                <input class="modeOfPayment" type="radio" name="optionsRadios" id="radioCash" value="option1"> Cash
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input class="modeOfPayment" type="radio" name="optionsRadios" id="radioCheque" value="option2"> Cheque
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group cashDiv hidden">
+                                    <label class="control-label col-md-3">Cash Amount</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control input-sm mask_currency2" id="txtDocumentNumber" />
+                                    </div>
+                                </div>
+                                <div class="form-group chequeDiv hidden">
+                                    <label class="control-label col-md-3">Cheque Amount</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control input-sm mask_currency2" id="txtDocumentNumber" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group chequeDiv hidden">
+                                    <label class="control-label col-md-3">Cheque Number</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control input-sm" id="txtDocumentNumber" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group chequeDiv hidden">
+                                    <label class="control-label col-md-3">Cheque Date</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control input-sm" id="txtDocumentNumber" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group chequeDiv hidden">
+                                    <label class="control-label col-md-3">Issuing Bank</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control input-sm" id="txtDocumentNumber" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- END FORM-->
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row ">
+            <div class="col-md-12 col-sm-12">
+                <div class="portlet grey-cascade box">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-cogs"></i>Purchase Orders
+                        </div>
+                        <div class="actions">
+                            <a href="#AddProduct" data-toggle="modal" class="btn btn-default btn-sm">
+                                <i class="fa fa-plus"></i> Add
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table">
+                            <table class="table table-hover table-bordered table-striped" id="dataTable_orderItem2">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Document #
+                                        </th>
+
+                                        <th>
+                                            Total Amount
+                                        </th>
+                                        <th>
+                                            Remaining Balance
+                                        </th>
+                                        <th>
+                                            Amount To Pay
+                                        </th>
+                                        <th>
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>123456</td>
+                                        <td>10,000.00</td>
+                                        <td class="nr">5,000.25</td>
+                                        <td class="amountContainer">
+                                            <div class="col-md-6">
+                                                <div class="input-group input-medium">
+                                                    <input type="text" class="input-sm form-control mask_currency2" placeholder="">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-sm default dropdown-toggle" data-toggle="dropdown">Pre-set <i class="fa fa-angle-down"></i></button>
+                                                        <ul class="dropdown-menu pull-right">
+                                                            <li>
+                                                                <a class="full_payment">
+                                                                    Full
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="half_payment">
+                                                                    Half
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- /btn-group -->
+                                                </div>
+                                                <!-- /input-group -->
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn-link" data-bind="click: function () { self.orderItems.remove(this) }">remove</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>123456</td>
+                                        <td>10,000.00</td>
+                                        <td class="nr">10,000.00</td>
+                                        <td class="amountContainer">
+                                            <div class="col-md-6">
+                                                <div class="input-group input-medium">
+                                                    <input type="text" class="input-sm form-control mask_currency2" placeholder="">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-sm default dropdown-toggle" data-toggle="dropdown">Pre-set <i class="fa fa-angle-down"></i></button>
+                                                        <ul class="dropdown-menu pull-right">
+                                                            <li>
+                                                                <a class="full_payment">
+                                                                    Full
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="half_payment">
+                                                                    Half
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- /btn-group -->
+                                                </div>
+                                                <!-- /input-group -->
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn-link" data-bind="click: function () { self.orderItems.remove(this) }">remove</a>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+                <div class="well">
+
+                    <div class="row static-info align-reverse">
+                        <div class="col-md-8 name">
+                            Total Payment Amount:
+                        </div>
+                        <div class="col-md-3 value">
+                            ₱ 1,260.00
+                        </div>
+                    </div>
+                    <div class="row static-info align-reverse">
+                        <div class="col-md-8 name">
+                            Total Paid:
+                        </div>
+                        <div class="col-md-3 value">
+                            ₱ 1,260.00
+                        </div>
+                    </div>
+                    <div class="row static-info align-reverse">
+                        <div class="col-md-8 name">
+                            Excess Payment:
+                        </div>
+                        <div class="col-md-3 value">
+                            ₱ 1,260.00
+                        </div>
+                    </div>
+                    <div class="row static-info align-reverse">
+                        <div class="col-md-8 name">
+                            Remaining Balance:
+                        </div>
+                        <div class="col-md-3 value">
+                            ₱ 691.00
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12" style="text-align:right !important;">
+                <button type="button" class="btn yellow-crusta" data-bind="click: function () { addPurchaseOrder() }">Update Payment Details</button>
+                <button type="button" class="btn red">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="AddProduct" class="modal fade" role="dialog" aria-labelledby="myModalLabel10" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Add Purchase Order To Payment</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Purchase Order</label>
+                            <div class="col-md-9">
+                                <input type="hidden" id="ddProduct" class="form-control select2">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"></label>
+                            <div class="col-md-9">
+                                <div class="well">
+                                    <div class="row">
+                                        <div class="col-md-5 name align-reverse">
+                                            Total Price:
+                                        </div>
+                                        <div class="col-md-5 value" data-bind="">
+                                            6,000.00
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 name align-reverse">
+                                            Paid:
+                                        </div>
+                                        <div class="col-md-5 value" data-bind="">
+                                            5,000.00
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 name align-reverse">
+                                            Remaining Balance:
+                                        </div>
+                                        <div class="col-md-5 value" data-bind="">
+                                            1,000.00
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+                <button class="btn green" data-bind="click: function () { addProduct() }">Add & Continue</button>
+                <button class="btn yellow" data-dismiss="modal" data-bind="        click: function(){ addProduct() }">Add & Close</button>
+                <button class="btn default" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddPayment" class="modal fade" role="dialog" aria-labelledby="myModalLabel10" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Add Payment To Order</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Payment Date</label>
+                            <div class="col-md-9">
+                                <input class="form-control input-sm date-picker" type="text" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Reference #</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input-sm">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Cash Amount</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input-sm">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Cheque Amount</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input-sm">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Cheque Number</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input-sm">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Cheque Date</label>
+                            <div class="col-md-9">
+                                <input class="form-control input-sm date-picker" type="text" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Cheque Bank</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input-sm">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Total Payment</label>
+                            <div class="col-md-9">
+                                <input type="text" disabled class="form-control input-sm">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+                <button class="btn green" data-dismiss="modal">Add & Continue</button>
+                <button class="btn yellow" data-dismiss="modal">Add & Close</button>
+                <button class="btn default" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var supplierURL = '@Url.Content("~/Modules/Purchase/GetAllSupplier")';
+    var productURL = '@Url.Content("~/Modules/Purchase/GetALLProducts")';
+
+    $(document).ready(function () {
+
+        // jQuery methods go here...
+        $(".mask_currency2").inputmask('₱ 999,999,999.99', {
+            numericInput: true,
+            rightAlignNumerics: false,
+            greedy: false
+        }); //123456  =>  € ___.__1.234,56
+
+
+        $(".full_payment").click(function () {
+
+            var $item = $(this).closest("tr")   // Finds the closest row <tr>
+                               .find(".nr")     // Gets a descendent with class="nr"
+                               .text();         // Retrieves the text within <td>
+
+            $(this).closest("tr") // Finds the closest row <tr>
+                .find("input")
+                .val($item);
+
+            //$("#mask_currency2").val($item);       // Outputs the answer
+        });
+
+        $(".half_payment").click(function () {
+
+            var $item = $(this).closest("tr")   // Finds the closest row <tr>
+                               .find(".nr")     // Gets a descendent with class="nr"
+                               .text();         // Retrieves the text within <td>
+
+            $item = $item.replace(/,/g, '');
+            $item = $item / 2;
+            $item = Math.round($item);
+            if ($item % 1 == 0) {
+                $item = $item +".00";
+            }
+
+             $(this).closest("tr") // Finds the closest row <tr>
+                .find("input")
+                .val($item);
+            //$("#mask_currency2").val($item);       // Outputs the answer
+        });
+
+        $('.modeOfPayment').click(function () {
+            if ($('#radioCash').is(':checked')) {
+                $(".cashDiv").removeClass("hidden");
+                $(".chequeDiv").addClass("hidden");
+            }
+            else if ($('#radioCheque').is(':checked')) {
+                $(".chequeDiv").removeClass("hidden");
+                $(".cashDiv").addClass("hidden");
+            }
+        });
+
+        $('.typeOfPayment').click(function () {
+            if ($('#radioExistingPayment').is(':checked')) {
+
+                $("#existingPaymentDiv").removeClass("hidden");
+                $("#newPaymentDivnewPaymentDiv").addClass("hidden");
+            }
+            else if ($('#radioNewPayment').is(':checked')) {
+
+                $("#newPaymentDiv").removeClass("hidden");
+                $("#existingPaymentDiv").addClass("hidden");
+            }
+        });
+
+
+    });
+
+
+
+</script>
+<script src="~/Areas/Modules/Scripts/BranchPurchaseOrder.js"></script>
+

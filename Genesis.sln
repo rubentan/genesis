@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genesis", "Genesis\Genesis.csproj", "{E030D75A-FD1C-4FAF-85E6-30B61EBBD800}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genesis.DataAccess", "Genesis.DataAccess\Genesis.DataAccess.csproj", "{D36923F1-A631-4D28-B676-A214D5D2CA8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genesis.BusinessLogic", "Genesis.BusinessLogic\Genesis.BusinessLogic.csproj", "{B5C06686-582A-4FE6-9071-0AD5C35E9330}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genesis.DTO", "Genesis.DTO\Genesis.DTO.csproj", "{BCA9BDE3-86E3-4347-A638-FAA2DB1F3A2B}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://192.169.219.132:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Genesis\\Genesis.csproj
+		SccProjectName1 = Genesis
+		SccLocalPath1 = Genesis
+		SccProjectUniqueName2 = Genesis.DataAccess\\Genesis.DataAccess.csproj
+		SccProjectName2 = Genesis.DataAccess
+		SccLocalPath2 = Genesis.DataAccess
+		SccProjectUniqueName3 = Genesis.BusinessLogic\\Genesis.BusinessLogic.csproj
+		SccProjectName3 = Genesis.BusinessLogic
+		SccLocalPath3 = Genesis.BusinessLogic
+		SccProjectUniqueName4 = Genesis.DTO\\Genesis.DTO.csproj
+		SccProjectName4 = Genesis.DTO
+		SccLocalPath4 = Genesis.DTO
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E030D75A-FD1C-4FAF-85E6-30B61EBBD800}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E030D75A-FD1C-4FAF-85E6-30B61EBBD800}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E030D75A-FD1C-4FAF-85E6-30B61EBBD800}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E030D75A-FD1C-4FAF-85E6-30B61EBBD800}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D36923F1-A631-4D28-B676-A214D5D2CA8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D36923F1-A631-4D28-B676-A214D5D2CA8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D36923F1-A631-4D28-B676-A214D5D2CA8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D36923F1-A631-4D28-B676-A214D5D2CA8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5C06686-582A-4FE6-9071-0AD5C35E9330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5C06686-582A-4FE6-9071-0AD5C35E9330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5C06686-582A-4FE6-9071-0AD5C35E9330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5C06686-582A-4FE6-9071-0AD5C35E9330}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCA9BDE3-86E3-4347-A638-FAA2DB1F3A2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCA9BDE3-86E3-4347-A638-FAA2DB1F3A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCA9BDE3-86E3-4347-A638-FAA2DB1F3A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCA9BDE3-86E3-4347-A638-FAA2DB1F3A2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

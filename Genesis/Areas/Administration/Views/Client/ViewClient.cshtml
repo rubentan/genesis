@@ -1,0 +1,363 @@
+﻿@{
+    ViewBag.Title = "View Client Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section plugins{
+    <script src="@Url.Content("~/Content/assets/global/plugins/select2/select2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/datatables/media/js/jquery.dataTables.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js")" type="text/javascript"></script>
+
+
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Content/assets/global/scripts/metronic.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/admin/layout3/scripts/layout.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/admin/layout3/scripts/demo.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/assets/global/scripts/datatable.js")" type="text/javascript"></script>
+    
+    <script src="@Url.Content("~/Content/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js")" type="text/javascript"></script>
+
+
+
+
+
+}
+@section css{
+    <link href="@Url.Content("~/Content/assets/global/plugins/select2/select2.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css">
+
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-datepicker/css/datepicker3.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css")" rel="stylesheet" type="text/css">
+
+}
+
+
+<input type="hidden" id="clientId" value="@ViewBag.id" />
+
+<!-- Begin: life time stats -->
+<div class="portlet light">
+    <div class="portlet-title">
+        <div class="caption" data-bind="with: ClientInfo ">
+            <i class="icon-user font-green-sharp"></i>
+            <span class="caption-subject font-green-sharp bold uppercase">
+                View Client - <span data-bind="text:clientCode"></span>
+            </span>
+
+        </div>
+
+        <div class="actions">
+            <a href="javascript:backToList();" class="btn btn-default btn-circle">
+                <i class="fa fa-angle-left"></i>
+                <span class="hidden-480">
+                    Back To Client List
+                </span>
+            </a>
+        </div>
+
+
+
+    </div>
+    <div class="portlet-body">
+        <!-- Begin: Client Information-->
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="alert display-hide alert-danger problemAjax">
+                    <button class="close" data-close="alert"></button>
+                    <span>
+                        Ajax encountered a problem, Please contact system administrator.
+                    </span>
+                </div>
+                <div class="portlet blue-hoki box">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-cogs"></i>Client Details
+                        </div>
+                        @*<div class="actions">
+                            <a href="javascript:;" class="btn btn-default btn-sm">
+                                <i class="fa fa-pencil"></i> Edit
+                            </a>
+                        </div>*@
+                    </div>
+                    <div class="portlet-body" data-bind="with: ClientInfo">
+                        <div class="row static-info">
+                            <div class="col-md-2 name">
+                                Client Code:
+                            </div>
+                            <div id="clientCode" class="col-md-4 value" data-bind="text:clientCode">
+
+                            </div>
+                            <div class="col-md-2 name">
+                                Client Name:
+                            </div>
+                            <div class="col-md-4 value" data-bind="text:clientName">
+
+                            </div>
+                        </div>
+                        <div class="row static-info">
+                            <div class="col-md-2 name">
+                                Contact #:
+                            </div>
+                            <div class="col-md-4 value" data-bind="text:clientContactNumber">
+
+                            </div>
+
+                            <div class="col-md-2 name">
+                                Contact Person:
+                            </div>
+                            <div class="col-md-4 value" data-bind="text:clientContactPerson">
+
+                            </div>
+                        </div>
+                        <div class="row static-info">
+                            <div class="col-md-2 name">
+                                Address:
+                            </div>
+                            <div class="col-md-4 value" data-bind="text:clientAddress">
+
+                            </div>
+                        </div>
+                        <div class="row static-info">
+                            <div class="col-md-2 name">
+                                Client Status:
+                            </div>
+                            <div class="col-md-4 value">
+                                <span class="label label-sm label-success" data-bind="css: status==1? 'label-success':'label-danger',text: status==1? 'Enabled':'Disabled'">
+
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row static-info">
+                            <div class="col-md-2 name">
+                                Date Created:
+                            </div>
+                            <div class="col-md-4 value" data-bind="text:convertDateTimeFromJson(dateCreated)">
+
+                            </div>
+                            <div class="col-md-2 name">
+                                Created By:
+                            </div>
+                            <div class="col-md-4 value" data-bind="text:createdByName">
+
+                            </div>
+                        </div>
+                        <div class="row static-info">
+                            <div class="col-md-2 name">
+                                Date Last Modified:
+                            </div>
+                            <div class="col-md-4 value" data-bind="text:convertDateTimeFromJson(dateLastModified)">
+
+                            </div>
+                            <div class="col-md-2 name">
+                                Modified By:
+                            </div>
+                            <div class="col-md-4 value" data-bind="text:modifiedByName">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Begin: Client Account Information-->
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="portlet blue-hoki box">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-cogs"></i>Account Information
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title="">
+                            </a>
+                            <a data-load="true" data-bind="click: GetClientInfo" class="reload" title="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="scroller" style="height:90px" data-bind="with: ClientInfo,loadingWhen: isLoading3">
+                            <div class="row static-info">
+                                <div class="col-md-2 name">
+                                    Total Transactions:
+                                </div>
+                                <div class="col-md-4 value" data-bind="text:transactionCount">
+
+                                </div>
+                                <div class="col-md-2 name">
+                                    Last Transaction:
+                                </div>
+                                <div class="col-md-4 value" data-bind="text:convertDateTimeFromJson(lastTransactionDate)">
+
+                                </div>
+                            </div>
+                            <div class="row static-info">
+                                <div class="col-md-2 name">
+                                    Remaining Balance:
+                                </div>
+                                <div class="col-md-4 value" data-bind="text:convertToCurrency(remainingBalance)">
+
+                                </div>
+                                <div class="col-md-2 name">
+                                    Last Payment:
+                                </div>
+                                <div class="col-md-4 value" data-bind="text:convertDateTimeFromJson(lastPaymentDate)">
+
+                                </div>
+                            </div>
+                            <div class="row static-info">
+                                <div class="col-md-2 name">
+                                    Unused Payments:
+                                </div>
+                                <div class="col-md-4 value" data-bind="text: totalPayments >= totalDocumentPayments ?  convertToCurrency(totalDocumentPayments-totalPayments): convertToCurrency(0) ">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Begin: Client SI / Payments Information-->
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="portlet box blue-hoki">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-users"></i>
+                            <span class="caption-subject  uppercase">Client Sales Invoices</span>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title="">
+                            </a>
+                            <a data-load="true" data-bind="click: GetSalesInvoices" class="reload" title="">
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="scroller" style="height:200px" data-always-visible="1" data-rail-visible="1" data-rail-color="red" data-handle-color="blue">
+
+
+                            <div class="table-container" data-bind="loadingWhen: isLoading1">
+                                <table class="table table-striped table-bordered table-hover table-advance display-hidden" id="datatable_ajax">
+                                    <thead>
+                                        <tr role="row" class="heading">
+
+                                            <th width="20%">
+                                                Doc #
+                                            </th>
+                                            <th class="display-hide">
+                                                Doc ID
+                                            </th>
+                                            <th width="20%">
+                                                Price
+                                            </th>
+                                            <th width="20%">
+                                                Balance
+                                            </th>
+                                            <th width="20%">
+                                                Date
+                                            </th>
+                                            <th width="5%">
+
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: SalesInvoices">
+                                        <tr>
+                                            <td data-bind="text:documentNumber"></td>
+                                            <td class="display-hide" data-bind="text:documentId"></td>
+                                            <td data-bind="text:convertToCurrency(totalPrice)"></td>
+                                            <td data-bind="text:convertToCurrency(totalPrice-totalPayments)"></td>
+                                            <td data-bind="text:convertDateTimeFromJson(transactionDate)"></td>
+                                            <td>
+                                                <a data-bind="click:$parent.ViewSalesInvoice" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
+                                                    <i class="fa fa-folder-open-o "></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="portlet box blue-hoki">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-users "></i>
+                            <span class="caption-subject  uppercase">Client Payments</span>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title="">
+                            </a>
+                            <a data-load="true" data-bind="click: GetPayments" class="reload" title="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="scroller" style="height:200px" data-always-visible="1" data-rail-visible="1" data-rail-color="red" data-handle-color="blue">
+
+                            <div class="table-container" data-bind="loadingWhen: isLoading2">
+                                <table class="table table-striped table-bordered table-hover table-advance display-hidden" id="datatable_ajax">
+                                    <thead>
+                                        <tr role="row" class="heading">
+
+                                            <th width="30%">
+                                                Ref #
+                                            </th>
+                                            <th class="display-hide">
+                                                ID
+                                            </th>
+                                            <th width="30%">
+                                                Amt
+                                            </th>
+                                            <th width="30%">
+                                                Date Created
+                                            </th>
+                                            <th width="5%">
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: Payments">
+                                        <tr>
+                                            <td data-bind="text:referenceNumber"></td>
+                                            <td class="display-hide" data-bind="text:receivableId"></td>
+                                            <td data-bind="text:convertToCurrency(cashAmount)"></td>
+                                            <td data-bind="text:convertDateTimeFromJson(dateCreated)"></td>
+                                            <td>
+                                                <a data-bind="click:$parent.ViewPayment" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
+                                                    <i class="fa fa-folder-open-o "></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnBackToListUrl" data-url="@Url.Action("Clients", "Client", new { area = "Administration" }, null)" />
+<input type="hidden" id="hdnGetClientInfoUrl" data-url="@Url.Action("GetClientInfo", "Client", new { area = "Administration" }, null)" />
+<input type="hidden" id="hdnGetClientSalesInvoicesUrl" data-url="@Url.Action("GetClientSalesInvoices", "Client", new { area = "Administration" }, null)" />
+<input type="hidden" id="hdnGetClientPaymentsUrl" data-url="@Url.Action("GetClientPayments", "Client", new { area = "Administration" }, null)" />
+<input type="hidden" id="hdnViewPaymentUrl" data-url="@Url.Action("AddBranchSalesInvoice", "Sales", new { area = "Modules" }, null)" />
+<input type="hidden" id="hdnViewSalesInvoiceUrl" data-url="@Url.Action("EditBranchSalesInvoice", "Sales", new { area = "Modules" }, null)" />
+
+<script src="@Url.Content("~/Areas/Administration/Scripts/ViewClient.js")"></script>
+

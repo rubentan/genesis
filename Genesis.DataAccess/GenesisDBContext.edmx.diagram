@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="16dc6d4d49c8417ebb1ed65af2b6bc9a" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="GenesisModel.tbl_branch" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_client" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_document" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_documentType" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_payment" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_paymentDetails" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_product" Width="1.5" PointX="6.75" PointY="4.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_productCategory" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_productPriceHistory" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_receivable" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_receivableDetails" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_supplier" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_transaction" Width="1.5" PointX="2.75" PointY="10.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_transactionType" Width="1.5" PointX="4.75" PointY="10.75" />
+        <EntityTypeShape EntityType="GenesisModel.tbl_users" Width="1.5" PointX="10.75" PointY="5.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

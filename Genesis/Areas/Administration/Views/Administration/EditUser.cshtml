@@ -1,0 +1,80 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h4 class="modal-title">Edit User</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="javascript:;" id="formAddUser" class="form-horizontal">
+                <div class="form-body">
+                    <div class="alert display-hide alert-danger problemAjaxAddUser">
+                        <button class="close" data-close="alert"></button>
+                        <span>
+                            Ajax encountered a problem, Please contact system administrator.
+                        </span>
+                    </div>
+                    <div class="alert alert-danger display-hide problemForm">
+                        <button class="close" data-close="alert"></button>
+                        You have some form errors. Please check below.
+                    </div>
+                    <div class="alert alert-success display-hide">
+                        <button class="close" data-close="alert"></button>
+                        Your form validation is successful!
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Username<span class="required" aria-required="true">*</span></label>
+                        <div class="col-md-8">
+                            <input data-bind="value : user.userName" type="text" name="username" class="form-control formItem">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Password<span class="required" aria-required="true">*</span></label>
+                        <div class="col-md-8">
+                            <input data-bind="value:user.passWord" type="password" name="password" id="password" class="form-control formItem">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Verify Password<span class="required" aria-required="true">*</span></label>
+                        <div class="col-md-8">
+                            <input type="password" name="password2" class="form-control formItem">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Email Address<span class="required" aria-required="true">*</span></label>
+                        <div class="col-md-8">
+                            <input data-bind="value:user.emailAddress" type="text" name="emailaddress" class="form-control formItem">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">First Name<span class="required" aria-required="true">*</span></label>
+                        <div class="col-md-8">
+                            <input data-bind="value:user.firstName" type="text" name="firstname" class="form-control formItem">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Middle Name</label>
+                        <div class="col-md-8">
+                            <input data-bind="value:user.middleName" type="text" name="middlename" class="form-control formItem">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Last Name<span class="required" aria-required="true">*</span></label>
+                        <div class="col-md-8">
+                            <input data-bind="value:user.lastName" type="text" name="lastname" class="form-control formItem">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Branch<span class="required" aria-required="true">*</span></label>
+                        <div class="col-md-8">
+                            <select class="form-control input-sm formItem" name="branch" data-bind="value:user.branchId ,options:branches,optionsText: 'branchName',optionsValue:'branchId',optionsCaption: 'Select'"></select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+    <input data-bind="click: function(){ addNewUser() }" type="button" class="btn blue formItem" id="btnAddUserSubmit" value="Add User">
+</div>

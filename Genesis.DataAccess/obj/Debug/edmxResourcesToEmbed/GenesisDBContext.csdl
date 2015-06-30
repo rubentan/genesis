@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GenesisModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="GenesisEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="tbl_branch" EntityType="GenesisModel.tbl_branch" />
+    <EntitySet Name="tbl_client" EntityType="GenesisModel.tbl_client" />
+    <EntitySet Name="tbl_document" EntityType="GenesisModel.tbl_document" />
+    <EntitySet Name="tbl_documentType" EntityType="GenesisModel.tbl_documentType" />
+    <EntitySet Name="tbl_payment" EntityType="GenesisModel.tbl_payment" />
+    <EntitySet Name="tbl_paymentDetails" EntityType="GenesisModel.tbl_paymentDetails" />
+    <EntitySet Name="tbl_product" EntityType="GenesisModel.tbl_product" />
+    <EntitySet Name="tbl_productCategory" EntityType="GenesisModel.tbl_productCategory" />
+    <EntitySet Name="tbl_productPriceHistory" EntityType="GenesisModel.tbl_productPriceHistory" />
+    <EntitySet Name="tbl_supplier" EntityType="GenesisModel.tbl_supplier" />
+    <EntitySet Name="tbl_transaction" EntityType="GenesisModel.tbl_transaction" />
+    <EntitySet Name="tbl_transactionType" EntityType="GenesisModel.tbl_transactionType" />
+    <EntitySet Name="tbl_users" EntityType="GenesisModel.tbl_users" />
+    <FunctionImport Name="GetAllDocument">
+      <Parameter Name="skip" Mode="In" Type="Int32" />
+      <Parameter Name="take" Mode="In" Type="Int32" />
+      <Parameter Name="documentNumber" Mode="In" Type="String" />
+      <Parameter Name="supplierCode" Mode="In" Type="String" />
+      <Parameter Name="supplierName" Mode="In" Type="String" />
+      <Parameter Name="dateFrom" Mode="In" Type="String" />
+      <Parameter Name="dateTo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetAllDocumentByType">
+      <Parameter Name="skip" Mode="In" Type="Int32" />
+      <Parameter Name="take" Mode="In" Type="Int32" />
+      <Parameter Name="documentNumber" Mode="In" Type="String" />
+      <Parameter Name="supplierCode" Mode="In" Type="String" />
+      <Parameter Name="supplierName" Mode="In" Type="String" />
+      <Parameter Name="dateFrom" Mode="In" Type="String" />
+      <Parameter Name="dateTo" Mode="In" Type="String" />
+      <Parameter Name="documentType" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetAllOrderItems" ReturnType="Collection(GenesisModel.GetAllOrderItems_Result)">
+      <Parameter Name="decumentId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetAllSuppliers">
+      <Parameter Name="skip" Mode="In" Type="Int32" />
+      <Parameter Name="take" Mode="In" Type="Int32" />
+      <Parameter Name="documentNumber" Mode="In" Type="String" />
+      <Parameter Name="supplierCode" Mode="In" Type="String" />
+      <Parameter Name="supplierName" Mode="In" Type="String" />
+      <Parameter Name="dateFrom" Mode="In" Type="String" />
+      <Parameter Name="dateTo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="insert_client">
+      <Parameter Name="clientCode" Mode="In" Type="String" />
+      <Parameter Name="clientName" Mode="In" Type="String" />
+      <Parameter Name="clientAddress" Mode="In" Type="String" />
+      <Parameter Name="clientContactNumber" Mode="In" Type="String" />
+      <Parameter Name="clientContactPerson" Mode="In" Type="String" />
+      <Parameter Name="status" Mode="In" Type="Int32" />
+      <Parameter Name="createdBy" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="tbl_branch">
+    <Key>
+      <PropertyRef Name="branchId" />
+    </Key>
+    <Property Type="Int32" Name="branchId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="branchCode" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="branchName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="branchAddress" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="dateCreated" Precision="3" />
+    <Property Type="Int32" Name="createdBy" />
+    <Property Type="DateTime" Name="dateLastModified" Precision="3" />
+    <Property Type="Int32" Name="lastModifiedBy" />
+  </EntityType>
+  <EntityType Name="tbl_client">
+    <Key>
+      <PropertyRef Name="clientId" />
+    </Key>
+    <Property Type="Int32" Name="clientId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="clientCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="clientName" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="clientAddress" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="clientContactNumber" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="clientContactPerson" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="branchId" />
+    <Property Type="Int32" Name="status" Nullable="false" />
+    <Property Type="DateTime" Name="dateCreated" Nullable="false" Precision="3" />
+    <Property Type="Int32" Name="createdBy" Nullable="false" />
+    <Property Type="DateTime" Name="dateLastModified" Precision="3" />
+    <Property Type="Int32" Name="modifiedBy" />
+  </EntityType>
+  <EntityType Name="tbl_document">
+    <Key>
+      <PropertyRef Name="documentId" />
+    </Key>
+    <Property Type="Int32" Name="documentId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="branchId" Nullable="false" />
+    <Property Type="Int32" Name="referenceId" />
+    <Property Type="String" Name="documentNumber" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="documentType" Nullable="false" />
+    <Property Type="DateTime" Name="dateCreated" Nullable="false" Precision="3" />
+    <Property Type="Int32" Name="createdBy" Nullable="false" />
+    <Property Type="Decimal" Name="totalPrice" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="runningBalance" Precision="18" Scale="2" />
+    <Property Type="DateTime" Name="transactionDate" Precision="3" />
+  </EntityType>
+  <EntityType Name="tbl_documentType">
+    <Key>
+      <PropertyRef Name="documentTypeId" />
+    </Key>
+    <Property Type="Int32" Name="documentTypeId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="documentTypeName" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="documentPrefix" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="dateCreated" Nullable="false" Precision="3" />
+    <Property Type="Int32" Name="createdBy" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_payment">
+    <Key>
+      <PropertyRef Name="paymentId" />
+    </Key>
+    <Property Type="Int32" Name="paymentId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="supplierId" />
+    <Property Type="String" Name="referenceNumber" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="paymentDate" Precision="3" />
+    <Property Type="Decimal" Name="cashAmount" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="chequeAmount" Precision="18" Scale="2" />
+    <Property Type="String" Name="chequeNumber" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="chequeDate" Precision="3" />
+    <Property Type="String" Name="chequeBank" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="totalPayment" Precision="18" Scale="2" />
+    <Property Type="DateTime" Name="dateCreated" Precision="3" />
+    <Property Type="Int32" Name="createdBy" />
+    <Property Type="DateTime" Name="dateLastModified" Precision="3" />
+    <Property Type="Int32" Name="lastModifiedBy" />
+  </EntityType>
+  <EntityType Name="tbl_paymentDetails">
+    <Key>
+      <PropertyRef Name="paymentDetailsId" />
+    </Key>
+    <Property Type="Int32" Name="paymentDetailsId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="documentId" />
+    <Property Type="Int32" Name="paymentId" />
+    <Property Type="Decimal" Name="paymentPrice" Precision="18" Scale="2" />
+    <Property Type="DateTime" Name="dateCreated" Precision="3" />
+    <Property Type="Int32" Name="createdBy" />
+    <Property Type="DateTime" Name="dateLastModified" Precision="3" />
+    <Property Type="Int32" Name="lastModifiedBy" />
+  </EntityType>
+  <EntityType Name="tbl_product">
+    <Key>
+      <PropertyRef Name="productId" />
+    </Key>
+    <Property Type="Int32" Name="productId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="productCode" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="productName" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="productDescription" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="categoryId" />
+    <Property Type="Int32" Name="reorderLevel" />
+    <Property Type="String" Name="UOM" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="branchId" />
+    <Property Type="Decimal" Name="unitPrice" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="beginning" />
+    <Property Type="Int32" Name="incoming" />
+    <Property Type="Int32" Name="outgoing" />
+    <Property Type="Int32" Name="ending" />
+    <Property Type="Int32" Name="modifiedBy" />
+    <Property Type="DateTime" Name="dateLastModified" Precision="3" />
+    <Property Type="Int32" Name="createdBy" />
+    <Property Type="DateTime" Name="dateCreated" Precision="3" />
+  </EntityType>
+  <EntityType Name="tbl_productCategory">
+    <Key>
+      <PropertyRef Name="categoryId" />
+    </Key>
+    <Property Type="Int32" Name="categoryId" Nullable="false" />
+    <Property Type="String" Name="categoryCode" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="categoryName" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="dateCreated" Precision="3" />
+    <Property Type="Int32" Name="createdBy" />
+  </EntityType>
+  <EntityType Name="tbl_productPriceHistory">
+    <Key>
+      <PropertyRef Name="priceHistoryId" />
+    </Key>
+    <Property Type="Int32" Name="priceHistoryId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="productId" Nullable="false" />
+    <Property Type="Decimal" Name="price" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="DateTime" Name="dateCreated" Nullable="false" Precision="3" />
+    <Property Type="Int32" Name="createdBy" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_supplier">
+    <Key>
+      <PropertyRef Name="supplierId" />
+    </Key>
+    <Property Type="Int32" Name="supplierId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="supplierCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="supplierName" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="supplierAddress" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="supplierContactNumber" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="supplierContactPerson" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="branchId" />
+    <Property Type="Int32" Name="status" Nullable="false" />
+    <Property Type="DateTime" Name="dateCreated" Nullable="false" Precision="3" />
+    <Property Type="Int32" Name="createdBy" Nullable="false" />
+    <Property Type="DateTime" Name="dateLastModified" Precision="3" />
+    <Property Type="Int32" Name="modifiedBy" />
+  </EntityType>
+  <EntityType Name="tbl_transaction">
+    <Key>
+      <PropertyRef Name="transactionId" />
+    </Key>
+    <Property Type="Int32" Name="transactionId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="productId" Nullable="false" />
+    <Property Type="Int32" Name="documentId" Nullable="false" />
+    <Property Type="Int32" Name="transactionType" Nullable="false" />
+    <Property Type="Int32" Name="quantity" Nullable="false" />
+    <Property Type="Decimal" Name="unitPrice" Precision="18" Scale="2" />
+    <Property Type="DateTime" Name="dateCreated" Nullable="false" Precision="3" />
+    <Property Type="Double" Name="discountA" />
+    <Property Type="Double" Name="discountB" />
+    <Property Type="Double" Name="discountC" />
+  </EntityType>
+  <EntityType Name="tbl_transactionType">
+    <Key>
+      <PropertyRef Name="transactionTypeId" />
+    </Key>
+    <Property Type="Int32" Name="transactionTypeId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="transactionTypeName" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="transactionOperation" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="dateCreated" Nullable="false" Precision="3" />
+    <Property Type="Int32" Name="createdBy" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_users">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Type="Int32" Name="userId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="userName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="passWord" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="emailAddress" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="firstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="middleName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="lastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="branchId" Nullable="false" />
+    <Property Type="DateTime" Name="dateLastLogin" Precision="3" />
+    <Property Type="DateTime" Name="dateCreated" Nullable="false" Precision="3" />
+    <Property Type="DateTime" Name="dateLastPasswordChange" Precision="3" />
+    <Property Type="Int32" Name="status" />
+    <Property Type="Int32" Name="isAdmin" />
+  </EntityType>
+  <ComplexType Name="GetAllOrderItems_Result">
+    <Property Type="Int32" Name="transactionId" Nullable="false" />
+    <Property Type="Int32" Name="productId" Nullable="false" />
+    <Property Type="Int32" Name="documentId" Nullable="false" />
+    <Property Type="Int32" Name="transactionType" Nullable="false" />
+    <Property Type="Int32" Name="quantity" Nullable="false" />
+    <Property Type="Decimal" Name="unitPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="DateTime" Name="dateCreated" Nullable="false" Precision="23" />
+    <Property Type="Double" Name="discountA" Nullable="true" />
+    <Property Type="Double" Name="discountB" Nullable="true" />
+    <Property Type="Double" Name="discountC" Nullable="true" />
+    <Property Type="Decimal" Name="originalPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Double" Name="discountPrice" Nullable="true" />
+    <Property Type="String" Name="productName" Nullable="true" MaxLength="150" />
+  </ComplexType>
+</Schema>
