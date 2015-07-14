@@ -2,3 +2,8 @@ C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\bin\Releas
 C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\bin\Release\Genesis.DTO.pdb
 C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\obj\Release\Genesis.DTO.dll
 C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\obj\Release\Genesis.DTO.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DTO\bin\Release\Genesis.DTO.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DTO\bin\Release\Genesis.DTO.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DTO\obj\Release\Genesis.DTO.csprojResolveAssemblyReference.cache
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DTO\obj\Release\Genesis.DTO.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DTO\obj\Release\Genesis.DTO.pdb

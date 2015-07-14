@@ -9,3 +9,14 @@ C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DataAccess\bin
 C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DataAccess\obj\Release\Genesis.DataAccess.csprojResolveAssemblyReference.cache
 C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DataAccess\obj\Release\Genesis.DataAccess.dll
 C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DataAccess\obj\Release\Genesis.DataAccess.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DataAccess\bin\Release\Genesis.DataAccess.dll.config
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DataAccess\bin\Release\Genesis.DataAccess.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DataAccess\bin\Release\Genesis.DataAccess.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DataAccess\bin\Release\EntityFramework.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DataAccess\bin\Release\Genesis.DTO.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DataAccess\bin\Release\System.Web.Providers.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DataAccess\bin\Release\Genesis.DTO.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DataAccess\bin\Release\EntityFramework.xml
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DataAccess\obj\Release\Genesis.DataAccess.csprojResolveAssemblyReference.cache
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DataAccess\obj\Release\Genesis.DataAccess.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis.DataAccess\obj\Release\Genesis.DataAccess.pdb
