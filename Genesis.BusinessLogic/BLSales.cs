@@ -37,6 +37,11 @@ namespace Genesis.BusinessLogic
             return repo.SaveInvoiceTransaction(header,details);
         }
 
+        public dtoResult SaveReceivableTransaction(dtoReceivable header, List<dtoReceivableDetail> details)
+        {
+            return repo.SaveReceivableTransaction(header, details);
+        }
+
         public List<dtoTransaction> GetAllSaleItems(int documentId)
         {
             return repo.GetAllSaleItems(documentId);

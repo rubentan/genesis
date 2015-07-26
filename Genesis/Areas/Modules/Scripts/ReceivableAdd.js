@@ -71,7 +71,7 @@ var viewModel = function () {
                 data: { paymentId: event.target.value },
                 success: function (d) {
 
-                    _self.remainingChequeAmount(d.cashAmount);
+                    _self.remainingChequeAmount(d.remainingBalance);
                     _self.existingChequeNumber(d.chequeNumber);
                     _self.existingChequeDate(convertDateFromJson(d.chequeDate));
                     _self.existingIssuingBank(d.chequeBank);
@@ -184,6 +184,9 @@ var viewModel = function () {
     };
 
     //General
+
+
+
     _self.addDocument = function () {
         var paymentTotal = 0;
         if (_self.isNew() == true) {
@@ -200,18 +203,32 @@ var viewModel = function () {
                 if (Number($('#txtAmountToPay').val()) <= paymentTotal && (Number(_self.GrandTotal()) + Number($('#txtAmountToPay').val())) <= paymentTotal) {
                     //alert("grand: " + _self.GrandTotal() + ", PaymentTotal: " +paymentTotal);
                     if (Number($('#txtAmountToPay').val()) <= Number(_self.totalRemaining())) {
+
+                        var documentNumClean = $('#ddClientDocuments option:selected').text();
+
                         var newDocument = {
-                            documentNumber: $('#ddClientDocuments option:selected').text(),
+                            documentNumber: documentNumClean.substr(0, documentNumClean.indexOf(' (')),
                             totalAmount: _self.totalPrice(),
                             remainingBalance: _self.totalRemaining(),
-                            totalPayAmount: $('#txtAmountToPay').val()
+                            totalPayAmount: $('#txtAmountToPay').val(),
+                            documentId:  $('#ddClientDocuments option:selected').val()
                         };
 
-                        _self.payDocuments.push(newDocument);
-                        _self.GrandTotal(Number(_self.GrandTotal()) + Number(newDocument.totalPayAmount));
-                        _self.PaymentAmount(paymentTotal);
-                        _self.ExcessPaymentAmount(Number(_self.GrandTotal()) - Number(_self.PaymentAmount()));
-                        _self.clearDocumentAdd();
+
+                        var match = ko.utils.arrayFirst(_self.payDocuments(), function (item) {
+                            return newDocument.documentNumber === item.documentNumber;
+                        });
+
+                        if (!match) {
+                            _self.payDocuments.push(newDocument);
+                            _self.GrandTotal(Number(_self.GrandTotal()) + Number(newDocument.totalPayAmount));
+                            _self.PaymentAmount(paymentTotal);
+                            _self.ExcessPaymentAmount(Number(_self.GrandTotal()) - Number(_self.PaymentAmount()));
+                            _self.clearDocumentAdd();
+                        } else {
+                            alert('Document already exists in the list.');
+                            _self.clearDocumentAdd();
+                        }
 
                     } else {
                         alert('Document total is only: ' + convertToCurrency(_self.totalRemaining()));
@@ -227,7 +244,119 @@ var viewModel = function () {
         }
     };
 
-    
+    _self.addSalesReceivable = function() {
+        var dataUrl = $("#hdnAddSalesReceivableUrl").attr("data-url");
+
+        //If new payment
+        if (_self.isNew()) {
+            if ($("#txtRefNumber").val() != "") {
+                if (Number($('#txtChequeAmount').val()) >= _self.GrandTotal() ) {
+                    if ($("#txtChequeNumberNew").val() != "") {
+                        if ($("#txtChequeDateNew").val() != "") {
+                            if ($("#txtIssuingBankNew").val() != "") {
+                                if (_self.payDocuments().length > 0) {
+                                    var param = {
+                                        header: {
+                                            referenceNumber: $('#txtRefNumber').val(),
+                                            chequeAmount: $('#txtChequeAmount').val(),
+                                            chequeNumber: $('#txtChequeNumberNew').val(),
+                                            chequeDate: $('#txtChequeDateNew').val(),
+                                            chequeBank: $('#txtIssuingBankNew').val(),
+                                            clientId: $("#ddClient").val(),
+                                            isNew: _self.isNew()
+                                        },
+                                        details: _self.payDocuments()
+                                    };
+
+                                    $.ajax({
+                                        url: dataUrl,
+                                        type: 'POST',
+                                        data: ko.toJSON(param),
+                                        contentType: 'application/json; charset=utf-8',
+                                        dataType: 'json',
+                                        success: function () {
+                                            _self.orderItems.removeAll();
+                                            _self.grandTotal('0');
+                                            $('#txtDocumentNumber').val('');
+                                            $('#txtTransactionDate').datepicker("setDate", new Date());
+                                            $("#ddClient").select2("val", "");
+
+                                            alert('Success');
+                                        }
+                                    });
+                                } else {
+                                    alert('Document to be paid is required.');
+                                }
+                            } else {
+                                alert('Cheque Issuing Bank is required.');
+                            }
+                        } else {
+                            alert('Cheque Date is required.');
+                        }
+                    } else {
+                        alert('Cheque Number is required.');
+                    }
+                } else {
+                    alert('Cheque Amount should be greater than or equal to total payment.');
+                }
+            } else {
+                alert('Cheque Reference Number is Required.');
+            }
+        } else {
+            if (Number($('#txtRemainingChequeAmount').val()) >= _self.GrandTotal()) {
+                    if ($("#txtChequeNumberExisting").val() != "") {
+                        if ($("#txtChequeDateExisting").val() != "") {
+                            if ($("#txtBankExisting").val() != "") {
+                                if (_self.payDocuments().length > 0) {
+                                    var param = {
+                                        header: {
+                                            receivableId: $('#ddPayments').val(),
+                                            referenceNumber: $('#txtRefNumber').val(),
+                                            chequeAmount: $('#txtChequeAmount').val(),
+                                            chequeNumber: $('#txtChequeNumberNew').val(),
+                                            chequeDate: $('#txtChequeDateNew').val(),
+                                            chequeBank: $('#txtIssuingBankNew').val(),
+                                            clientId: $("#ddClient").val(),
+                                            isNew: _self.isNew()
+                                        },
+                                        details: _self.payDocuments()
+                                    };
+
+                                    $.ajax({
+                                        url: dataUrl,
+                                        type: 'POST',
+                                        data: ko.toJSON(param),
+                                        contentType: 'application/json; charset=utf-8',
+                                        dataType: 'json',
+                                        success: function () {
+                                            _self.orderItems.removeAll();
+                                            _self.grandTotal('0');
+                                            $('#txtDocumentNumber').val('');
+                                            $('#txtTransactionDate').datepicker("setDate", new Date());
+                                            $("#ddClient").select2("val", "");
+
+                                            alert('Success');
+                                        }
+                                    });
+                                } else {
+                                    alert('Document to be paid is required.');
+                                }
+                            } else {
+                                alert('Cheque Issuing Bank is required.');
+                            }
+                        } else {
+                            alert('Cheque Date is required.');
+                        }
+                    } else {
+                        alert('Cheque Number is required.');
+                    }
+                } else {
+                    alert('Cheque Amount should be greater than or equal to total payment.');
+                }
+        }
+        //If Existing Payment
+
+    };
 
 
     $('input:radio[name="isNewPayment"]').change(
@@ -307,13 +436,15 @@ var viewModel = function () {
         }
     });
 
-    $("#txtChequeAmount").keypress(
+    $("#txtChequeAmount").keyup(
         function (e) {
             _self.clearComputations();
             _self.clearDocumentAdd();
             _self.payDocuments.removeAll();
             _self.PaymentAmount($("#txtChequeAmount").val());
         });
+
+
 
     //$("#ddClientDocuments").change(
     //    function (e) {

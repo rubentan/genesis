@@ -58,7 +58,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                @*<div class="form-group">
                     <label class="col-md-2 control-labels" style="padding-top:5px;width:12% !important;">Client Code</label>
                     <div class="col-md-4" style="margin-right:90px !important;">
                         <input type="text" class="form-control input-sm" placeholder="Client Code" name="clientCode" id="clientCode">
@@ -72,8 +72,8 @@
                             </span>
                             <input type="text" class="form-control input-sm" name="dateTo">
                         </div>
-                    </div>*@
-                </div>
+                    </div>
+                </div>*@
 
 
             </div>
@@ -127,7 +127,7 @@
                                 Client Code
                             </th>
                             <th width="20%">
-                                Cash Ammount
+                                Cash Amount
                             </th>
                             <th width="15%">
                                 Date Created
@@ -147,7 +147,7 @@
                             <td data-bind="text: convertDateFromJson( dateCreated )"></td>
 
                             <td>
-                                <a data-bind="click: editRow" class="btn default btn-xs purple display-hide" style="margin-bottom: 2px !important;">
+                                <a data-bind="click: editRow" class="btn default btn-xs purple" style="margin-bottom: 2px !important;">
                                     <i class="fa fa-edit"></i> Edit
                                 </a>
                             </td>

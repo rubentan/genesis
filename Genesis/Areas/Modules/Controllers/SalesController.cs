@@ -40,7 +40,6 @@ namespace Genesis.Areas.Modules.Controllers
             return View();
         }
 
-
         public JsonResult GetClientsForDropDown2(string search)
         {
             var currentUser = (dtoUserAccount)Session["CurrentUser"];
@@ -57,11 +56,9 @@ namespace Genesis.Areas.Modules.Controllers
         [HttpPost]
         public JsonResult GetClientsForDropDown()
         {
-
             var list = repoClient.GetClientsFroDropDown();
             return Json(list);
         }
-
 
         public JsonResult GetAllBranchProducts(string search)
         {
@@ -90,7 +87,6 @@ namespace Genesis.Areas.Modules.Controllers
             {
                 documentId = documentId,
                 branchId = currentUser.branchId
-                
             };
 
             //list = (new BLPurchase()).GetAllPurchases(filter, 0, 100);
@@ -115,8 +111,7 @@ namespace Genesis.Areas.Modules.Controllers
 
             //int totalRecords = 0;
 
-
-                var filter = new dtoDocument
+            var filter = new dtoDocument
             {
                 documentNumber = Request["documentNumber"],
                 clientCode = Request["clientCode"],
@@ -157,7 +152,6 @@ namespace Genesis.Areas.Modules.Controllers
 
             return Json(list);
         }
-
 
         public JsonResult SaveInvoiceTransaction(dtoDocument header, List<dtoTransaction> details)
         {
@@ -216,7 +210,6 @@ namespace Genesis.Areas.Modules.Controllers
 
         }
 
-
         public ActionResult NewBranchReceivable()
         {
             return View();
@@ -240,6 +233,22 @@ namespace Genesis.Areas.Modules.Controllers
         }
 
         [HttpPost]
+        public JsonResult SaveReceivableTransaction(dtoReceivable header, List<dtoReceivableDetail> details)
+        {
+            var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            header.branchId = currentUser.branchId;
+
+            if (header.isNew)
+            {
+                header.createdBy = currentUser.userId;
+                header.dateCreated = DateTime.Now;
+            }
+
+            var result = service.SaveReceivableTransaction(header, details);
+            return Json(result);
+        }
+
+        [HttpPost]
         public JsonResult GetNewBranchRecievable(int id)
         {
             return Json(new { 
@@ -255,19 +264,11 @@ namespace Genesis.Areas.Modules.Controllers
             return Json(list);
         }
 
-
-
         public JsonResult GetExistingPaymentDetail(int paymentId)
         {
             var receivable = repoReceivable.GetExistingPaymentDetail(paymentId);
             return Json(receivable);
         }
-
-        //[HttpPost]
-        //public JsonResult UseExcessPayment(int id)
-        //{
-        //    return Json(repoReceivable.UseExcessPayment(id));
-        //}
 
         
     }

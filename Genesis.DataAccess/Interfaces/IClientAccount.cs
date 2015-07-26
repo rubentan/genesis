@@ -13,6 +13,8 @@ namespace Genesis.DataAccess.Interfaces
         List<dtoClient> GetAll(object filter = null, int? skip = null, int? take = null);
         dtoClient GetClientInfo(string id);
         List<dtoClientSalesInvoice> GetClientSalesInvoices(string id);
+
+        List<dtoClientSalesInvoice> GetClientSalesInvoicesWithBalance(string id);
         List<dtoClientPayment> GetClientPayments(string id);
         int GetRecordCount(object filter = null);
 

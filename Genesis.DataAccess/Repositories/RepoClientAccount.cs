@@ -221,6 +221,22 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoClientSalesInvoice>(sqlString).ToList();
         }
 
+        public List<dtoClientSalesInvoice> GetClientSalesInvoicesWithBalance(string id)
+        {
+            var sqlString =
+                String.Format("select document.documentId,document.documentNumber,document.transactionDate, " +
+                            "cast(sum(((trans.quantity*trans.unitPrice*(1-trans.discountA/100))*(1-trans.discountB/100))*(1-trans.discountC/100)) as decimal(18,2)) as totalPrice, " +
+                            "(select ISNULL(sum(paymentPrice),0) from tbl_receivableDetails n where n.documentId = document.documentId ) as totalPayments " +
+                            "from tbl_document document " +
+                            "left join tbl_transaction trans " +
+                            "on document.documentId = trans.documentId " +
+                            "where document.referenceId = {0} and document.documentType = 1 " +
+                            "group by document.documentId,document.documentNumber,document.transactionDate " +
+                             "having (select ISNULL(sum(paymentPrice),0) from tbl_receivableDetails n where n.documentId = document.documentId ) < cast(sum(((trans.quantity*trans.unitPrice*(1-trans.discountA/100))*(1-trans.discountB/100))*(1-trans.discountC/100)) as decimal(18,2))", id);
+
+            return DBContext.Database.SqlQuery<dtoClientSalesInvoice>(sqlString).ToList();
+        }
+
         public List<dtoClientPayment> GetClientPayments(string id)
         {
             var sqlString = String.Format("select * from tbl_receivable where clientId={0}", id);

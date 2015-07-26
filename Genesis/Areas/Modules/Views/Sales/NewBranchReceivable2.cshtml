@@ -133,7 +133,9 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Ref #</label>
                                     <div class="col-md-9">
-                                        <select class="form-control input-sm formItem" name="branch" id ="ddPayments" data-bind="options:existingPayments,optionsText: 'referenceNumber',optionsValue:'receivableId',optionsCaption: 'Select',event:{ change: paymentsChanged}"></select>
+                                        <select class="form-control input-sm formItem" name="branch" id="ddPayments" data-bind="options:existingPayments,optionsText: function(item) {
+                       return item.referenceNumber + ' (remaining: ' + item.remainingBalance + ')'
+                   },optionsValue:'receivableId',optionsCaption: 'Select',event:{ change: paymentsChanged}"></select>
                                     </div>
                                 </div>
                                 
@@ -147,21 +149,21 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Cheque Number</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" data-bind="value:existingChequeNumber" id="" disabled />
+                                        <input type="text" class="form-control input-sm" data-bind="value:existingChequeNumber" id="txtChequeNumberExisting" disabled />
 
                                     </div>
                                 </div>
                                 <div class="form-group ">
                                     <label class="control-label col-md-3">Cheque Date</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" data-bind="value:existingChequeDate" id="" disabled />
+                                        <input type="text" class="form-control input-sm" data-bind="value:existingChequeDate" id="txtChequeDateExisting" disabled />
 
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Issuing Bank</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" data-bind="value:existingIssuingBank" id="txtDocumentNumber" disabled />
+                                        <input type="text" class="form-control input-sm" data-bind="value:existingIssuingBank" id="txtBankExisting" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -195,7 +197,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Ref #</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" id="txtDocumentNumber" data-bind="" />
+                                        <input type="text" class="form-control input-sm" id="txtRefNumber" data-bind="" />
                                     </div>
                                 </div>
 
@@ -210,21 +212,21 @@
                                 <div class="form-group ">
                                     <label class="control-label col-md-3">Cheque Number</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" id="" data-bind="" />
+                                        <input type="text" class="form-control input-sm" id="txtChequeNumberNew" data-bind="" />
 
                                     </div>
                                 </div>
                                 <div class="form-group ">
                                     <label class="control-label col-md-3">Cheque Date</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm datePicker" id="" data-bind="" />
+                                        <input type="text" class="form-control input-sm datePicker" id="txtChequeDateNew" data-bind="" />
 
                                     </div>
                                 </div>
                                 <div class="form-group ">
                                     <label class="control-label col-md-3">Issuing Bank</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" id="" data-bind="" />
+                                        <input type="text" class="form-control input-sm" id="txtIssuingBankNew" data-bind="" />
 
                                     </div>
                                 </div>
@@ -259,7 +261,10 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Sales Invoice</label>
                                     <div class="col-md-9">
-                                        <select class="form-control input-sm formItem" name="clientDocuments" id="ddClientDocuments" data-bind="options:clientDocuments,optionsText: 'documentNumber',optionsValue:'documentId',optionsCaption: 'Select',event:{ change: documentChanged}"></select>
+                                        <select class="form-control input-sm formItem" name="clientDocuments" id="ddClientDocuments" data-bind="options:clientDocuments,optionsText:  function(item) {
+    var remaining = item.totalPrice - item.totalPayments;                   
+    return item.documentNumber + ' (remaining: ' + remaining + ')'
+                   },optionsValue:'documentId',optionsCaption: 'Select',event:{ change: documentChanged}"></select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -395,16 +400,17 @@
         <div class="row">
 
             <div class="col-md-12 col-sm-12" style="text-align:right !important;">
-                <button type="button" class="btn yellow-crusta">Add Receivable Order</button>
+                <button type="button" class="btn yellow-crusta" data-bind="click: function () { addSalesReceivable() }">Add Receivable</button>
                 <button type="button" class="btn red">Cancel</button>
             </div>
         </div>
     </div>
 </div>
 
+<input type="hidden" id="hdnAddSalesReceivableUrl" data-url="@Url.Action("SaveReceivableTransaction", "Sales", new { area = "Modules" }, null)" />
 <input type="hidden" id="hdnGetClientsUrl" data-url="@Url.Action("GetClientsForDropDown2", "Sales", new { area = "Modules" }, null)" />
 <input type="hidden" id="hdnGetExistingPaymentsUrl" data-url="@Url.Action("GetExistingPayments", "Sales", new { area = "Modules" }, null)" />
-<input type="hidden" id="hdnGetClientDocumentsUrl" data-url="@Url.Action("GetClientSalesInvoices", "Client", new { area = "Administration" }, null)" />
+<input type="hidden" id="hdnGetClientDocumentsUrl" data-url="@Url.Action("GetClientSalesInvoicesWithBalance", "Client", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnGetDocumentDetailsUrl" data-url="@Url.Action("GetSalesInvoiceDetails", "Client", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnGetExistingPaymentDetailsUrl" data-url="@Url.Action("GetExistingPaymentDetail", "Sales", new { area = "Modules" }, null)" />
 

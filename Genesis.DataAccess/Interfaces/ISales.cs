@@ -17,6 +17,8 @@ namespace Genesis.DataAccess.Interfaces
 
         dtoResult SaveInvoiceTransaction(dtoDocument header, List<dtoTransaction> details);
 
+        dtoResult SaveReceivableTransaction(dtoReceivable header, List<dtoReceivableDetail> details);
+
         List<dtoTransaction> GetAllSaleItems(int documentId);
 
         List<dtoReceivable> GetAllReceivables(object filter = null, int? skip = null, int? take = null);

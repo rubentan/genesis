@@ -22,6 +22,9 @@ var viewModel = function () {
         productName: ko.observable(),
         productDescription: ko.observable(),
         uom: ko.observable(),
+        beginning: ko.observable(),
+        incoming: ko.observable(),
+        outgoing: ko.observable(),
         ending: ko.observable(),
         unitPrice: ko.observable('0'),
         discountPrice: ko.observable(),
@@ -185,6 +188,9 @@ var viewModel = function () {
                 dataType: 'json',
                 success: function(d) {
                     _self.Product.unitPrice(d.unitPrice);
+                    _self.Product.beginning(d.beginning);
+                    _self.Product.incoming(d.incoming);
+                    _self.Product.outgoing(d.outgoing);
                     _self.Product.ending(d.ending);
                     _self.Product.uom(d.UOM);
                 },

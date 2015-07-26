@@ -148,6 +148,12 @@ namespace Genesis.Areas.Administration.Controllers
             return Json(list);
         }
 
+        public JsonResult GetClientSalesInvoicesWithBalance(string id)
+        {
+            var list = service.GetClientSalesInvoicesWithBalance(id);
+            return Json(list);
+        }
+
         public JsonResult GetSalesInvoiceDetails(string id)
         {
             var invoice = service.GetSalesInvoiceDetails(id);

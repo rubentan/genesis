@@ -121,6 +121,76 @@ namespace Genesis.DataAccess.Repositories
             return result;
         }
 
+        public dtoResult SaveReceivableTransaction(dtoReceivable header, List<dtoReceivableDetail> details)
+        {
+            var result = new dtoResult();
+            try
+            {
+                if (header.isNew)
+                {
+                    AddReceivable(ref header);
+                }
+
+                if (details != null)
+                    foreach (var item in details)
+                    {
+                       item.receivableId = header.receivableId;
+                       item.paymentPrice = item.totalPayAmount;
+                       item.createdBy = header.createdBy;
+                       item.dateCreated = header.dateCreated;
+                       AddReceivableDetail(item);
+                    }
+
+                DBContext.SaveChanges();
+                result.isSuccessful = true;
+
+            }
+            catch (Exception ex)
+            {
+                result.isSuccessful = false;
+                result.errorMsg = ex.ToString();
+            }
+            return result;
+        }
+
+        public void AddReceivable(ref dtoReceivable t)
+        {
+
+            var receivable = new tbl_receivable()
+            {
+                referenceNumber = t.referenceNumber,
+                cashAmount = t.chequeAmount,
+                chequeNumber = t.chequeNumber,
+                chequeDate = t.chequeDate,
+                chequeBank = t.chequeBank,
+                dateCreated = DateTime.Now,
+                createdBy = t.createdBy,
+                clientId = t.clientId
+            };
+
+            DBContext.tbl_receivable.Add(receivable);
+            DBContext.SaveChanges();
+
+            t.receivableId = receivable.receivableId;
+        }
+
+        public void AddReceivableDetail(dtoReceivableDetail t)
+        {
+
+            var receivableDetail = new tbl_receivableDetails()
+            {
+                receivableId = t.receivableId,
+                paymentPrice = t.paymentPrice,
+                documentId = t.documentId,
+                dateCreated = DateTime.Now,
+                createdBy = t.createdBy,
+            };
+
+            DBContext.tbl_receivableDetails.Add(receivableDetail);
+            DBContext.SaveChanges();
+
+        }
+
         public void AddDocument(ref dtoDocument t)
         {
 

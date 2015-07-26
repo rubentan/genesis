@@ -19,6 +19,7 @@ namespace Genesis.DTO
 
         public string documentNumber { get; set; }
         public decimal totalAmount { get; set; }
+        public decimal totalPayAmount { get; set; }
         public decimal remainingBalance { get; set; }
         public decimal totalPayment { get; set; }
   

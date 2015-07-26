@@ -43,6 +43,11 @@ namespace Genesis.BusinessLogic
             return repo.GetClientSalesInvoices(id);
         }
 
+        public List<dtoClientSalesInvoice> GetClientSalesInvoicesWithBalance(string id)
+        {
+            return repo.GetClientSalesInvoicesWithBalance(id);
+        }
+
         public List<dtoClientPayment> GetClientPayments(string id)
         {
             return repo.GetClientPayments(id);

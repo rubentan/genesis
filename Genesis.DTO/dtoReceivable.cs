@@ -25,7 +25,9 @@ namespace Genesis.DTO
         public DateTime? dateLastModified { get; set; }
         public int? lastModifiedBy { get; set; }
         public decimal? runningBalance { get; set; }
+        public decimal? remainingBalance { get; set; }
 
+        public bool isNew { get; set; }
         public bool? isNewPayment { get; set; }
         public bool? isCash { get; set; }
         public decimal? excessPayment { get; set; }

@@ -125,19 +125,28 @@ namespace Genesis.DataAccess.Repositories
 
         public List<dtoReceivable> GetExistingPayments(int clientId)
         {
-            string sQuery = string.Format(@"select * from tbl_receivable where clientId = {0}", clientId);          
+            string sQuery = string.Format(@"select a.receivableId, a.clientId, a.referenceNumber, a.cashAmount, a.chequeDate, a.chequeBank, a.chequeNumber, a.paymentDate,
+                            sum(b.paymentPrice) as totalPayment, (a.cashAmount - sum(b.paymentPrice)) as remainingBalance
+                            from tbl_receivable a
+                            left join tbl_receivableDetails b
+                            on a.receivableId = b.receivableId
+                            where a.clientId = {0}
+                            group by a.receivableId,a.clientId, a.referenceNumber, a.cashAmount, a.chequeDate, a.chequeBank, a.chequeNumber, a.paymentDate
+                            having sum(b.paymentPrice) < a.cashAmount", clientId);          
 
             return DBContext.Database.SqlQuery<dtoReceivable>(sQuery).ToList();
         }
 
             public dtoReceivable GetExistingPaymentDetail(int receivableId)
         {
-            string sQuery = string.Format(@"select sum(paymentPrice) as cashAmount, b.referenceNumber,b.chequeNumber,b.chequeDate,b.chequeBank,b.dateCreated
-                                            from tbl_receivableDetails a
-                                            left join tbl_receivable b
+            string sQuery = string.Format(@"select a.receivableId, a.clientId, a.referenceNumber, a.cashAmount, a.chequeDate, a.chequeBank, a.chequeNumber, a.paymentDate,
+                                            sum(b.paymentPrice) as totalPayment, (a.cashAmount - sum(b.paymentPrice)) as remainingBalance
+                                            from tbl_receivable a
+                                            left join tbl_receivableDetails b
                                             on a.receivableId = b.receivableId
                                             where a.receivableId = {0}
-                                            group by b.receivableId,b.referenceNumber,b.chequeNumber,b.chequeDate,b.chequeBank,b.dateCreated", receivableId);
+                                            group by a.receivableId,a.clientId, a.referenceNumber, a.cashAmount, a.chequeDate, a.chequeBank, a.chequeNumber, a.paymentDate
+                                            having sum(b.paymentPrice) < a.cashAmount", receivableId);
 
                 return DBContext.Database.SqlQuery<dtoReceivable>(sQuery).FirstOrDefault();
         }
