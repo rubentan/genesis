@@ -116,8 +116,8 @@ namespace Genesis.Areas.Modules.Controllers
                 documentNumber = Request["documentNumber"],
                 clientCode = Request["clientCode"],
                 clientName = Request["clientName"],
-                //dateFrom = Request["dateFrom"],
-                //dateTo = Request["dateTo"],
+                dateFrom = Request["dateFrom"],
+                dateTo = Request["dateTo"],
                 branchId = currentUser.branchId,
                 //documentType = 1
             };
@@ -176,8 +176,9 @@ namespace Genesis.Areas.Modules.Controllers
             return View();
         }
 
-        public ActionResult EditBranchReceivable()
+        public ActionResult EditBranchReceivable(int? id)
         {
+            ViewBag.id = id;
             return View();
         }
 

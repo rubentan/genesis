@@ -24,10 +24,51 @@ var ViewModel = function() {
     this.isLoading1 = ko.observable(false);
     this.isLoading2 = ko.observable(false);
     this.isLoading3 = ko.observable(false);
+    this.isLoading4 = ko.observable(false);
     _self.Transactions = ko.observableArray();
     _self.PriceHistory = ko.observableArray();
     _self.ProductInfo = ko.observable();
 
+    _self.Purchases = ko.observableArray();
+    _self.Sales = ko.observableArray();
+
+    _self.GetSales = function () {
+        _self.isLoading4(true);
+        var dataUrl = $("#hdnSalesUrl").attr("data-url");
+        $.ajax({
+            //url: '/Administration/Product/GetProductTransactions',
+            url: dataUrl,
+            type: 'POST',
+            async: true,
+            dataType: 'json',
+            data: { id: productId },
+            success: function (d) {
+                $(".problemAjax").hide();
+                _self.isLoading4(false);
+                _self.Sales(d);
+            },
+            error: function () { $(".problemAjax").show(); }
+        });
+    };
+
+    _self.GetPurchases = function () {
+        _self.isLoading3(true);
+        var dataUrl = $("#hdnPurchasesUrl").attr("data-url");
+        $.ajax({
+            //url: '/Administration/Product/GetProductTransactions',
+            url: dataUrl,
+            type: 'POST',
+            async: true,
+            dataType: 'json',
+            data: { id: productId },
+            success: function (d) {
+                $(".problemAjax").hide();
+                _self.isLoading3(false);
+                _self.Purchases(d);
+            },
+            error: function () { $(".problemAjax").show(); }
+        });
+    };
 
     _self.GetProductInfo = function () {
         _self.isLoading3(true);
@@ -105,7 +146,9 @@ var ViewModel = function() {
 
 
     _self.GetPriceHistory();
-    _self.GetTransactions();
+    //_self.GetTransactions();
+    _self.GetSales();
+    _self.GetPurchases();
     _self.GetProductInfo();
 };
 

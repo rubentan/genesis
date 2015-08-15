@@ -22,6 +22,10 @@ namespace Genesis.DataAccess.Interfaces
 
         List<dtoProductTransactions> GetProductTransactions(int id);
 
+        List<dtoProductTransactions> GetProductSales(int id);
+
+        List<dtoProductTransactions> GetProductPurchases(int id);
+
         List<dtoProductPriceHistory> GetProductPriceHistory(int id);
 
         dtoProduct GetProductInfo(int id);

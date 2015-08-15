@@ -146,7 +146,10 @@
                         <td class="display-hide" data-bind="text:productId"></td>
                         <td data-bind="text:productDescription"></td>
                         <td data-bind="text:UOM"></td>
-                        <td data-bind="text:convertToCurrency(unitPrice)"></td>
+                        <td>
+                            <a data-bind="click: $parent.viewPrice,text:convertToCurrency(unitPrice)" class="btn-link default btn-xs blue" style="margin-bottom: 2px !important;">
+                            </a>
+                        </td>
                         <td data-bind="text:beginning"></td>
                         <td data-bind="text:incoming"></td>
                         <td data-bind="text:outgoing"></td>
@@ -167,6 +170,45 @@
     </div>
 </div>
 <!-- End: life time stats -->
+
+<div id="viewPrice" class="modal fade" tabindex="-1" data-width="570">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title"> View Price History</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="scroller" style="height:200px" data-always-visible="1" data-rail-visible="1" data-rail-color="red" data-handle-color="blue">
+                    <table class="table table-striped table-bordered table-hover table-advance display-hidden" id="datatable_ajax">
+                        <thead>
+                            <tr role="row" class="heading">
+
+                                <th width="50%">
+                                    Price
+                                </th>
+                                <th width="50%">
+                                    Date
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: priceHistory">
+                            <tr>
+                                <td data-bind="text:convertToCurrency(Price)"></td>
+                                <td data-bind="text:convertDateTimeFromJson(dateCreated)"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn default" data-dismiss="modal">Close</button>
+    </div>
+</div>
+
 
 <div id="AddEdit" class="modal fade" tabindex="-1" data-width="570">
     <div class="modal-header">
@@ -306,6 +348,7 @@
 <input type="hidden" id="hdnAddEditUrl" data-url="@Url.Action("AddEditProduct", "Product", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnProductCodeExistsUrl" data-url="@Url.Action("CheckProductCodeExists", "Product", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnLoadProductCategoriesUrl" data-url="@Url.Action("GetAllProductCategories", "Product", new { area = "Administration" }, null)" />
+<input type="hidden" id="hdnPriceHistoryUrl" data-url="@Url.Action("GetProductPriceHistory", "Product", new { area = "Administration" }, null)" />
 
 <script src="@Url.Content("~/Areas/Administration/Scripts/BranchProducts.js")"></script>
 

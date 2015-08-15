@@ -29,6 +29,7 @@ var ViewModel = function () {
     var _self = this;
     this.isLoading = ko.observable(false);
     _self.products = ko.observableArray();
+    _self.priceHistory = ko.observableArray();
 
     _self.product = {
         productId: ko.observable(),
@@ -94,6 +95,27 @@ var ViewModel = function () {
             }
         });
 
+
+    };
+
+    _self.viewPrice = function (products) {
+
+        var dataUrl = $("#hdnPriceHistoryUrl").attr("data-url");
+        $.ajax({
+            //url: '/Administration/Product/GetProductPriceHistory',
+            url: dataUrl,
+            type: 'POST',
+            async: true,
+            dataType: 'json',
+            data: { id: products.productId },
+            success: function (d) {
+                $(".problemAjax").hide();
+                _self.priceHistory(d);
+            },
+            error: function () { $(".problemAjax").show(); }
+        });
+
+        $('#viewPrice').modal('show');
 
     };
 

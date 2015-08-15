@@ -224,20 +224,20 @@
                 </div>
             </div>
         </div>
-        <!-- Begin: Product Transactions/ Price History-->
+        
+        <!-- Begin: Product Transactions New way-->
         <div class="row">
-
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="portlet box blue-hoki">
                     <div class="portlet-title">
                         <div class="caption">
                             <i class="fa fa-users"></i>
-                            <span class="caption-subject  uppercase">Product Transactions</span>
+                            <span class="caption-subject  uppercase">Product Purchases</span>
                         </div>
                         <div class="tools">
                             <a href="javascript:;" class="collapse" data-original-title="" title="">
                             </a>
-                            <a data-load="true" data-bind="click: GetTransactions" class="reload" title="">
+                            <a data-load="true" data-bind="click: GetPurchases" class="reload" title="">
                             </a>
 
                         </div>
@@ -246,7 +246,7 @@
                         <div class="scroller" style="height:200px" data-always-visible="1" data-rail-visible="1" data-rail-color="red" data-handle-color="blue">
 
 
-                            <div class="table-container" data-bind="loadingWhen: isLoading1">
+                            <div class="table-container" data-bind="loadingWhen: isLoading3">
                                 <table class="table table-striped table-bordered table-hover table-advance" id="datatable_ajax">
                                     <thead>
                                         <tr role="row" class="heading">
@@ -271,7 +271,7 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody data-bind="foreach: Transactions">
+                                    <tbody data-bind="foreach: Purchases">
                                         <tr>
                                             <td data-bind="text:documentNumber"></td>
                                             <td class="display-hide" data-bind="text:documentId"></td>
@@ -280,7 +280,77 @@
                                                     <span data-bind="text: documentType == 1 ? ' Sale':' Purchase'"></span>
                                                 </span>
                                             </td>
-                                            <td><span data-bind="text: documentType == 1 ? '-':'+'"></span> <span data-bind ="text:quantity"></span></td>
+                                            <td><span data-bind="text: documentType == 1 ? '-':'+'"></span> <span data-bind="text:quantity"></span></td>
+                                            <td data-bind="text:convertDateTimeFromJson(dateCreated)"></td>
+                                            <td>
+                                                <a data-bind="click:$parent.ViewDocument" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
+                                                    <i class="fa fa-folder-open-o "></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="col-md-6">
+                <div class="portlet box blue-hoki">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-users"></i>
+                            <span class="caption-subject  uppercase">Product Sales</span>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title="">
+                            </a>
+                            <a data-load="true" data-bind="click: GetSales" class="reload" title="">
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="scroller" style="height:200px" data-always-visible="1" data-rail-visible="1" data-rail-color="red" data-handle-color="blue">
+
+
+                            <div class="table-container" data-bind="loadingWhen: isLoading4">
+                                <table class="table table-striped table-bordered table-hover table-advance" id="datatable_ajax">
+                                    <thead>
+                                        <tr role="row" class="heading">
+
+                                            <th width="20%">
+                                                Doc #
+                                            </th>
+                                            <th class="display-hide">
+                                                Doc ID
+                                            </th>
+                                            <th width="20%">
+                                                Type
+                                            </th>
+                                            <th width="20%">
+                                                QTY
+                                            </th>
+                                            <th width="20%">
+                                                Date
+                                            </th>
+                                            <th width="5%">
+
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: Sales">
+                                        <tr>
+                                            <td data-bind="text:documentNumber"></td>
+                                            <td class="display-hide" data-bind="text:documentId"></td>
+                                            <td>
+                                                <span class="label label-sm  label-mini" data-bind="css: documentType == 1 ? 'label-success':'label-warning'">
+                                                    <span data-bind="text: documentType == 1 ? ' Sale':' Purchase'"></span>
+                                                </span>
+                                            </td>
+                                            <td><span data-bind="text: documentType == 1 ? '-':'+'"></span> <span data-bind="text:quantity"></span></td>
                                             <td data-bind="text:convertDateTimeFromJson(dateCreated)"></td>
                                             <td>
                                                 <a data-bind="click:$parent.ViewDocument" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
@@ -296,52 +366,127 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="portlet box blue-hoki">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="fa fa-users "></i>
-                            <span class="caption-subject  uppercase">Price History</span>
+        </div>
+
+
+            <!-- Begin: Product Transactions/ Price History-->
+            <div class="row">
+
+                <div class="col-md-8">
+                    <div class="portlet box blue-hoki">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-users"></i>
+                                <span class="caption-subject  uppercase">Product Transactions</span>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                </a>
+                                <a data-load="true" data-bind="click: GetTransactions" class="reload" title="">
+                                </a>
+
+                            </div>
                         </div>
-                        <div class="tools">
-                            <a href="javascript:;" class="collapse" data-original-title="" title="">
-                            </a>
-                            <a data-load="true" data-bind="click: GetPriceHistory" class="reload" title="">
-                            </a>
+                        <div class="portlet-body">
+                            <div class="scroller" style="height:200px" data-always-visible="1" data-rail-visible="1" data-rail-color="red" data-handle-color="blue">
+
+
+                                <div class="table-container" data-bind="loadingWhen: isLoading1">
+                                    <table class="table table-striped table-bordered table-hover table-advance" id="datatable_ajax">
+                                        <thead>
+                                            <tr role="row" class="heading">
+
+                                                <th width="20%">
+                                                    Doc #
+                                                </th>
+                                                <th class="display-hide">
+                                                    Doc ID
+                                                </th>
+                                                <th width="20%">
+                                                    Type
+                                                </th>
+                                                <th width="20%">
+                                                    QTY
+                                                </th>
+                                                <th width="20%">
+                                                    Date
+                                                </th>
+                                                <th width="5%">
+
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach: Transactions">
+                                            <tr>
+                                                <td data-bind="text:documentNumber"></td>
+                                                <td class="display-hide" data-bind="text:documentId"></td>
+                                                <td>
+                                                    <span class="label label-sm  label-mini" data-bind="css: documentType == 1 ? 'label-success':'label-warning'">
+                                                        <span data-bind="text: documentType == 1 ? ' Sale':' Purchase'"></span>
+                                                    </span>
+                                                </td>
+                                                <td><span data-bind="text: documentType == 1 ? '-':'+'"></span> <span data-bind="text:quantity"></span></td>
+                                                <td data-bind="text:convertDateTimeFromJson(dateCreated)"></td>
+                                                <td>
+                                                    <a data-bind="click:$parent.ViewDocument" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
+                                                        <i class="fa fa-folder-open-o "></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="portlet-body">
-                        <div class="scroller" style="height:200px" data-always-visible="1" data-rail-visible="1" data-rail-color="red" data-handle-color="blue">
+                </div>
 
-                            <div class="table-container" data-bind="loadingWhen: isLoading2">
-                                <table class="table table-striped table-bordered table-hover table-advance display-hidden" id="datatable_ajax">
-                                    <thead>
-                                        <tr role="row" class="heading">
+                <div class="col-md-4">
+                    <div class="portlet box blue-hoki">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-users "></i>
+                                <span class="caption-subject  uppercase">Price History</span>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                </a>
+                                <a data-load="true" data-bind="click: GetPriceHistory" class="reload" title="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="scroller" style="height:200px" data-always-visible="1" data-rail-visible="1" data-rail-color="red" data-handle-color="blue">
 
-                                            <th width="50%">
-                                                Price
-                                            </th>
-                                            <th width="50%">
-                                                Date
-                                            </th>
-                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody data-bind="foreach: PriceHistory">
-                                        <tr>
-                                            <td data-bind="text:convertToCurrency(Price)"></td>
-                                            <td data-bind="text:convertDateTimeFromJson(dateCreated)"></td>
-                                            
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-container" data-bind="loadingWhen: isLoading2">
+                                    <table class="table table-striped table-bordered table-hover table-advance display-hidden" id="datatable_ajax">
+                                        <thead>
+                                            <tr role="row" class="heading">
+
+                                                <th width="50%">
+                                                    Price
+                                                </th>
+                                                <th width="50%">
+                                                    Date
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach: PriceHistory">
+                                            <tr>
+                                                <td data-bind="text:convertToCurrency(Price)"></td>
+                                                <td data-bind="text:convertDateTimeFromJson(dateCreated)"></td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 </div>
 
 <input type="hidden" id="hdnBackToListUrl" data-url="@Url.Action("BranchProducts", "Product", new { area = "Administration" }, null)" />
@@ -350,6 +495,9 @@
 <input type="hidden" id="hdnPriceHistoryUrl" data-url="@Url.Action("GetProductPriceHistory", "Product", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnViewSalesInvoiceUrl" data-url="@Url.Action("EditBranchSalesInvoice", "Sales", new { area = "Modules" }, null)" />
 <input type="hidden" id="hdnViewPurchaseOrderUrl" data-url="@Url.Action("EditBranchPurchaseOrder", "Purchase", new { area = "Modules" }, null)" />
+
+<input type="hidden" id="hdnPurchasesUrl" data-url="@Url.Action("GetProductPurchases", "Product", new { area = "Administration" }, null)" />
+<input type="hidden" id="hdnSalesUrl" data-url="@Url.Action("GetProductSales", "Product", new { area = "Administration" }, null)" />
 
 <script src="@Url.Content("~/Areas/Administration/Scripts/ViewProduct.js")"></script>
 

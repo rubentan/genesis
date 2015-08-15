@@ -166,6 +166,7 @@
     <Content Include="Areas\Modules\Scripts\Purchase.js" />
     <Content Include="Areas\Modules\Scripts\PurchaseAdd.js" />
     <Content Include="Areas\Modules\Scripts\PurchaseEdit.js" />
+    <Content Include="Areas\Modules\Scripts\ReceivableEdit.js" />
     <Content Include="Areas\Modules\Scripts\SalesEdit.js" />
     <Content Include="Areas\Modules\Scripts\SalesAdd.js" />
     <Content Include="Areas\Modules\Scripts\Sales.js" />
@@ -2687,6 +2688,7 @@
     <Content Include="Areas\Administration\Views\Administration\Login.cshtml" />
     <Content Include="Areas\Administration\Views\Administration\Index.cshtml" />
     <Content Include="Areas\Modules\Views\Sales\NewBranchReceivable2.cshtml" />
+    <Content Include="Areas\Modules\Views\Sales\EditBranchReceivable.cshtml" />
     <None Include="Properties\PublishProfiles\Genesis.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

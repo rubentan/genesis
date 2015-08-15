@@ -145,6 +145,19 @@ namespace Genesis.Areas.Administration.Controllers
             return Json(list);
         }
 
+        public JsonResult GetProductSales(int id)
+        {
+            var list = serviceProduct.GetProductSales(id);
+            return Json(list);
+        }
+
+        public JsonResult GetProductPurchases(int id)
+        {
+            var list = serviceProduct.GetProductPurchases(id);
+            return Json(list);
+        }
+
+
         public JsonResult GetProductPriceHistory(int id)
         {
             var list = serviceProduct.GetProductPriceHistory(id);

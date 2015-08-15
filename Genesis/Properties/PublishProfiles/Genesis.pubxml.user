@@ -7,6 +7,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>C:\Users\rj\Documents\LCM Files\Genesis\Files</_PublishTargetUrl>
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAATfCaPaXy5ESwUlZFCCySnwAAAAACAAAAAAAQZgAAAAEAACAAAABHkm9y5AcfnEZTyO6EdS+RhW3T279iyyR7cCAQ1hOW1QAAAAAOgAAAAAIAACAAAAD2EHN84TokXTg5KLlF7BCz7ua7MJ9Nh88SNIviG8fmYCAAAACxWqZS0htVdbyVnEtGv1fDCp5xc0efLBQmpptuuB1sRUAAAADhrc2jBI+6074taf4ZweDHdFhH5EzIzs3edfma2+he/owh3LcUUsmU+PQLwlQyLsI1MPU8ba/jGvEOWWLhF9CY</EncryptedPassword>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/Administration/Scripts/Administration.js">

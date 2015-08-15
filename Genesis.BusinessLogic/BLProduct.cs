@@ -49,6 +49,16 @@ namespace Genesis.BusinessLogic
             return repo.GetProductTransactions(id);
         }
 
+        public List<dtoProductTransactions> GetProductSales(int id)
+        {
+            return repo.GetProductSales(id);
+        }
+
+        public List<dtoProductTransactions> GetProductPurchases(int id)
+        {
+            return repo.GetProductPurchases(id);
+        }
+
         public List<dtoProductPriceHistory> GetProductPriceHistory(int id)
         {
             return repo.GetProductPriceHistory(id);

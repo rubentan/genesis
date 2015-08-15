@@ -56,6 +56,7 @@ namespace Genesis.DataAccess.Repositories
                 sQuery += string.Format("and ('{0}' = '' or a.documentNumber like '%{0}%'  )", f.documentNumber);
                 sQuery += string.Format("and ('{0}' = '' or b.clientName like '%{0}%'  )", f.clientName);
                 sQuery += string.Format("and ('{0}' = '' or b.clientCode like '%{0}%'  )", f.clientCode);
+                sQuery += string.Format("and ('{0}' = '' or a.dateCreated BETWEEN '{0}' AND '{1}'   )", f.dateFrom, f.dateTo);
                 sQuery += string.Format("and a.branchId = {0} ", f.branchId);
             }
             

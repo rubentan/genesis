@@ -215,6 +215,33 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoProductTransactions>(sqlString).ToList();
         }
 
+        public List<dtoProductTransactions> GetProductSales(int id)
+        {
+            var sqlString = String.Format("select document.*,b.userName as createdByName,trans.quantity " +
+                                        "from tbl_document document " +
+                                        "left join tbl_transaction trans " +
+                                        "on document.documentId = trans.documentId " +
+                                        "left join tbl_users b  " +
+                                        "on document.createdBy = b.userId " +
+                                        "where trans.productId ={0} " +
+                                        "and document.documentType = 1", id);
+            return DBContext.Database.SqlQuery<dtoProductTransactions>(sqlString).ToList();
+        }
+
+        public List<dtoProductTransactions> GetProductPurchases(int id)
+        {
+            var sqlString = String.Format("select document.*,b.userName as createdByName,trans.quantity " +
+                                        "from tbl_document document " +
+                                        "left join tbl_transaction trans " +
+                                        "on document.documentId = trans.documentId " +
+                                        "left join tbl_users b  " +
+                                        "on document.createdBy = b.userId " +
+                                        "where trans.productId ={0} " +
+                                        "and document.documentType = 2", id);
+
+            return DBContext.Database.SqlQuery<dtoProductTransactions>(sqlString).ToList();
+        }
+
         public List<dtoProductPriceHistory> GetProductPriceHistory(int id)
         {
             var sqlString = String.Format("select * from tbl_productPriceHistory where productId ={0}", id);
