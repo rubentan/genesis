@@ -73,7 +73,7 @@ namespace Genesis.DataAccess.Repositories
                                                       ,[dateLastModified]
                                                       ,[createdBy]
                                                       ,[dateCreated]
-                                                    FROM [Genesis].[dbo].[tbl_product]
+                                                    FROM [tbl_product]
                                                     WHERE (1 = 1)
                                             ", take);
 
@@ -182,8 +182,8 @@ namespace Genesis.DataAccess.Repositories
                                                       ,a.[createdBy]
                                                       ,a.[dateCreated]
                                                       ,b.[categoryName] + ' - ' + b.[categoryCode] as categoryName
-                                                    FROM [Genesis].[dbo].[tbl_product] a
-                                                    LEFT JOIN [Genesis].[dbo].[tbl_productCategory] b
+                                                    FROM [tbl_product] a
+                                                    LEFT JOIN [tbl_productCategory] b
                                                     on a.categoryId = b.categoryId
                                                     WHERE (1 = 1)
                                             ", take);

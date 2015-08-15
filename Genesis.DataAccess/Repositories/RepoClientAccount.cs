@@ -164,7 +164,7 @@ namespace Genesis.DataAccess.Repositories
                                                       ,[status]
                                                       ,[dateCreated]
                                                       ,[createdBy]
-                                                    FROM [Genesis].[dbo].[tbl_client]
+                                                    FROM [tbl_client]
                                                     WHERE (1 = 1)
                                             ", take);
 
