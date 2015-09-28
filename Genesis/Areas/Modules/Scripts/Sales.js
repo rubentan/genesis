@@ -10,9 +10,9 @@
             rtl: Metronic.isRTL(),
             orientation: "left",
             autoclose: true
-        }).datepicker("setDate", "+1d");
+        }).datepicker("setDate", new Date());
     }
-
+    //"+2d"
    
 
     vm = new viewModel();

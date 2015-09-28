@@ -6,6 +6,19 @@
     //        autoclose: true
     //    });
     //}
+    if (jQuery().datepicker) {
+        $('.date-from').datepicker({
+            rtl: Metronic.isRTL(),
+            orientation: "left",
+            autoclose: true
+        }).datepicker("setDate", new Date());
+
+        $('.date-to').datepicker({
+            rtl: Metronic.isRTL(),
+            orientation: "left",
+            autoclose: true
+        }).datepicker("setDate", new Date());
+    }
 
     vm = new viewModel();
     ko.applyBindings(vm);

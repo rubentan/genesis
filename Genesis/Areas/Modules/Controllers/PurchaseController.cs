@@ -91,8 +91,8 @@ namespace Genesis.Areas.Modules.Controllers
                 documentNumber = Request["documentNumber"],
                 supplierCode = Request["supplierCode"],
                 supplierName = Request["supplierName"],
-                //dateFrom = Request["dateFrom"] ,
-                //dateTo = Request["dateTo"],
+                dateFrom = Request["dateFrom"] + " 00:00",
+                dateTo = Request["dateTo"] + " 23:59",
                 branchId = currentUser.branchId,
                 documentType = 2
             };

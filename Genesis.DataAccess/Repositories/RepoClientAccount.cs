@@ -288,9 +288,10 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoClientSalesInvoice>(sqlString).FirstOrDefault();
         }
 
-        public List<KeyValue> GetClientsFroDropDown()
+        public List<KeyValue> GetClientsFroDropDown(int branchId)
         {
-            string sQuery = "select id=clientId, text= clientName  from tbl_client";
+            string sQuery = string.Format("select id=clientId, text= clientName  from tbl_client " +
+                            "where branchId = {0}",branchId);
             return DBContext.Database.SqlQuery<KeyValue>(sQuery).ToList();
         }
 

@@ -56,7 +56,8 @@ namespace Genesis.Areas.Modules.Controllers
         [HttpPost]
         public JsonResult GetClientsForDropDown()
         {
-            var list = repoClient.GetClientsFroDropDown();
+            var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            var list = repoClient.GetClientsFroDropDown(currentUser.branchId);
             return Json(list);
         }
 
@@ -116,8 +117,8 @@ namespace Genesis.Areas.Modules.Controllers
                 documentNumber = Request["documentNumber"],
                 clientCode = Request["clientCode"],
                 clientName = Request["clientName"],
-                dateFrom = Request["dateFrom"],
-                dateTo = Request["dateTo"],
+                dateFrom = Request["dateFrom"] + " 00:00",
+                dateTo = Request["dateTo"] + " 23:59",
                 branchId = currentUser.branchId,
                 //documentType = 1
             };

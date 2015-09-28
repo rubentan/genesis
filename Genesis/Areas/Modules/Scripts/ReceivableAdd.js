@@ -275,11 +275,11 @@ var viewModel = function () {
                                         contentType: 'application/json; charset=utf-8',
                                         dataType: 'json',
                                         success: function () {
-                                            _self.orderItems.removeAll();
-                                            _self.grandTotal('0');
-                                            $('#txtDocumentNumber').val('');
-                                            $('#txtTransactionDate').datepicker("setDate", new Date());
-                                            $("#ddClient").select2("val", "");
+                                            //_self.orderItems.removeAll();
+                                            //_self.grandTotal('0');
+                                            //$('#txtDocumentNumber').val('');
+                                            //$('#txtTransactionDate').datepicker("setDate", new Date());
+                                            //$("#ddClient").select2("val", "");
 
                                             alert('Success');
                                         }
@@ -329,11 +329,11 @@ var viewModel = function () {
                                         contentType: 'application/json; charset=utf-8',
                                         dataType: 'json',
                                         success: function () {
-                                            _self.orderItems.removeAll();
-                                            _self.grandTotal('0');
-                                            $('#txtDocumentNumber').val('');
-                                            $('#txtTransactionDate').datepicker("setDate", new Date());
-                                            $("#ddClient").select2("val", "");
+                                            //_self.orderItems.removeAll();
+                                            //_self.grandTotal('0');
+                                            //$('#txtDocumentNumber').val('');
+                                            //$('#txtTransactionDate').datepicker("setDate", new Date());
+                                            //$("#ddClient").select2("val", "");
 
                                             alert('Success');
                                         }
