@@ -123,6 +123,31 @@ var ViewModel = function () {
     _self.saveRow = function(products) {
         //alert(products.beginning + '-' + products.incoming + '-' + products.outgoing );
         //_self.products = '123';
+
+        _self.product.productId(products.productId);
+        _self.product.beginning(products.beginning);
+        _self.product.incoming(products.incoming);
+        _self.product.outgoing(products.outgoing);
+
+        var param = {
+            product: _self.product
+        };
+        var dataUrl = $("#hdnInLineEditUrl").attr("data-url");
+        $.ajax({
+            url: dataUrl,
+            type: 'POST',
+            contentType: 'application/json;charset=utf-8',
+            data: ko.toJSON(param),
+            dataType: 'json',
+            success: function (d) {
+                _self.asyncOperation();
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+
+
     };
 
     _self.editRow = function (products) {

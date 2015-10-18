@@ -139,5 +139,10 @@ namespace Genesis.BusinessLogic
         {
             return repo.Update(product);
         }
+
+        public dtoResult InLineUpdate(dtoProduct product)
+        {
+            return repo.InLineUpdate(product);
+        }
     }
 }

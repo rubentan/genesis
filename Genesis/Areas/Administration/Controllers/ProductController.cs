@@ -58,6 +58,18 @@ namespace Genesis.Areas.Administration.Controllers
         }
 
         [HttpPost]
+        public JsonResult InLineUpdate(dtoProduct product)
+        {
+            dtoResult result;
+            var currentUser = (dtoUserAccount)Session["CurrentUser"];
+
+                product.modifiedBy = currentUser.userId;
+                result = serviceProduct.InLineUpdate(product);
+
+            return Json(result);
+        }
+
+        [HttpPost]
         public JsonResult AddEditProduct(dtoProduct product)
         {
             dtoResult result;

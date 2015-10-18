@@ -37,6 +37,40 @@ var viewModel = function () {
     };
 
     
+    _self.addProductPost = function () {
+
+        if ($('#ddProduct').val() != "") {
+            if ($('#txtUnitPrice').val() != "") {
+                if ($('#txtQuantity').val() != "") {
+                    var newProduct = {
+                        productId: $('#ddProduct').val(),
+                        productName: $("#ddProduct").select2("data").text,
+                        unitPrice: $('#txtUnitPrice').val(),
+                        quantity: $('#txtQuantity').val(),
+                        total: Number($('#txtUnitPrice').val()) * Number($('#txtQuantity').val()),
+                        transactionType: 1
+                    };
+
+                    _self.orderItems.push(newProduct);
+                    //alert(_self.grandTotal());
+                   // _self.grandTotal(Number(_self.grandTotal()) + Number(newProduct.total));
+                    _self.clearProductAdd();
+                    //$('#ddProduct').select2('open');
+
+                    _self.addSalesInvoice();
+
+
+                } else {
+                    alert('Quantity is required.');
+                }
+            } else {
+                alert('Price is required.');
+            }
+        } else {
+            alert('Product is required.');
+        }
+    };
+
     
     _self.addProduct = function () {
 

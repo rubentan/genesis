@@ -31,5 +31,6 @@ namespace Genesis.DataAccess.Interfaces
         dtoProduct GetProductInfo(int id);
 
         List<string> CheckProductCodeExists(string productCode);
+        dtoResult InLineUpdate(dtoProduct product);
     }
 }

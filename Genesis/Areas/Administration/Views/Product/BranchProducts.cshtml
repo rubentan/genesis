@@ -113,7 +113,7 @@
                         <th class="display-hide">
                             ID
                         </th>
-                        <th width="22%">
+                        <th width="25%">
                             Description
                         </th>
                         <th width="8%">
@@ -134,7 +134,7 @@
                         <th width="8%">
                             Ending
                         </th>
-                        <th width="18%">
+                        <th width="15%">
                             Actions
                         </th>
                     </tr>
@@ -150,14 +150,11 @@
                             <a data-bind="click: $parent.viewPrice,text:convertToCurrency(unitPrice)" class="btn-link default btn-xs blue" style="margin-bottom: 2px !important;">
                             </a>
                         </td>
-                        <td>
-                            <input type="text" class="form-control input-sm" id="txtBeginning" data-bind="value:beginning">
+                        <td data-bind="text:beginning">
                         </td>
-                        <td>
-                            <input type="text" class="form-control input-sm" id="txtBeginning" data-bind="value:incoming">
+                        <td data-bind="text:incoming">
                         </td>
-                        <td>
-                            <input type="text" class="form-control input-sm" id="txtBeginning" data-bind="value:outgoing">
+                        <td data-bind="text:outgoing">
                         </td>
                         <td data-bind="text:ending"></td>
                         <td>

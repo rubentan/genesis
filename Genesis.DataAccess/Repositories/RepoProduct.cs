@@ -341,6 +341,46 @@ namespace Genesis.DataAccess.Repositories
             return objResult;
         }
 
+        public dtoResult InLineUpdate(dtoProduct t)
+        {
+            dtoResult objResult = new dtoResult();
+            List<object> parameterList = new List<object>();
+            object[] parameters1 = null;
+
+            try
+            {
+                string sQuery = string.Format(@"UPDATE tbl_product SET 
+                                                modifiedBy=@P0
+                                                , dateLastModified=GETDATE()
+                                                , beginning=@P1
+                                                , incoming=@P2
+                                                , outgoing=@P3
+                                                , ending =@P4
+                                                WHERE productId=@P5");
+
+
+                parameterList.Add(t.modifiedBy);
+                parameterList.Add(t.beginning);
+                parameterList.Add(t.incoming);
+                parameterList.Add(t.outgoing);
+                parameterList.Add(t.beginning + t.incoming - t.outgoing);
+                parameterList.Add(t.productId);
+                parameters1 = parameterList.ToArray();
+
+
+                DBContext.Database.ExecuteSqlCommand(sQuery, parameters1);
+                objResult.isSuccessful = true;
+            }
+            catch (Exception ex)
+            {
+                objResult.isSuccessful = false;
+                objResult.errorMsg = ex.Message;
+            }
+
+            return objResult;
+
+        }
+
         public dtoResult Update(dtoProduct t)
         {
             dtoResult objResult = new dtoResult();
