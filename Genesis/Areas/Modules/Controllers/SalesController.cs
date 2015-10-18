@@ -29,6 +29,11 @@ namespace Genesis.Areas.Modules.Controllers
             return View();
         }
 
+        public ActionResult BranchRefunds()
+        {
+            return View();
+        }
+
         public ActionResult AddBranchSalesInvoice()
         {
             return View();
@@ -52,6 +57,18 @@ namespace Genesis.Areas.Modules.Controllers
 
             return Json(results, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult CheckExistingDocument(dtoDocument header, List<dtoTransaction> details)
+        {
+            var retVal = false;
+            var documentNumber = header.documentNumber;
+            var documentDate = header.transactionDate;
+            retVal = service.CheckExistingDocument(documentNumber, documentDate);
+
+            return Json(retVal);
+        }
+
 
         [HttpPost]
         public JsonResult GetClientsForDropDown()

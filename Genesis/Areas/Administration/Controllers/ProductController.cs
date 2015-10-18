@@ -85,6 +85,11 @@ namespace Genesis.Areas.Administration.Controllers
             return View();
         }
 
+        public ActionResult BranchProductsV2()
+        {
+            return View();
+        }
+
 
         public ActionResult ViewProductdetails(int id)
         {

@@ -18,8 +18,8 @@ namespace Genesis.DataAccess.Repositories
             if (take == null)
                 take = 10;
 
-            string sQuery = string.Format(@" select price.documentId,price.dateCreated,price.clientName,price.clientCode,price.documentTotal, isnull(payment.paymentTotal,0) as paymentReceived,price.documentTotal-isnull(payment.paymentTotal,0) as due  from
-                                                      (select a.documentId, sum(b.quantity*b.unitPrice) as documentTotal, a.dateCreated, c.clientName,c.clientCode
+            string sQuery = string.Format(@" select price.documentId,price.dateCreated,price.clientName,price.clientCode,price.clientId,price.documentTotal, isnull(payment.paymentTotal,0) as paymentReceived,price.documentTotal-isnull(payment.paymentTotal,0) as due  from
+                                                      (select a.documentId, sum(b.quantity*b.unitPrice) as documentTotal, a.dateCreated, c.clientName,c.clientCode,c.clientId 
                                                       from tbl_document a
                                                       left join tbl_transaction b
                                                       on a.documentId = b.documentId
@@ -27,7 +27,7 @@ namespace Genesis.DataAccess.Repositories
                                                       on a.referenceId = c.clientId 
                                                       where a.documentType = 1
                                                       and c.branchId = {0}
-                                                      group by a.documentId,a.dateCreated,c.clientName,c.clientCode) price
+                                                      group by a.documentId,a.dateCreated,c.clientName,c.clientCode,c.clientId) price
                                                       inner join 
                                                       (select a.documentId, sum(paymentPrice) as paymentTotal
                                                       from tbl_document a
@@ -54,8 +54,8 @@ namespace Genesis.DataAccess.Repositories
             if (take == null)
                 take = 10;
 
-            string sQuery = string.Format(@"  select price.documentId,price.dateCreated,price.supplierName,price.supplierCode,price.documentTotal, isnull(payment.paymentTotal,0) as paymentSent,price.documentTotal-isnull(payment.paymentTotal,0) as due  from
-                                                      (select a.documentId, sum(b.quantity*b.unitPrice) as documentTotal, a.dateCreated, c.supplierName,c.supplierCode 
+            string sQuery = string.Format(@"  select price.documentId,price.dateCreated,price.supplierName,price.supplierCode,price.supplierId,price.documentTotal, isnull(payment.paymentTotal,0) as paymentSent,price.documentTotal-isnull(payment.paymentTotal,0) as due  from
+                                                      (select a.documentId, sum(b.quantity*b.unitPrice) as documentTotal, a.dateCreated, c.supplierName,c.supplierCode,c.supplierId 
                                                       from tbl_document a
                                                       left join tbl_transaction b
                                                       on a.documentId = b.documentId
@@ -63,7 +63,7 @@ namespace Genesis.DataAccess.Repositories
                                                       on a.referenceId = c.supplierId 
                                                       where a.documentType = 2
                                                       and c.branchId = {0}
-                                                      group by a.documentId,a.dateCreated,c.supplierName,c.supplierCode) price
+                                                      group by a.documentId,a.dateCreated,c.supplierName,c.supplierCode,c.supplierId) price
                                                       inner join 
                                                       (select a.documentId, sum(paymentPrice) as paymentTotal
                                                       from tbl_document a
@@ -90,9 +90,10 @@ namespace Genesis.DataAccess.Repositories
             if (take == null)
                 take = 10;
 
-            string sQuery = string.Format(@" select * from tbl_product 
+            string sQuery = string.Format(@" select top 50 * from tbl_product 
                                               where ending <= reorderLevel
-                                              and branchId = {0};", branchId);
+                                              and branchId = {0}
+                                              order by productDescription asc;", branchId);
 
             return DBContext.Database.SqlQuery<dtoDashboardReorder>(sQuery).ToList();
         }

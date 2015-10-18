@@ -12,6 +12,7 @@ namespace Genesis.DTO
         public string supplierName { get; set; }
         public decimal due { get; set; }
         public int documentId { get; set; }
+        public int supplierId { get; set; }
         public DateTime dateCreated { get; set; }
     }
 }

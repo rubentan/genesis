@@ -169,11 +169,12 @@
                 </thead>
                 <tbody data-bind="foreach: users">
                     <tr>
-                        <td class="highlight">
+                        @*<td class="highlight">
                             <div data-bind="css : status == 1 ? 'success' : 'danger' ">
                             </div>
                             <a href="javascript:;" data-bind="text:userName"></a>
-                        </td>
+                        </td>*@
+                        <td data-bind="text:userName"></td>
                         <td class="display-hide" data-bind="text:userId"></td>
                         <td data-bind="text:firstName"></td>
                         <td data-bind="text:lastName"></td>

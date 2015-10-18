@@ -51,7 +51,7 @@ namespace Genesis.DataAccess.Repositories
                 sQuery += string.Format("and a.branchId = {0} ", f.branchId);
             }
 
-            sQuery += "and a.documentType =2 ";
+            sQuery += "and a.documentType in ('2','6') ";
             sQuery += "group by a.documentId,a.documentNumber,a.referenceId,a.dateCreated,b.supplierName,b.supplierCode";
 
             return DBContext.Database.SqlQuery<dtoDocument>(sQuery).ToList();
@@ -217,7 +217,20 @@ namespace Genesis.DataAccess.Repositories
             var result = new dtoResult();
             try
             {
+                int docType = 0;
+                switch (document.documentNumber.Substring(0, 2))
+                {
+                    //purchase order
+                    case "PO":
+                        docType = 2;
+                        break;
+                    //purchase return
+                    case "RT":
+                        docType = 6;
+                        break;
+                }
 
+                document.documentType = docType;
 
                 if (document.documentId == 0)
                 {
@@ -239,6 +252,21 @@ namespace Genesis.DataAccess.Repositories
                         product.unitPrice = item.unitPrice;
                         product.incoming = product.incoming - item.quantity;
                         product.ending = (product.beginning + product.incoming) - product.outgoing;
+
+                        if (document.documentType == 2)
+                        {
+                            //item.transactionType = 1;
+                            product.unitPrice = item.unitPrice;
+                            product.incoming = product.incoming - item.quantity;
+                            product.ending = (product.beginning + product.incoming) - product.outgoing;
+                        }
+                        else if (document.documentType == 6)
+                        {
+                            //item.transactionType = 6;
+                            product.unitPrice = item.unitPrice;
+                            product.outgoing = product.outgoing - item.quantity;
+                            product.ending = (product.beginning + product.incoming) - product.outgoing;
+                        }
                     }
                     DBContext.tbl_transaction.Remove(item);
                 }
@@ -250,7 +278,15 @@ namespace Genesis.DataAccess.Repositories
                     if (item.transactionId == 0)
                     {
                         item.documentId = document.documentId;
-                        item.transactionType = 1;
+
+                        if (document.documentType == 2)
+                        {
+                            item.transactionType = 1;
+                        }
+                        else if (document.documentType == 6)
+                        {
+                            item.transactionType = 6;
+                        }
                         AddTransaction(item, document.createdBy);
                     }
                 }
@@ -277,6 +313,7 @@ namespace Genesis.DataAccess.Repositories
         public void AddDocument(ref dtoDocument t)
         {
 
+
             var document = new tbl_document
             {
                 documentNumber = t.documentNumber,
@@ -285,6 +322,7 @@ namespace Genesis.DataAccess.Repositories
                 dateCreated = DateTime.Now,
                 createdBy = t.createdBy,
                 documentType = t.documentType,
+                //documentType = docType,
                 documentId = t.documentId,
                 branchId = t.branchId
             };
@@ -332,24 +370,34 @@ namespace Genesis.DataAccess.Repositories
 
 
             var product = DBContext.tbl_product.FirstOrDefault(d => d.productId == t.productId);
-            var priceHistory = new tbl_productPriceHistory()
-            {
-                productId = product.productId,
-                dateCreated = DateTime.Now,
-                createdBy = userId,
-                price = product.unitPrice
-            };
-
-            DBContext.tbl_productPriceHistory.Add(priceHistory);
-
-
             
 
             if (product != null)
             {
-                product.unitPrice = t.unitPrice;
-                product.incoming = product.incoming + t.quantity;
-                product.ending = (product.beginning + product.incoming) - product.outgoing;
+                if (t.transactionType == 1)
+                {
+                    var priceHistory = new tbl_productPriceHistory()
+                    {
+                        productId = product.productId,
+                        dateCreated = DateTime.Now,
+                        createdBy = userId,
+                        price = product.unitPrice
+                    };
+
+                    DBContext.tbl_productPriceHistory.Add(priceHistory);
+
+                    product.unitPrice = t.unitPrice;
+                    product.incoming = product.incoming + t.quantity;
+                    product.ending = (product.beginning + product.incoming) - product.outgoing;
+                }
+                else if (t.transactionType == 6)
+                {
+                    //product.unitPrice = t.unitPrice;
+                    product.outgoing = product.outgoing + t.quantity;
+                    product.ending = (product.beginning + product.incoming) - product.outgoing;
+                }
+
+                
             }
 
 

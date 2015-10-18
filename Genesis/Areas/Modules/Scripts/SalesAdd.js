@@ -1,11 +1,11 @@
 ﻿$(function () {
-    if (jQuery().datepicker) {
-        $('.date-picker').datepicker({
-            rtl: Metronic.isRTL(),
-            orientation: "left",
-            autoclose: true
-        }).datepicker("setDate", new Date());
-    }
+    //if (jQuery().datepicker) {
+    //    $('.date-picker').datepicker({
+    //        rtl: Metronic.isRTL(),
+    //        orientation: "left",
+    //        autoclose: true
+    //    }).datepicker("setDate", new Date());
+    //}
     initSelect();
     vm = new viewModel();
     ko.applyBindings(vm);
@@ -77,8 +77,11 @@ var viewModel = function () {
 
     _self.clearProductAdd = function() {
         _self.Product.unitPrice('0');
-        _self.Product.ending('');
+        _self.Product.ending('0');
         _self.Product.uom('');
+        _self.Product.beginning('0');
+        _self.Product.incoming('0');
+        _self.Product.outgoing('0');
         $('#ddProduct').val('');
         $("#ddProduct").select2("val", "");
         $('#txtUnitPrice').val('');
@@ -91,38 +94,42 @@ var viewModel = function () {
         if ($('#txtDocumentNumber').val() != "") {
             if ($('#ddClient').val() != "") {
                 if ($('#txtTransactionDate').val() != "") {
-                    if (_self.orderItems().length > 0 ) {
-                        var param = {
-                            header: {
-                                documentNumber: $('#txtDocumentNumber').val(),
-                                documentType: 1,
-                                transactionDate: $('#txtTransactionDate').val(),
-                                referenceId: $('#ddClient').val(),
+                        if (_self.orderItems().length > 0) {
+                            var param = {
+                                header: {
+                                    documentNumber: $('#txtDocumentNumber').val(),
+                                    documentType: 1,
+                                    transactionDate: $('#txtTransactionDate').val(),
+                                    referenceId: $('#ddClient').val(),
 
-                            },
-                            details: _self.orderItems()
-                        };
-
-                        $.ajax({
-                            //url: '/Modules/Sales/SaveInvoiceTransaction',
-                            url: dataUrl,
-                            type: 'POST',
-                            data: ko.toJSON(param),
-                            contentType: 'application/json; charset=utf-8',
-                            dataType: 'json',
-                            success: function () {
-                                _self.orderItems.removeAll();
-                                _self.grandTotal('0');
-                                $('#txtDocumentNumber').val('');
-                                $('#txtTransactionDate').datepicker("setDate", new Date());
-                                $("#ddClient").select2("val", "");
-
-                                alert('Success');
+                                },
+                                details: _self.orderItems()
+                            };
+                            if (!checkExisting(param)) {
+                                $.ajax({
+                                    //url: '/Modules/Sales/SaveInvoiceTransaction',
+                                    url: dataUrl,
+                                    type: 'POST',
+                                    data: ko.toJSON(param),
+                                    contentType: 'application/json; charset=utf-8',
+                                    dataType: 'json',
+                                    success: function() {
+                                        _self.orderItems.removeAll();
+                                        _self.grandTotal('0');
+                                        $('#txtDocumentNumber').val('');
+                                        $('#txtTransactionDate').val('');
+                                        $("#ddClient").select2("val", "");
+                                        _self.clearProductAdd();
+                                        alert('Successfully Added Sales Record.');
+                                        document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                    }
+                                });
+                            } else {
+                                alert('Transaction Date and Number is has already been used.');
                             }
-                        });
-                    } else {
-                        alert('Invoice Product Items are Required.');
-                    }
+                        } else {
+                            alert('Invoice Product Items are Required.');
+                        }
                 } else {
                     alert('Transaction Date is Required.');
                 }
@@ -132,6 +139,32 @@ var viewModel = function () {
         } else {
             alert('Document Number is Required.');
         }
+    };
+
+    function checkExisting(param) {
+        
+        var dataUrl = $("#hdnCheckExistingDocument").attr("data-url");
+        var retVal = true;
+
+        $.ajax({
+            url: dataUrl,
+            type: 'POST',
+            data: ko.toJSON(param),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            async: false,
+            success: function (d) {
+                //alert(d);
+                retVal = d;
+            },
+            error: function (error) {
+                //alert(error.responseText);
+                alert(error);
+            }
+        });
+
+        
+        return retVal;
     };
 
     _self.addSalesInvoiceContinue = function () {

@@ -142,12 +142,13 @@
                 <tbody data-bind="foreach: suppliers">
                     <tr>
 
-                        <td class="highlight">
+                        @*<td class="highlight">
                             <div data-bind="css : status == 1 ? 'success' : 'danger' ">
                             </div>
                             <a href="javascript:;" data-bind="text:supplierCode"></a>
 
-                        </td>
+                        </td>*@
+                        <td data-bind="text:supplierCode"></td>
                         <td class="display-hide" data-bind="text:supplierId"></td>
                         <td data-bind="text:supplierName"></td>
                         <td data-bind="text:supplierContactNumber"></td>

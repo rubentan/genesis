@@ -12,6 +12,7 @@ namespace Genesis.DTO
         public string clientName { get; set; }
         public decimal due { get; set; }
         public int documentId { get; set; }
+        public int clientId { get; set; }
         public DateTime dateCreated { get; set; }
     }
 }

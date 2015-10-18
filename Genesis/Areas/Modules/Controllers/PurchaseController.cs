@@ -37,6 +37,11 @@ namespace Genesis.Areas.Modules.Controllers
             return View();
         }
 
+        public ActionResult BranchReturns()
+        {
+            return View();
+        }
+
         public ActionResult AddBranchPurchaseOrder()
         {
             return View();

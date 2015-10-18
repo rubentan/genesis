@@ -155,12 +155,13 @@
                 <tbody data-bind="foreach: clients">
                     <tr>
                         
-                        <td class="highlight">
+                        @*<td class="highlight">
                             <div data-bind="css : status == 1 ? 'success' : 'danger' ">
                             </div>
                             <a href="javascript:;" data-bind="text:clientCode"></a>
 
-                        </td>
+                        </td>*@
+                        <td data-bind="text:clientCode"></td>
                         <td class="display-hide" data-bind="text:clientId"></td>
                         <td data-bind="text:clientName"></td>
                         <td data-bind="text:clientContactNumber"></td>

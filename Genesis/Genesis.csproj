@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Administration\Scripts\Administration.js" />
+    <Content Include="Areas\Administration\Scripts\BranchProductsV2.js" />
     <Content Include="Areas\Administration\Scripts\BranchProducts.js" />
     <Content Include="Areas\Administration\Scripts\Branch.js" />
     <Content Include="Areas\Administration\Scripts\Dashboard.js" />
@@ -167,6 +168,7 @@
     <Content Include="Areas\Modules\Scripts\PurchaseAdd.js" />
     <Content Include="Areas\Modules\Scripts\PurchaseEdit.js" />
     <Content Include="Areas\Modules\Scripts\ReceivableEdit.js" />
+    <Content Include="Areas\Modules\Scripts\SalesRefunds.js" />
     <Content Include="Areas\Modules\Scripts\SalesEdit.js" />
     <Content Include="Areas\Modules\Scripts\SalesAdd.js" />
     <Content Include="Areas\Modules\Scripts\Sales.js" />
@@ -2689,6 +2691,9 @@
     <Content Include="Areas\Administration\Views\Administration\Index.cshtml" />
     <Content Include="Areas\Modules\Views\Sales\NewBranchReceivable2.cshtml" />
     <Content Include="Areas\Modules\Views\Sales\EditBranchReceivable.cshtml" />
+    <Content Include="Areas\Administration\Views\Product\BranchProductsV2.cshtml" />
+    <Content Include="Areas\Modules\Views\Sales\BranchRefunds.cshtml" />
+    <Content Include="Areas\Modules\Views\Purchase\BranchReturns.cshtml" />
     <None Include="Properties\PublishProfiles\Genesis.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

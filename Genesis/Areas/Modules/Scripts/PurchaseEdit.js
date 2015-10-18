@@ -1,11 +1,11 @@
 ﻿$(function () {
-    if (jQuery().datepicker) {
-        $('.date-picker').datepicker({
-            rtl: Metronic.isRTL(),
-            orientation: "left",
-            autoclose: true
-        });
-    }
+    //if (jQuery().datepicker) {
+    //    $('.date-picker').datepicker({
+    //        rtl: Metronic.isRTL(),
+    //        orientation: "left",
+    //        autoclose: true
+    //    });
+    //}
     initSelect();
     vm = new viewModel();
     ko.applyBindings(vm);

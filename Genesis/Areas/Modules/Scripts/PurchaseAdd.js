@@ -1,11 +1,11 @@
 ﻿$(function () {
-    if (jQuery().datepicker) {
-        $('.date-picker').datepicker({
-            rtl: Metronic.isRTL(),
-            orientation: "left",
-            autoclose: true
-        }).datepicker("setDate", new Date());;
-    }
+    //if (jQuery().datepicker) {
+    //    $('.date-picker').datepicker({
+    //        rtl: Metronic.isRTL(),
+    //        orientation: "left",
+    //        autoclose: true
+    //    }).datepicker("setDate", new Date());;
+    //}
     initSelect();
     
     vm = new viewModel();
@@ -118,6 +118,9 @@ var viewModel = function () {
         _self.Product.unitPrice('0');
         _self.Product.ending('');
         _self.Product.uom('');
+        _self.Product.beginning('0');
+        _self.Product.incoming('0');
+        _self.Product.outgoing('0');
         $('#ddProduct').val('');
         $("#ddProduct").select2("val", "");
         $('#txtUnitPrice').val('');
@@ -145,23 +148,29 @@ var viewModel = function () {
                             details: _self.orderItems()
                         };
 
-                        $.ajax({
-                            //url: '/Modules/Purchase/SavePurchaseTransaction',
-                            url: dataUrl,
-                            type: 'POST',
-                            data: ko.toJSON(param),
-                            contentType: 'application/json; charset=utf-8',
-                            dataType: 'json',
-                            success: function () {
-                                _self.orderItems.removeAll();
-                                _self.grandTotal('0');
-                                $('#txtDocumentNumber').val('');
-                                $('#txtTransactionDate').datepicker("setDate", new Date());
-                                $("#ddSupplier").select2("val", "");
+                        if (!checkExisting(param)) {
 
-                                alert('Success');
-                            }
-                        });
+                            $.ajax({
+                                //url: '/Modules/Purchase/SavePurchaseTransaction',
+                                url: dataUrl,
+                                type: 'POST',
+                                data: ko.toJSON(param),
+                                contentType: 'application/json; charset=utf-8',
+                                dataType: 'json',
+                                success: function() {
+                                    _self.orderItems.removeAll();
+                                    _self.grandTotal('0');
+                                    $('#txtDocumentNumber').val('');
+                                    $('#txtTransactionDate').val('');
+                                    $("#ddSupplier").select2("val", "");
+                                    _self.clearProductAdd();
+                                    alert('Successfully Added Purchase Record.');
+                                    document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                }
+                            });
+                        } else {
+                            alert('Transaction Date and Number has already been used.');
+                        }
                     } else {
                         alert('Order Product Items are Required.');
                     }
@@ -174,6 +183,32 @@ var viewModel = function () {
         } else {
             alert('Document Number is Required.');
         }
+    };
+
+    function checkExisting(param) {
+
+        var dataUrl = $("#hdnCheckExistingDocument").attr("data-url");
+        var retVal = true;
+
+        $.ajax({
+            url: dataUrl,
+            type: 'POST',
+            data: ko.toJSON(param),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            async: false,
+            success: function (d) {
+                //alert(d);
+                retVal = d;
+            },
+            error: function (error) {
+                //alert(error.responseText);
+                alert(error);
+            }
+        });
+
+
+        return retVal;
     };
 
     _self.addSalesInvoiceContinue = function () {

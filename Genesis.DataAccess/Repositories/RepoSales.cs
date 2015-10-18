@@ -39,6 +39,7 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<int>(sQuery).FirstOrDefault();
         }
 
+        //used to get all branch sales
         public List<dtoDocument> GetAll2(object filter = null, int? skip = null, int? take = null)
         {
             string sQuery = string.Format(@"select a.documentId,a.referenceId,a.documentNumber,a.dateCreated,b.clientName,b.clientCode, sum(c.unitPrice*c.quantity) as salesPrice
@@ -60,7 +61,7 @@ namespace Genesis.DataAccess.Repositories
                 sQuery += string.Format("and a.branchId = {0} ", f.branchId);
             }
             
-            sQuery += "and a.documentType =1 ";
+            sQuery += "and a.documentType in ('1','5') ";
             sQuery += "group by a.documentId,a.documentNumber,a.referenceId,a.dateCreated,b.clientName,b.clientCode";
 
             return DBContext.Database.SqlQuery<dtoDocument>(sQuery).ToList();
@@ -71,8 +72,21 @@ namespace Genesis.DataAccess.Repositories
             var result = new dtoResult();
             try
             {
+                int docType = 0;
+                switch (document.documentNumber.Substring(0, 2))
+                {
+                    //sales invoice
+                    case "SI":
+                        docType = 1;
+                        break;
+                    //sales refund
+                    case "RF":
+                        docType = 5;
+                        break;
+                }
 
-                
+                document.documentType = docType;
+
                 if (document.documentId == 0)
                 {
                     AddDocument(ref document);
@@ -91,8 +105,18 @@ namespace Genesis.DataAccess.Repositories
                     var product = DBContext.tbl_product.FirstOrDefault(d => d.productId == item.productId);
                     if (product != null)
                     {
-                        product.outgoing = product.outgoing - item.quantity;
-                        product.ending = (product.beginning + product.incoming) - product.outgoing;
+                        if (document.documentType == 1)
+                        {
+                            //item.transactionType = 3;
+                            product.outgoing = product.outgoing - item.quantity;
+                            product.ending = (product.beginning + product.incoming) - product.outgoing;
+                        }
+                        else if (document.documentType == 5)
+                        {
+                            //item.transactionType = 7;
+                            product.incoming = product.incoming - item.quantity;
+                            product.ending = (product.beginning + product.incoming) - product.outgoing;
+                        }
                     }
 
                     DBContext.tbl_transaction.Remove(item);
@@ -105,7 +129,15 @@ namespace Genesis.DataAccess.Repositories
                     if (item.transactionId == 0)
                     {
                         item.documentId = document.documentId;
-                        item.transactionType = 3;
+
+                        if (document.documentType == 1)
+                        {
+                            item.transactionType = 3;
+                        }
+                        else if (document.documentType == 5)
+                        {
+                            item.transactionType = 7;
+                        }
                         AddTransaction(item, document.createdBy);
                     }
                 }
@@ -203,6 +235,7 @@ namespace Genesis.DataAccess.Repositories
                 dateCreated = DateTime.Now,
                 createdBy = t.createdBy,
                 documentType = t.documentType,
+                //documentType = docType,
                 documentId = t.documentId,
                 branchId = t.branchId
             };
@@ -252,8 +285,19 @@ namespace Genesis.DataAccess.Repositories
             var product = DBContext.tbl_product.FirstOrDefault(d => d.productId == t.productId);
             if (product != null)
             {
-                product.outgoing = product.outgoing + t.quantity;
-                product.ending = (product.beginning + product.incoming) - product.outgoing;
+                
+                if (t.transactionType == 3)
+                {
+                    //item.transactionType = 3;
+                    product.outgoing = product.outgoing + t.quantity;
+                    product.ending = (product.beginning + product.incoming) - product.outgoing;
+                }
+                else if (t.transactionType == 7)
+                {
+                    //item.transactionType = 7;
+                    product.incoming = product.incoming+ t.quantity;
+                    product.ending = (product.beginning + product.incoming) - product.outgoing;
+                }
             }
             
 
@@ -262,6 +306,24 @@ namespace Genesis.DataAccess.Repositories
 
 
 
+        }
+
+        public Boolean CheckExistingDocument(String documentNumber, DateTime? documentDate)
+        {
+            string sQuery = string.Format(@"IF EXISTS (SELECT * 
+                                                       FROM tbl_document 
+                                                       WHERE documentNumber = '{0}'
+                                                       AND transactionDate = '{1}')
+                                            BEGIN
+                                                select 'true';
+                                            END
+                                            ELSE
+                                            BEGIN
+                                                select 'false';
+                                            END", documentNumber,documentDate);
+            var result = DBContext.Database.SqlQuery<String>(sQuery).FirstOrDefault();
+
+            return Boolean.Parse(result);
         }
 
         public List<dtoTransaction> GetAllSaleItems(int documentId)

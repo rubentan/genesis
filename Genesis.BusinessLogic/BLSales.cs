@@ -51,5 +51,10 @@ namespace Genesis.BusinessLogic
         {
             return repo.GetAllReceivables(filter, skip, take);
         }
+
+        public Boolean CheckExistingDocument(String documentNumber, DateTime? documentDate)
+        {
+            return repo.CheckExistingDocument(documentNumber, documentDate);
+        }
     }
 }
