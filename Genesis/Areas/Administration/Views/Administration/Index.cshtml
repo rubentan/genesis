@@ -177,7 +177,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
 
         <!-- Begin: Reorders -->
         <div id="portletReorders" data-url="@Url.Action("GetReorders", "Administration", new { area = "Administration" }, null)" class="portlet light">
@@ -216,6 +216,12 @@
                                         Description
                                     </th>
                                     <th>
+                                        Unit
+                                    </th>
+                                    <th>
+                                        Reorder-Limit
+                                    </th>
+                                    <th>
                                         Ending
                                     </th>
                                     <th>
@@ -226,6 +232,8 @@
                                 <tr>
                                     <td data-bind="text:productCode"></td>
                                     <td data-bind="text:productDescription"></td>
+                                    <td data-bind="text:UOM"></td>
+                                    <td data-bind="text:reorderLevel"></td>
                                     <td data-bind="text:ending"></td>
                                     <td>
                                         <a data-bind="click: $parent.viewReorderProduct" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">

@@ -67,56 +67,13 @@
     <!-- BEGIN BODY -->
     <!-- DOC: Apply "page-header-menu-fixed" class to set the mega menu fixed  -->
     <!-- DOC: Apply "page-header-top-fixed" class to set the top menu fixed  -->
-    <body>
+    <body class="page-header-menu-fixed">
         <!-- BEGIN HEADER -->
         <div class="page-header">
-            <!-- BEGIN HEADER TOP -->
-            <div class="page-header-top">
-                <div class="container">
-                    <!-- BEGIN LOGO -->
-                    <div class="page-logo" style="display:none;">
-                        <a href="@Url.Action("Index", "Administration", new { area = "Administration" }, null)"><img src="@Url.Content("~/Content/assets/admin/layout3/img/logo-default.png")" alt="logo" class="logo-default"></a>
-                    </div>
-                    <!-- END LOGO -->
-                    <!-- BEGIN RESPONSIVE MENU TOGGLER -->
-                    <a href="javascript:;" class="menu-toggler"></a>
-                    <!-- END RESPONSIVE MENU TOGGLER -->
-                    <!-- BEGIN TOP NAVIGATION MENU -->
-                    <div class="top-menu">
-                        <ul class="nav navbar-nav pull-right">
-
-                            <!-- BEGIN USER LOGIN DROPDOWN -->
-                            <li class="dropdown dropdown-user dropdown-dark">
-                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                    <img alt="" class="img-circle" src="@Url.Content("~/Content/assets/admin/layout3/img/avatar.png")">
-
-                                    <span class="username username-hide-mobile" id="userName">User</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-default">
-                                    <li class="display-hide">
-                                        <a href="#">
-                                            <i class="icon-user"></i> My Profile
-                                        </a>
-                                    </li>
-                                    <li class="divider">
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("LogoutUser", "Administration",new { area = "Administration" }, null)">
-                                            <i class="icon-key"></i> Log Out
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!-- END USER LOGIN DROPDOWN -->
-                        </ul>
-                    </div>
-                    <!-- END TOP NAVIGATION MENU -->
-                </div>
-            </div>
-            <!-- END HEADER TOP -->
+            
             <!-- BEGIN HEADER MENU -->
             <div class="page-header-menu">
-                <div class="container">
+                <div class="container-fluid">
 
                     <!-- BEGIN MEGA MENU -->
                     <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
@@ -204,17 +161,105 @@
                             </li>
                             <li class="menu-dropdown mega-menu-dropdown">
                                 <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
-                                    Modules <i class="fa fa-angle-down"></i>
+                                    Sales <i class="fa fa-angle-down"></i>
                                 </a>
-                                <ul class="dropdown-menu" style="min-width: 710px">
+                                @*<ul class="dropdown-menu" style="min-width: 474px">*@
+                                <ul class="dropdown-menu" style="min-width: 274px">
                                     <li>
                                         <div class="mega-menu-content">
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-12">
                                                     <ul class="mega-menu-submenu">
                                                         <li>
-                                                            <h3>Products</h3>
+                                                            <a href="@Url.Action("BranchSales", "Sales", new { area = "Modules" }, null)" class="iconify">
+                                                                <i class="icon-arrow-up"></i>
+                                                                View Branch Sales
+                                                            </a>
                                                         </li>
+                                                        <li>
+                                                            <a href="@Url.Action("AddBranchSalesInvoice", "Sales", new { area = "Modules" }, null)" class="iconify">
+                                                                <i class="icon-plus"></i>
+                                                                Add New Sales Invoice
+                                                            </a>
+                                                        </li>
+                                                        <li class="display-hide">
+                                                            <a href="@Url.Action("BranchRefunds", "Sales", new { area = "Modules" }, null)" class="iconify">
+                                                                <i class="icon-ban"></i>
+                                                                View Branch Refunds
+                                                            </a>
+                                                        </li>
+                                                        <li class="display-hide">
+                                                            <a href="#" class="iconify">
+                                                                <i class="icon-wallet"></i>
+                                                                View Sales Collections
+                                                            </a>profi
+                                                        </li>
+                                                        <li>
+                                                            <a href="@Url.Action("BranchReceivables", "Sales", new { area = "Modules" }, null)" class="iconify">
+                                                                <i class="icon-wallet"></i>
+                                                                View Sales Receivables
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-dropdown mega-menu-dropdown">
+                                <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
+                                    Purchases <i class="fa fa-angle-down"></i>
+                                </a>
+                                @*<ul class="dropdown-menu" style="min-width: 474px">*@
+                                <ul class="dropdown-menu" style="min-width: 274px">
+                                    <li>
+                                        <div class="mega-menu-content">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <ul class="mega-menu-submenu">
+                                                        <li>
+                                                            <a href="@Url.Action("BranchPurchases", "Purchase", new { area = "Modules" }, null)" class="iconify">
+                                                                <i class="icon-arrow-down"></i>
+                                                                View Branch Purchases
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="@Url.Action("AddBranchPurchaseOrder", "Purchase", new { area = "Modules" }, null)" class="iconify">
+                                                                <i class="icon-plus"></i>
+                                                                Add New Purchase Order
+                                                            </a>
+                                                        </li>
+                                                        <li class="display-hide">
+                                                            <a href="@Url.Action("BranchReturns", "Purchase", new { area = "Modules" }, null)" class="iconify">
+                                                                <i class="icon-ban"></i>
+                                                                View Branch Returns
+                                                            </a>
+                                                        </li>
+                                                        @*<li>
+                                                            <a href="@Url.Action("BranchPayables", "Purchase", new { area = "Modules" }, null)" class="iconify">
+                                                                <i class="icon-wallet"></i>
+                                                                View Purchase Payments
+                                                            </a>
+                                                        </li>*@
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-dropdown mega-menu-dropdown">
+                                <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
+                                    Products <i class="fa fa-angle-down"></i>
+                                </a>
+                                @*<ul class="dropdown-menu" style="min-width: 474px">*@
+                                <ul class="dropdown-menu" style="min-width: 274px">
+                                    <li>
+                                        <div class="mega-menu-content">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <ul class="mega-menu-submenu">
                                                         <li>
                                                             <a href="@Url.Action("BranchProductsV2", "Product", new { area = "Administration" }, null)" class="iconify">
                                                                 <i class="icon-basket"></i>
@@ -230,80 +275,28 @@
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <div class="col-md-4">
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-dropdown mega-menu-dropdown">
+                                <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
+                                    User <i class="fa fa-angle-down"></i>
+                                </a>
+                                @*<ul class="dropdown-menu" style="min-width: 474px">*@
+                                <ul class="dropdown-menu" style="min-width: 274px">
+                                    <li>
+                                        <div class="mega-menu-content">
+                                            <div class="row">
+                                                <div class="col-md-12">
                                                     <ul class="mega-menu-submenu">
                                                         <li>
-                                                            <h3>Sales</h3>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("BranchSales", "Sales", new { area = "Modules" }, null)" class="iconify">
-
-                                                                <i class="icon-arrow-up"></i>
-                                                                View Branch Sales
+                                                            <a href="@Url.Action("LogoutUser", "Administration", new { area = "Administration" }, null)" class="iconify">
+                                                                Logout
                                                             </a>
-                                                        </li>
-                                                        <li>
 
-                                                            <a href="@Url.Action("AddBranchSalesInvoice", "Sales", new { area = "Modules" }, null)" class="iconify">
-                                                                <i class="icon-plus"></i>
-                                                                Add New Sales Invoice
-                                                            </a>
                                                         </li>
-                                                        <li class="display-hide">
-
-                                                            <a href="@Url.Action("BranchRefunds", "Sales", new { area = "Modules" }, null)" class="iconify">
-                                                                <i class="icon-ban"></i>
-                                                                View Branch Refunds
-                                                            </a>
-                                                        </li>
-                                                        <li class="display-hide">
-                                                            <a href="#" class="iconify">
-                                                                <i class="icon-wallet"></i>
-                                                                View Sales Collections
-                                                            </a>profi
-                                                        </li>
-                                                        <li>
-
-                                                            <a href="@Url.Action("BranchReceivables", "Sales", new { area = "Modules" }, null)" class="iconify">
-                                                                <i class="icon-wallet"></i>
-                                                                View Sales Receivables
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <ul class="mega-menu-submenu">
-                                                        <li>
-                                                            <h3>Purchases</h3>
-                                                        </li>
-                                                        <li>
-
-                                                            <a href="@Url.Action("BranchPurchases", "Purchase", new { area = "Modules" }, null)" class="iconify">
-                                                                <i class="icon-arrow-down"></i>
-                                                                View Branch Purchases
-                                                            </a>
-                                                        </li>
-                                                        <li>
-
-                                                            <a href="@Url.Action("AddBranchPurchaseOrder", "Purchase", new { area = "Modules" }, null)" class="iconify">
-                                                                <i class="icon-plus"></i>
-                                                                Add New Purchase Order
-                                                            </a>
-                                                        </li>
-                                                        <li class="display-hide">
-
-                                                            <a href="@Url.Action("BranchReturns", "Purchase", new { area = "Modules" }, null)" class="iconify">
-                                                                <i class="icon-ban"></i>
-                                                                View Branch Returns
-                                                            </a>
-                                                        </li>
-                                                        @*<li>
-
-                                                            <a href="@Url.Action("BranchPayables", "Purchase", new { area = "Modules" }, null)" class="iconify">
-                                                                <i class="icon-wallet"></i>
-                                                                View Purchase Payments
-                                                            </a>
-                                                        </li>*@
                                                     </ul>
                                                 </div>
                                             </div>
@@ -311,25 +304,6 @@
                                     </li>
                                 </ul>
                             </li>
-                            @*<li class="menu-dropdown classic-menu-dropdown display-none">
-                            <a data-hover="megamenu-dropdown" data-close-others="true"  data-toggle="dropdown" href="javascript:;">
-                                Reports <i class="fa fa-angle-down"></i>
-                            </a>
-                            <ul class="dropdown-menu pull-left">
-                                <li class=" dropdown-submenu">
-                                    <a href=javascript:;>
-                                        <i class="icon-graph"></i>
-                                        Sales Reports
-                                    </a>
-                                </li>
-                                <li class=" dropdown-submenu">
-                                    <a href=javascript:;>
-                                        <i class="icon-graph"></i>
-                                        Purchase Reports
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>*@
                         </ul>
                     </div>
                     <!-- END MEGA MENU -->
@@ -342,7 +316,7 @@
         <div class="page-container">
             <!-- BEGIN PAGE HEAD -->
             <div class="page-head">
-                <div class="container">
+                <div class="container-fluid">
                     <!-- BEGIN PAGE TITLE -->
                     <div class="page-title">
                         <h1>@ViewBag.Title</h1>
@@ -353,7 +327,7 @@
             <!-- END PAGE HEAD -->
             <!-- BEGIN PAGE CONTENT -->
             <div class="page-content">
-                <div class="container">
+                <div class="container-fluid">
                     <!-- BEGIN PAGE BREADCRUMB -->
                     @*<ul class="page-breadcrumb breadcrumb">
                     <li>
