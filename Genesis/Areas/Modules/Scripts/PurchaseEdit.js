@@ -233,61 +233,71 @@ var viewModel = function () {
 
     var dataUrl = $("#hdnGetAllBranchProductsUrl").attr("data-url");
 
-    $("#ddProduct").select2({
-        placeholder: 'Select...',
-        //Does the user have to enter any data before sending the ajax request
-        minimumInputLength: 3,
-        allowClear: true,
-        ajax: {
-            //How long the user has to pause their typing before sending the next request
-            quietMillis: 150,
-            //The url of the json service
-            //url: '/Modules/Sales/GetAllBranchProducts',
-            url: dataUrl,
-            dataType: 'json',
-            //Our search term and what page we are on
-            data: function (term) {
-                return {
-                    search: term
-                };
-            },
-            results: function (data) {
-                //Used to determine whether or not there are more results available,
-                //and if requests for more data should be sent in the infinite scrolling
-                return { results: data };
-            }
-        }
-    }).on('change', function (e) {
-        var param = {
-            productId: $('#ddProduct').val()
-        };
-        var dataUrl = $("#hdnGetProductUrl").attr("data-url");
-        if ($('#ddProduct').val() != "") {
-            $.ajax({
-                //url: '/Modules/Sales/GetProduct',
-                url: dataUrl,
-                type: 'POST',
-                data: JSON.stringify(param),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                success: function(d) {
-                    _self.Product.unitPrice(d.unitPrice);
-                    _self.Product.ending(d.ending);
-                    _self.Product.uom(d.UOM);
+    $.ajax({
+        //url: '/Modules/Purchase/GetSupplierForDropDown',
+        url: dataUrl,
+        type: 'POST',
+        dataType: 'json',
+        success: function(d) {
+
+            $("#ddProduct").select2({
+                placeholder: 'Select...',
+                allowClear: true,
+                minimumInputLength: 3,
+                matcher: function (term, text, opt) {
+                    return text.toUpperCase().indexOf(term.toUpperCase()) >= 0 || opt.parent("optgroup").attr("label").toUpperCase().indexOf(term.toUpperCase()) >= 0;
                 },
-                error: function() {
+                query: function (query) {
 
+                    var data = {
+                        results: []
+                    };
+
+
+                    for (var i = 0; i < d.length; i++) {
+                        if (d[i].text.toUpperCase().indexOf(query.term.toUpperCase()) > -1) {
+                            data.results.push(d[i]);
+                        }
+                    }
+
+
+                    query.callback(data);
                 }
+            }).on('change', function (e) {
+                var param = {
+                    productId: $('#ddProduct').val()
+                };
+                var dataUrl = $("#hdnGetProductUrl").attr("data-url");
+                if ($('#ddProduct').val() != "") {
+                    $.ajax({
+                        //url: '/Modules/Sales/GetProduct',
+                        url: dataUrl,
+                        type: 'POST',
+                        data: JSON.stringify(param),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function(d) {
+                            _self.Product.unitPrice(d.unitPrice);
+                            _self.Product.ending(d.ending);
+                            _self.Product.uom(d.UOM);
+                        },
+                        error: function() {
+
+                        }
+                    });
+                } else {
+                    _self.Product.unitPrice('');
+                    _self.Product.ending('');
+                    _self.Product.uom('');
+                }
+
+
             });
-        } else {
-            _self.Product.unitPrice('');
-            _self.Product.ending('');
-            _self.Product.uom('');
+        },
+        error: function () {
+
         }
-
-
     });
-
     //_self.getDocumentDetails();
     _self.getOrderItems();
 };

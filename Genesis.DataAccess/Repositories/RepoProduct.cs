@@ -21,7 +21,7 @@ namespace Genesis.DataAccess.Repositories
 
         public IEnumerable<dtoProduct> GetAll(string search, int branchId, int? skip = null, int? take = null)
         {
-            string sQuery = string.Format(@"select top 15 * 
+            string sQuery = string.Format(@"select * 
                                             from tbl_product 
                                             where productDescription like '%{0}%' 
                                             and branchId = {1}", search,branchId);

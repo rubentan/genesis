@@ -375,11 +375,11 @@ var viewModel = function () {
             $("#existingPaymentDiv").hide();
             $("#newPaymentDiv").show();
             $("#divAddReceivableOrder").show();
-            $("#divListReceivableOrder").show();
+            //$("#divListReceivableOrder").show();
         } else {
             _self.isNew(false);
             $("#divAddReceivableOrder").hide();
-            $("#divListReceivableOrder").hide();
+            //$("#divListReceivableOrder").hide();
             $("#newPaymentDiv").hide();
             $("#existingPaymentDiv").show();
             _self.loadExistingPayments();
@@ -387,7 +387,7 @@ var viewModel = function () {
 
         _self.loadClientDocuments();
         $("#divAddReceivableOrder").show();
-        $("#divListReceivableOrder").show();
+        //$("#divListReceivableOrder").show();
 
 
     });
@@ -428,7 +428,7 @@ var viewModel = function () {
         $("#newPaymentDiv").hide();
         $("#existingPaymentDiv").hide();
         $("#divAddReceivableOrder").hide();
-        $("#divListReceivableOrder").hide();
+        //$("#divListReceivableOrder").hide();
 
         if (clientId != null && clientId > 0) {
 

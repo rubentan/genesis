@@ -64,8 +64,7 @@
     <div class="portlet-body">
 
         <div class="row">
-            <div class="col-md-12 col-sm-12">
-
+            <div class="col-md-4 col-sm-12">
                 <div class="portlet box grey-cascade ">
                     <div class="portlet-title">
                         <div class="caption">
@@ -106,13 +105,6 @@
                         <!-- END FORM-->
                     </div>
                 </div>
-
-            </div>
-                        
-        </div>
-
-        <div class="row">
-            <div class="col-md-12 col-sm-12">
                 <div class="portlet grey-cascade box">
                     <div class="portlet-title">
                         <div class="caption">
@@ -137,28 +129,28 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label"></label>
                                     <div class="col-md-9">
-                                        <div class="well">
+                                        <div class="well" style="margin-bottom: 0 !important">
                                             <div class="row">
-                                                <div class="col-md-3 name align-reverse">
+                                                <div class="col-md-6 name align-reverse">
                                                     List Price:
                                                 </div>
-                                                <div class="col-md-6 value" data-bind="text: convertToCurrency(Product.unitPrice())">
+                                                <div class="col-md-5 value" data-bind="text: convertToCurrency(Product.unitPrice())">
 
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-3 name align-reverse">
+                                                <div class="col-md-6 name align-reverse">
                                                     In Stock:
                                                 </div>
-                                                <div class="col-md-6 value" data-bind="text: Product.ending">
+                                                <div class="col-md-5 value" data-bind="text: Product.ending">
 
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-3 name align-reverse">
+                                                <div class="col-md-6 name align-reverse">
                                                     Unit:
                                                 </div>
-                                                <div class="col-md-6 value" data-bind="text: Product.uom">
+                                                <div class="col-md-5 value" data-bind="text: Product.uom">
 
                                                 </div>
                                             </div>
@@ -206,10 +198,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12 col-sm-12">
+            <div class="col-md-8 col-sm-12">
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered table-striped">
                         <thead>
@@ -259,35 +248,32 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-            </div>
-            <div class="col-md-6">
-                <div class="well">
+                <div class="row">
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="well">
 
 
-                    <div class="row static-info align-reverse">
-                        <div class="col-md-8 name">
-                            Grand Total:
-                        </div>
-                        <div class="col-md-3 value" data-bind="text:convertToCurrency(grandTotal())">
+                            <div class="row static-info align-reverse">
+                                <div class="col-md-8 name">
+                                    Grand Total:
+                                </div>
+                                <div class="col-md-3 value" data-bind="text:convertToCurrency(grandTotal())">
 
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                
+                <div class="col-md-12 col-sm-12" style="text-align:right !important;">
+                    <button type="button" class="btn green" data-bind="click: function () { updatePurchaseOrder() }">Update</button>
+                    <button type="button" data-bind="click:backToList" class="btn ">Cancel</button>
+                </div>
+            </div>    
         </div>
-              
-        <div class="row">
 
-            <div class="col-md-12 col-sm-12" style="text-align:right !important;">
-                <button type="button" class="btn green" data-bind="click: function () { updatePurchaseOrder() }">Update</button>
-                <button type="button" data-bind="click:backToList" class="btn ">Cancel</button>
-            </div>
-        </div>
     </div>
 </div>
 
