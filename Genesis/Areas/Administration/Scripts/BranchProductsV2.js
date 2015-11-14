@@ -129,6 +129,14 @@ var ViewModel = function () {
         });
     };
 
+    _self.exportProducts = function () {
+
+        var prodCode = $('#productCodeSearch').val();
+        var prodDesc = $('#productDescriptionSearch').val();
+        var dataUrl = $("#hdnLoadBranchProductsExportUrl").attr("data-url");
+        window.location = dataUrl + "?productCode=" + prodCode + "&productDesc=" + prodDesc;
+    };
+
     _self.viewProduct = function (products) {
         var dataUrl = $("#hdnViewProductUrl").attr("data-url");
         window.location = dataUrl +"?id=" + products.productId;

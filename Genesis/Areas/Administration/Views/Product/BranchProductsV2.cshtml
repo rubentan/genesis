@@ -73,7 +73,8 @@
                     <div class="col-md-12" style="text-align: right;">
                         <input type="button" id="btnSubmitFilter" class="btn yellow formItem" data-bind="click: filterSubmit" value="SUBMIT">
                         <button type="button" id="btnResetFilter" class="btn red">Reset</button>
-                        <input type="button" id="btnExport" class="btn formItem" value="Export">
+                        @*<input type="button" id="btnExport" class="btn formItem" value="Export" onclick="location.href='@Url.Action("ExportBranchProducts","Product")'" >*@
+                        <input type="button" id="btnExport" class="btn formItem" value="Export" data-bind="click: exportProducts">
                     </div>
                 </div>
             </div>
@@ -370,6 +371,7 @@
 </div>
 
 <input type="hidden" id="hdnLoadBranchProductsUrl" data-url="@Url.Action("GetAllBranchProducts", "Product", new { area = "Administration" }, null)" />
+<input type="hidden" id="hdnLoadBranchProductsExportUrl" data-url="@Url.Action("ExportBranchProducts", "Product", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnViewProductUrl" data-url="@Url.Action("ViewProductDetails", "Product", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnAddEditUrl" data-url="@Url.Action("AddEditProduct", "Product", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnInLineEditUrl" data-url="@Url.Action("InLineUpdate", "Product", new { area = "Administration" }, null)" />
