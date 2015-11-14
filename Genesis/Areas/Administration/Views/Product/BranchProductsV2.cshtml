@@ -71,8 +71,9 @@
             <div class="form-actions" style="padding: 10px 10px 0px 0px !important;">
                 <div class="row">
                     <div class="col-md-12" style="text-align: right;">
-                        <input type="button" id="btnSubmitFilter" class="btn yellow formItem" data-bind="click: asyncOperation" value="SUBMIT">
+                        <input type="button" id="btnSubmitFilter" class="btn yellow formItem" data-bind="click: filterSubmit" value="SUBMIT">
                         <button type="button" id="btnResetFilter" class="btn red">Reset</button>
+                        <input type="button" id="btnExport" class="btn formItem" value="Export">
                     </div>
                 </div>
             </div>
@@ -95,86 +96,102 @@
         </div>
     </div>
     <div class="portlet-body">
-
-
         <div class="alert display-hide alert-danger problemAjax">
             <button class="close" data-close="alert"></button>
             <span>
                 Ajax encountered a problem, Please contact system administrator.
             </span>
         </div>
-        <div class="table-container" data-bind="loadingWhen: isLoading">
-            <table class="table table-striped table-bordered table-hover table-advance" id="datatable_ajax">
-                <thead>
-                    <tr role="row" class="heading">
-                        <th width="9%">
-                            Code
-                        </th>
-                        <th class="display-hide">
-                            ID
-                        </th>
-                        <th width="22%">
-                            Description
-                        </th>
-                        <th width="8%">
-                            Unit
-                        </th>
-                        <th width="12%">
-                            Price
-                        </th>
-                        <th width="8%">
-                            Beggining
-                        </th>
-                        <th width="8%">
-                            Incomming
-                        </th>
-                        <th width="8%">
-                            Outgoing
-                        </th>
-                        <th width="8%">
-                            Ending
-                        </th>
-                        <th width="18%">
-                            Actions
-                        </th>
-                    </tr>
+        
+        <div class="row filterContainer" style="margin-bottom:10px;">
 
-                </thead>
-                <tbody data-bind="foreach: products">
-                    <tr>
-                        <td data-bind="text:productCode"></td>
-                        <td class="display-hide" data-bind="text:productId"></td>
-                        <td data-bind="text:productDescription"></td>
-                        <td data-bind="text:UOM"></td>
-                        <td>
-                            <a data-bind="click: $parent.viewPrice,text:convertToCurrency(unitPrice)" class="btn-link default btn-xs blue" style="margin-bottom: 2px !important;">
-                            </a>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control input-sm" id="txtBeginning" data-bind="value:beginning">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control input-sm" id="txtBeginning" data-bind="value:incoming">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control input-sm" id="txtBeginning" data-bind="value:outgoing">
-                        </td>
-                        <td data-bind="text:ending"></td>
-                        <td>
-                            <a data-bind="click: $parent.saveRow" class="btn default btn-xs red" style="margin-bottom: 2px !important;">
-                                <i class="fa fa-save"></i>
-                            </a>
-                            <a data-bind="click: $parent.viewProduct" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
-                                <i class="fa fa-folder-open-o "></i> View
-                            </a>
-                            <a data-bind="click: $parent.editRow" class="btn default btn-xs purple" style="margin-bottom: 2px !important;">
-                                <i class="fa fa-edit"></i> Edit
-                            </a>
-                        </td>
+            Page <a data-bind="click:previousPage" class="btn btn-sm default prev" title="Prev"><i class="fa fa-angle-left"></i></a>
+            <input type="text" disabled name="page" value="1" data-bind="value:page" class="pagination-panel-input form-control input-mini input-inline input-sm" maxlenght="5" style="text-align:center; margin: 0 5px;">
+            <a data-bind="click:nextPage" class="btn btn-sm default next" title="Next"><i class="fa fa-angle-right"></i></a> of <span data-bind="text:pages"></span> | Found total <span data-bind="text:records"></span> records
+            <input type="text" id="recordPerPage" name="recordPerPage" value="30" class="hidden" />
+        </div>
+        
+        <div class="row">
+            <div class="table-container" data-bind="loadingWhen: isLoading">
+                <table class="table table-striped table-bordered table-hover table-advance" id="datatable_ajax">
+                    <thead>
+                        <tr role="row" class="heading">
+                            <th width="9%">
+                                Code
+                            </th>
+                            <th class="display-hide">
+                                ID
+                            </th>
+                            <th width="22%">
+                                Description
+                            </th>
+                            <th width="8%">
+                                Unit
+                            </th>
+                            <th width="12%">
+                                Price
+                            </th>
+                            <th width="8%">
+                                Beginning
+                            </th>
+                            <th width="8%">
+                                Incomming
+                            </th>
+                            <th width="8%">
+                                Outgoing
+                            </th>
+                            <th width="8%">
+                                Ending
+                            </th>
+                            <th width="18%">
+                                Actions
+                            </th>
+                        </tr>
 
-                    </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody data-bind="foreach: products">
+                        <tr>
+                            <td data-bind="text:productCode"></td>
+                            <td class="display-hide" data-bind="text:productId"></td>
+                            <td data-bind="text:productDescription"></td>
+                            <td data-bind="text:UOM"></td>
+                            <td>
+                                <a data-bind="click: $parent.viewPrice,text:unitPriceSign" class="btn-link default btn-xs blue" style="margin-bottom: 2px !important;">
+                                </a>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control input-sm" id="txtBeginning" data-bind="value:beginning, valueUpdate: 'afterkeydown'">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control input-sm" id="txtBeginning" data-bind="value:incoming , valueUpdate: 'afterkeydown'">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control input-sm" id="txtBeginning" data-bind="value:outgoing , valueUpdate: 'afterkeydown'">
+                            </td>
+                            <td data-bind="text:ending"></td>
+                            <td>
+                                <a data-bind="click: $parent.saveRow" class="btn default btn-xs red" style="margin-bottom: 2px !important;">
+                                    <i class="fa fa-save"></i>
+                                </a>
+                                <a data-bind="click: $parent.viewProduct" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
+                                    <i class="fa fa-folder-open-o "></i> View
+                                </a>
+                                <a data-bind="click: $parent.editRow" class="btn default btn-xs purple" style="margin-bottom: 2px !important;">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="row" style="margin-top:10px;">
+
+            Page <a data-bind="click:previousPage" class="btn btn-sm default prev" title="Prev"><i class="fa fa-angle-left"></i></a>
+            <input type="text" disabled name="page" data-bind="value:page" class="pagination-panel-input form-control input-mini input-inline input-sm" maxlenght="5" style="text-align:center; margin: 0 5px;">
+            <a data-bind="click:nextPage" class="btn btn-sm default next" title="Next"><i class="fa fa-angle-right"></i></a> of <span data-bind="text:pages"></span> | Found total <span data-bind="text:records"></span> records
         </div>
     </div>
 </div>

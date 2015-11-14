@@ -18,7 +18,7 @@ namespace Genesis.DataAccess.Interfaces
         dtoProduct GetByID(int productId);
         dtoProduct GetByCode(string productCode);
 
-        List<dtoProduct> GetBranchProducts(object filter = null, int? skip = null, int? take = null);
+        List<dtoProduct> GetBranchProducts(int page, int recordPerPage, object filter,bool isExport);
 
         List<dtoProductTransactions> GetProductTransactions(int id);
 

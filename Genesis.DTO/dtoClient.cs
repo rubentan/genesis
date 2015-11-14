@@ -20,7 +20,7 @@ namespace Genesis.DTO
         public DateTime dateCreated { get; set; }
         public int? modifiedBy { get; set; }
         public DateTime? dateLastModified { get; set; }
-
+        public int records { get; set; }
         //Custom Columns
 
         public string createdByName { get; set; }

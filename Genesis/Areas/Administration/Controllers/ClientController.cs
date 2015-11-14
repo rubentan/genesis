@@ -36,6 +36,8 @@ namespace Genesis.Areas.Administration.Controllers
             return Json(client);
         }
 
+
+        //not being used?
         public ActionResult GetAllClient(jQueryDataTableParamModel param)
         {
 
@@ -54,7 +56,7 @@ namespace Genesis.Areas.Administration.Controllers
                 status = filterStatus
             };
 
-            var list = serviceClientAccount.GetAllSuppliers(filter, param.iDisplayStart, param.iDisplayLength);
+            //var list = serviceClientAccount.GetAllSuppliers(filter, param.iDisplayStart, param.iDisplayLength);
             //totalRecords = serviceClientAccount.GetRecordCount(filter);
 
             //int count = list.Count();
@@ -64,7 +66,7 @@ namespace Genesis.Areas.Administration.Controllers
                 //sEcho = param.sEcho,
                 //iTotalRecords = totalRecords,
                 //iTotalDisplayRecords = totalRecords,
-                aaData = list
+                //aaData = list
             }
             , JsonRequestBehavior.AllowGet);
         }
@@ -73,9 +75,9 @@ namespace Genesis.Areas.Administration.Controllers
         public JsonResult GetAllClients()
         {
             var currentUser = (dtoUserAccount)Session["CurrentUser"];
-
-            //int totalRecords = 0;
-
+            var page = int.Parse(Request["page"]);
+            var recordPerPage = int.Parse(Request["recordPerPage"]);
+            var isExport = false;
 
             var filter = new dtoClient
             {
@@ -84,16 +86,11 @@ namespace Genesis.Areas.Administration.Controllers
                 clientContactNumber=Request["clientContactNumberSearch"],
                 clientContactPerson=Request["clientContactPersonSearch"],
                 branchId = currentUser.branchId
-                //status=int.Parse(Request["status"]),
             };
 
-            var list = service.GetAllClients(filter, 0, 20);
-            //totalRecords = service.GetRecordCount(filter);
-
-            //int count = list.Count();
-
-
-            return Json(list);
+           var list = service.GetAllClients(page, recordPerPage, filter,isExport);
+           var ret = Json(list);
+           return ret;
         }
 
         public JsonResult DeactivateClient(string id)

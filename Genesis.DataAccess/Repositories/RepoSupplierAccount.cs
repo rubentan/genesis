@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -155,55 +156,69 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoSupplier>(sQuery).ToList();
         }
 
-        public List<dtoSupplier> GetAll(object filter = null, int? skip = null, int? take = null)
+        public List<dtoSupplier> GetAll(int page, int recordPerPage, object filter, bool isExport)
         {
-            if (skip == null)
-                skip = 0;
-            if (take == null)
-                take = 10;
+            //if (skip == null)
+            //    skip = 0;
+            //if (take == null)
+            //    take = 10;
 
-            string sQuery = string.Format(@"SELECT TOP {0}
-	                                              [Row]
-	                                              ,[supplierId]
-                                                  ,[supplierCode]
-                                                  ,[supplierName]
-                                                  ,[supplierAddress]
-                                                  ,[supplierContactNumber]
-                                                  ,[supplierContactPerson]
-                                                  ,[branchId]
-                                                  ,[status]
-                                                  ,[dateCreated]
-                                                  ,[createdBy]
-                                            FROM (  SELECT
-                                                    ROW_NUMBER() OVER(ORDER BY [supplierId]) AS [Row]
-                                                      ,[supplierId]
-                                                      ,[supplierCode]
-                                                      ,[supplierName]
-                                                      ,[supplierAddress]
-                                                      ,[supplierContactNumber]
-                                                      ,[supplierContactPerson]
-                                                      ,[branchId]
-                                                      ,[status]
-                                                      ,[dateCreated]
-                                                      ,[createdBy]
-                                                    FROM [tbl_supplier]
-                                                    WHERE (1 = 1)
-                                            ", take);
+//            string sQuery = string.Format(@"SELECT TOP {0}
+//	                                              [Row]
+//	                                              ,[supplierId]
+//                                                  ,[supplierCode]
+//                                                  ,[supplierName]
+//                                                  ,[supplierAddress]
+//                                                  ,[supplierContactNumber]
+//                                                  ,[supplierContactPerson]
+//                                                  ,[branchId]
+//                                                  ,[status]
+//                                                  ,[dateCreated]
+//                                                  ,[createdBy]
+//                                            FROM (  SELECT
+//                                                    ROW_NUMBER() OVER(ORDER BY [supplierId]) AS [Row]
+//                                                      ,[supplierId]
+//                                                      ,[supplierCode]
+//                                                      ,[supplierName]
+//                                                      ,[supplierAddress]
+//                                                      ,[supplierContactNumber]
+//                                                      ,[supplierContactPerson]
+//                                                      ,[branchId]
+//                                                      ,[status]
+//                                                      ,[dateCreated]
+//                                                      ,[createdBy]
+//                                                    FROM [tbl_supplier]
+//                                                    WHERE (1 = 1)
+//                                            ", take);
 
-            if (filter != null)
-            {
-                var f = (dtoSupplier)filter;
-                sQuery += string.Format(" AND ('{0}' = '' OR supplierCode LIKE '%{0}%')", f.supplierCode);
-                sQuery += string.Format(" AND ('{0}' = '' OR supplierName LIKE '%{0}%')", f.supplierName);
-                sQuery += string.Format(" AND ('{0}' = '' OR supplierContactNumber LIKE '%{0}%')", f.supplierContactNumber);
-                sQuery += string.Format(" AND ('{0}' = '' OR supplierContactPerson LIKE '%{0}%')", f.supplierContactPerson);
-                sQuery += string.Format(" AND ('{0}' = '' OR branchId LIKE '%{0}%')", f.branchId);
-                //sQuery += string.Format(" AND ({0} = 0 OR [status] = {0})", f.status);
-            }
+            //if (filter != null)
+            //{
+            //    var f = (dtoSupplier)filter;
+            //    sQuery += string.Format(" AND ('{0}' = '' OR supplierCode LIKE '%{0}%')", f.supplierCode);
+            //    sQuery += string.Format(" AND ('{0}' = '' OR supplierName LIKE '%{0}%')", f.supplierName);
+            //    sQuery += string.Format(" AND ('{0}' = '' OR supplierContactNumber LIKE '%{0}%')", f.supplierContactNumber);
+            //    sQuery += string.Format(" AND ('{0}' = '' OR supplierContactPerson LIKE '%{0}%')", f.supplierContactPerson);
+            //    sQuery += string.Format(" AND ('{0}' = '' OR branchId LIKE '%{0}%')", f.branchId);
+            //    //sQuery += string.Format(" AND ({0} = 0 OR [status] = {0})", f.status);
+            //}
 
-            sQuery += string.Format(") x WHERE x.[Row] > {0}", skip);
+            //sQuery += string.Format(") x WHERE x.[Row] > {0}", skip);
+            //return DBContext.Database.SqlQuery<dtoSupplier>(sQuery).ToList();
 
-            return DBContext.Database.SqlQuery<dtoSupplier>(sQuery).ToList();
+            var f = (dtoSupplier)filter;
+            return DBContext.Database.SqlQuery<dtoSupplier>("EXEC sp_GetAllSuppliers @Page,@RecsPerPage,@SupplierCode,@SupplierName,@SupplierContactNumber,@SupplierContactPerson,@BranchId,@Status,@IsExport"
+                , new SqlParameter("Page", page)
+                , new SqlParameter("RecsPerPage", recordPerPage)
+                , new SqlParameter("SupplierCode", f.supplierCode)
+                , new SqlParameter("SupplierName", f.supplierName)
+                , new SqlParameter("SupplierContactNumber", f.supplierContactNumber)
+                , new SqlParameter("SupplierContactPerson", f.supplierContactPerson)
+                , new SqlParameter("BranchId", f.branchId)
+                , new SqlParameter("Status", f.status)
+                , new SqlParameter("IsExport", isExport)
+                ).ToList();
+
+            
         }
 
         public int GetRecordCount(object filter = null)

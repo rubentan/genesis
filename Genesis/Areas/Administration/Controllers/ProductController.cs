@@ -27,6 +27,10 @@ namespace Genesis.Areas.Administration.Controllers
         public JsonResult GetAllBranchProducts()
         {
             var currentUser = (dtoUserAccount) Session["CurrentUser"];
+            var page = int.Parse(Request["page"]);
+            var recordPerPage = int.Parse(Request["recordPerPage"]);
+            var isExport = false;
+
             var filter = new dtoProduct
             {
                 productCode = Request["productCodeSearch"],
@@ -35,12 +39,9 @@ namespace Genesis.Areas.Administration.Controllers
                 branchId = currentUser.branchId
             };
 
-            var list = serviceProduct.GetBranchProducts(filter, 0, 20);
-
-           
-
-            return Json(list);
-            
+           var list = serviceProduct.GetBranchProducts(page, recordPerPage, filter,isExport);
+           var ret = Json(list);
+           return ret;
         }
 
         public JsonResult CheckProductCodeExists(string productCode)

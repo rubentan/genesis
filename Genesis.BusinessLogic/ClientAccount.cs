@@ -23,14 +23,14 @@ namespace Genesis.BusinessLogic
             return repo.GetAll(search, filter);
         }
 
-        public List<dtoClient> GetAllSuppliers(object filter = null, int? skip = null, int? take = null)
-        {
-            return repo.GetAll(filter, skip, take);
-        }
+        //public List<dtoClient> GetAllSuppliers(object filter = null, int? skip = null, int? take = null)
+        //{
+         //   return repo.GetAll(filter, skip, take);
+        //}
 
-        public List<dtoClient> GetAllClients(object filter = null, int? skip = null, int? take = null)
+        public List<dtoClient> GetAllClients(int page, int recordPerPage,object filter,bool isExport)
         {
-            return repo.GetAll(filter, skip, take);
+            return repo.GetAll(page, recordPerPage, filter,isExport);
         }
 
         public dtoClient GetClientInfo(string id)

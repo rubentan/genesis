@@ -133,55 +133,62 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoClient>(sQuery).ToList();
         }
 
-        public List<dtoClient> GetAll(object filter = null, int? skip = null, int? take = null)
+        public List<dtoClient> GetAll(int page, int recordPerPage, object filter,bool isExport)
         {
-            if (skip == null)
-                skip = 0;
-            if (take == null)
-                take = 10;
 
-            string sQuery = string.Format(@"SELECT TOP {0}
-	                                              [Row]
-                                                  ,[clientId]
-	                                              ,[clientCode]
-                                                  ,[clientName]
-                                                  ,[clientAddress]
-                                                  ,[clientContactNumber]
-                                                  ,[clientContactPerson]
-                                                  ,[branchId]
-                                                  ,[status]
-                                                  ,[dateCreated]
-                                                  ,[createdBy]
-                                            FROM (  SELECT
-                                                    ROW_NUMBER() OVER(ORDER BY [clientId]) AS [Row]
-                                                      ,[clientId]
-                                                      ,[clientCode]
-                                                      ,[clientName]
-                                                      ,[clientAddress]
-                                                      ,[clientContactNumber]
-                                                      ,[clientContactPerson]
-                                                      ,[branchId]
-                                                      ,[status]
-                                                      ,[dateCreated]
-                                                      ,[createdBy]
-                                                    FROM [tbl_client]
-                                                    WHERE (1 = 1)
-                                            ", take);
+//            string sQuery = string.Format(@"SELECT TOP {0}
+//	                                              [Row]
+//                                                  ,[clientId]
+//	                                              ,[clientCode]
+//                                                  ,[clientName]
+//                                                  ,[clientAddress]
+//                                                  ,[clientContactNumber]
+//                                                  ,[clientContactPerson]
+//                                                  ,[branchId]
+//                                                  ,[status]
+//                                                  ,[dateCreated]
+//                                                  ,[createdBy]
+//                                            FROM (  SELECT
+//                                                    ROW_NUMBER() OVER(ORDER BY [clientId]) AS [Row]
+//                                                      ,[clientId]
+//                                                      ,[clientCode]
+//                                                      ,[clientName]
+//                                                      ,[clientAddress]
+//                                                      ,[clientContactNumber]
+//                                                      ,[clientContactPerson]
+//                                                      ,[branchId]
+//                                                      ,[status]
+//                                                      ,[dateCreated]
+//                                                      ,[createdBy]
+//                                                    FROM [tbl_client]
+//                                                    WHERE (1 = 1)
+//                                            ", take);
 
-            if (filter != null)
-            {
-                var f = (dtoClient)filter;
-                sQuery += string.Format(" AND ('{0}' = '' OR clientCode LIKE '%{0}%')", f.clientCode);
-                sQuery += string.Format(" AND ('{0}' = '' OR clientName LIKE '%{0}%')", f.clientName);
-                sQuery += string.Format(" AND ('{0}' = '' OR clientContactNumber LIKE '%{0}%')", f.clientContactNumber);
-                sQuery += string.Format(" AND ('{0}' = '' OR clientContactPerson LIKE '%{0}%')", f.clientContactPerson);
-                sQuery += string.Format(" AND ('{0}' = '' OR branchId LIKE '%{0}%')", f.branchId);
-                sQuery += string.Format(" AND ({0} = 0 OR [status] = {0})", f.status);
-            }
+//            if (filter != null)
+//            {
+//                var f = (dtoClient)filter;
+//                sQuery += string.Format(" AND ('{0}' = '' OR clientCode LIKE '%{0}%')", f.clientCode);
+//                sQuery += string.Format(" AND ('{0}' = '' OR clientName LIKE '%{0}%')", f.clientName);
+//                sQuery += string.Format(" AND ('{0}' = '' OR clientContactNumber LIKE '%{0}%')", f.clientContactNumber);
+//                sQuery += string.Format(" AND ('{0}' = '' OR clientContactPerson LIKE '%{0}%')", f.clientContactPerson);
+//                sQuery += string.Format(" AND ('{0}' = '' OR branchId LIKE '%{0}%')", f.branchId);
+//                sQuery += string.Format(" AND ({0} = 0 OR [status] = {0})", f.status);
+//            }
 
-            sQuery += string.Format(") x WHERE x.[Row] > {0}", skip);
+//            sQuery += string.Format(") x WHERE x.[Row] > {0}", skip);
 
-            return DBContext.Database.SqlQuery<dtoClient>(sQuery).ToList();
+            var f = (dtoClient)filter;
+            return DBContext.Database.SqlQuery<dtoClient>("EXEC sp_GetAllClients @Page,@RecsPerPage,@ClientCode,@ClientName,@ClientContactNumber,@ClientContactPerson,@BranchId,@Status,@IsExport"
+                , new SqlParameter("Page", page)
+                , new SqlParameter("RecsPerPage", recordPerPage)
+                , new SqlParameter("ClientCode", f.clientCode)
+                , new SqlParameter("ClientName", f.clientName)
+                , new SqlParameter("ClientContactNumber", f.clientContactNumber)
+                , new SqlParameter("ClientContactPerson", f.clientContactPerson)
+                , new SqlParameter("BranchId", f.branchId)
+                , new SqlParameter("Status", f.status)
+                , new SqlParameter("IsExport", isExport)
+                ).ToList();
         }
 
         public dtoClient GetClientInfo(string id)

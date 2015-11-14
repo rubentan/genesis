@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -135,72 +136,82 @@ namespace Genesis.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public List<dtoProduct> GetBranchProducts(object filter = null, int? skip = null, int? take = null)
+        public List<dtoProduct> GetBranchProducts(int page, int recordPerPage, object filter, bool isExport)
         {
-            if (skip == null)
-                skip = 0;
-            if (take == null)
-                take = 10;
+//            if (skip == null)
+//                skip = 0;
+//            if (take == null)
+//                take = 10;
 
-            string sQuery = string.Format(@"SELECT TOP {0}
-	                                                [Row]
-	                                                ,[productId]
-                                                    ,[productCode]
-                                                    ,[productName]
-                                                    ,[productDescription]
-                                                    ,[categoryId]
-                                                    ,[categoryName]
-                                                    ,[reorderLevel]
-                                                    ,[UOM]
-                                                    ,[branchId]
-                                                    ,[unitPrice]
-                                                    ,[beginning]
-                                                    ,[incoming]
-                                                    ,[outgoing]
-                                                    ,[ending]
-                                                    ,[modifiedBy]
-                                                    ,[dateLastModified]
-                                                    ,[createdBy]
-                                                    ,[dateCreated]
-                                            FROM (  SELECT
-                                                    ROW_NUMBER() OVER(ORDER BY [productId]) AS [Row]
-                                                      ,a.[productId]
-                                                      ,a.[productCode]
-                                                      ,a.[productName]
-                                                      ,a.[productDescription]
-                                                      ,a.[categoryId]
-                                                      ,a.[reorderLevel]
-                                                      ,a.[UOM]
-                                                      ,a.[branchId]
-                                                      ,a.[unitPrice]
-                                                      ,a.[beginning]
-                                                      ,a.[incoming]
-                                                      ,a.[outgoing]
-                                                      ,a.[ending]
-                                                      ,a.[modifiedBy]
-                                                      ,a.[dateLastModified]
-                                                      ,a.[createdBy]
-                                                      ,a.[dateCreated]
-                                                      ,b.[categoryName] + ' - ' + b.[categoryCode] as categoryName
-                                                    FROM [tbl_product] a
-                                                    LEFT JOIN [tbl_productCategory] b
-                                                    on a.categoryId = b.categoryId
-                                                    WHERE (1 = 1)
-                                            ", take);
+//            string sQuery = string.Format(@"SELECT TOP {0}
+//	                                                [Row]
+//	                                                ,[productId]
+//                                                    ,[productCode]
+//                                                    ,[productName]
+//                                                    ,[productDescription]
+//                                                    ,[categoryId]
+//                                                    ,[categoryName]
+//                                                    ,[reorderLevel]
+//                                                    ,[UOM]
+//                                                    ,[branchId]
+//                                                    ,[unitPrice]
+//                                                    ,[beginning]
+//                                                    ,[incoming]
+//                                                    ,[outgoing]
+//                                                    ,[ending]
+//                                                    ,[modifiedBy]
+//                                                    ,[dateLastModified]
+//                                                    ,[createdBy]
+//                                                    ,[dateCreated]
+//                                            FROM (  SELECT
+//                                                    ROW_NUMBER() OVER(ORDER BY [productId]) AS [Row]
+//                                                      ,a.[productId]
+//                                                      ,a.[productCode]
+//                                                      ,a.[productName]
+//                                                      ,a.[productDescription]
+//                                                      ,a.[categoryId]
+//                                                      ,a.[reorderLevel]
+//                                                      ,a.[UOM]
+//                                                      ,a.[branchId]
+//                                                      ,a.[unitPrice]
+//                                                      ,a.[beginning]
+//                                                      ,a.[incoming]
+//                                                      ,a.[outgoing]
+//                                                      ,a.[ending]
+//                                                      ,a.[modifiedBy]
+//                                                      ,a.[dateLastModified]
+//                                                      ,a.[createdBy]
+//                                                      ,a.[dateCreated]
+//                                                      ,b.[categoryName] + ' - ' + b.[categoryCode] as categoryName
+//                                                    FROM [tbl_product] a
+//                                                    LEFT JOIN [tbl_productCategory] b
+//                                                    on a.categoryId = b.categoryId
+//                                                    WHERE (1 = 1)
+//                                            ", take);
 
-            if (filter != null)
-            {
-                var f = (dtoProduct)filter;
-                sQuery += string.Format(" AND ('{0}' = '' OR productCode LIKE '%{0}%')", f.productCode);
-                sQuery += string.Format(" AND ('{0}' = '' OR productDescription LIKE '%{0}%')", f.productDescription);
-                sQuery += string.Format(" AND ('{0}' = '' OR branchId LIKE '%{0}%')", f.branchId);
+//            if (filter != null)
+//            {
+//                var f = (dtoProduct)filter;
+//                sQuery += string.Format(" AND ('{0}' = '' OR productCode LIKE '%{0}%')", f.productCode);
+//                sQuery += string.Format(" AND ('{0}' = '' OR productDescription LIKE '%{0}%')", f.productDescription);
+//                sQuery += string.Format(" AND ('{0}' = '' OR branchId LIKE '%{0}%')", f.branchId);
                 
-                //sQuery += string.Format(" AND ({0} = -1 OR categoryId = {0})", f.categoryId);
-            }
-            //sQuery += string.Format(" AND ({0} = -1 OR branchId = {0})", id);
-            sQuery += string.Format(") x WHERE x.[Row] > {0}", skip);
+//                //sQuery += string.Format(" AND ({0} = -1 OR categoryId = {0})", f.categoryId);
+//            }
+//            //sQuery += string.Format(" AND ({0} = -1 OR branchId = {0})", id);
+//            sQuery += string.Format(") x WHERE x.[Row] > {0}", skip);
 
-            return DBContext.Database.SqlQuery<dtoProduct>(sQuery).ToList();
+//            return DBContext.Database.SqlQuery<dtoProduct>(sQuery).ToList();
+
+            var f = (dtoProduct)filter;
+            return DBContext.Database.SqlQuery<dtoProduct>("EXEC sp_GetAllProducts @Page,@RecsPerPage,@ProductCode,@ProductDesc,@BranchId,@IsExport"
+                , new SqlParameter("Page", page)
+                , new SqlParameter("RecsPerPage", recordPerPage)
+                , new SqlParameter("ProductCode", f.productCode)
+                , new SqlParameter("ProductDesc", f.productDescription)
+                , new SqlParameter("BranchId", f.branchId)
+                , new SqlParameter("IsExport", isExport)
+                ).ToList();
         }
 
         public List<dtoProductTransactions> GetProductTransactions(int id)

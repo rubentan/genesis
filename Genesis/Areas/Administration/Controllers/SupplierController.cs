@@ -49,11 +49,10 @@ namespace Genesis.Areas.Administration.Controllers
         public JsonResult GetAllSuppliers()
         {
             var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            var page = int.Parse(Request["page"]);
+            var recordPerPage = int.Parse(Request["recordPerPage"]);
+            var isExport = false;
             
-            //int totalRecords = 0;
-
-            //if (Request["status"] != null && Request["status"] != string.Empty)
-            //    filterStatus = Convert.ToInt32(Request["status"].ToString());
 
             var filter = new dtoSupplier
             {
@@ -62,13 +61,11 @@ namespace Genesis.Areas.Administration.Controllers
                 supplierContactNumber = Request["supplierContactNumber"],
                 supplierContactPerson = Request["supplierContactPerson"],
                 branchId = currentUser.branchId
-                //status = filterStatus
             };
 
-            var list = serviceSupplier.GetAllSuppliers(filter, 0, 20);
-            //totalRecords = serviceSupplier.GetRecordCount(filter);
-
-            return Json(list);
+            var list = serviceSupplier.GetAllSuppliers(page, recordPerPage, filter, isExport);
+            var ret = Json(list);
+            return ret;
         }
 
         public ActionResult ViewSupplier(string id)

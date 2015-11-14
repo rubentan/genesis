@@ -80,7 +80,7 @@
             <div class="form-actions" style="padding: 10px 10px 0px 0px !important;">
                 <div class="row">
                     <div class="col-md-12" style="text-align: right;">
-                        <input type="button" class="btn yellow formItem"  id="btnSubmitFilter" data-bind="click: asyncOperation" value="SUBMIT">
+                        <input type="button" class="btn yellow formItem" id="btnSubmitFilter" data-bind="click: filterSubmit" value="SUBMIT">
                         <button type="button" class="btn red" id="btnResetFilter">Reset</button>
                     </div>
                 </div>
@@ -113,62 +113,79 @@
                 Ajax encountered a problem, Please contact system administrator.
             </span>
         </div>
+        
+        <div class="row filterContainer" style="margin-bottom:10px;">
 
-        <div class="table-container" data-bind="loadingWhen: isLoading">
-            <table class="table table-striped table-bordered table-hover table-advance" id="datatable_ajax">
-                <thead>
-                    <tr role="row" class="heading">
+            Page <a data-bind="click:previousPage" class="btn btn-sm default prev" title="Prev"><i class="fa fa-angle-left"></i></a>
+            <input type="text" disabled name="page" value="1" data-bind="value:page" class="pagination-panel-input form-control input-mini input-inline input-sm" maxlenght="5" style="text-align:center; margin: 0 5px;">
+            <a data-bind="click:nextPage" class="btn btn-sm default next" title="Next"><i class="fa fa-angle-right"></i></a> of <span data-bind="text:pages"></span> | Found total <span data-bind="text:records"></span> records
+            <input type="text" id="recordPerPage" name="recordPerPage" value="30" class="hidden" />
+        </div>
 
-                        <th width="20%">
-                            Code
-                        </th>
-                        <th class="display-hide">
-                            ID
-                        </th>
-                        <th width="25%">
-                            Supplier Name
-                        </th>
-                        <th width="15%">
-                            Contact Number
-                        </th>
-                        <th width="25%">
-                            Contact Person
-                        </th>
-                        <th width="15%">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: suppliers">
-                    <tr>
+        <div class="row">
+            <div class="table-container" data-bind="loadingWhen: isLoading">
+                <table class="table table-striped table-bordered table-hover table-advance" id="datatable_ajax">
+                    <thead>
+                        <tr role="row" class="heading">
 
-                        @*<td class="highlight">
-                            <div data-bind="css : status == 1 ? 'success' : 'danger' ">
-                            </div>
-                            <a href="javascript:;" data-bind="text:supplierCode"></a>
+                            <th width="20%">
+                                Code
+                            </th>
+                            <th class="display-hide">
+                                ID
+                            </th>
+                            <th width="25%">
+                                Supplier Name
+                            </th>
+                            <th width="15%">
+                                Contact Number
+                            </th>
+                            <th width="25%">
+                                Contact Person
+                            </th>
+                            <th width="15%">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: suppliers">
+                        <tr>
 
-                        </td>*@
-                        <td data-bind="text:supplierCode"></td>
-                        <td class="display-hide" data-bind="text:supplierId"></td>
-                        <td data-bind="text:supplierName"></td>
-                        <td data-bind="text:supplierContactNumber"></td>
-                        <td data-bind="text:supplierContactPerson"></td>
-                        <td>
-                            <a data-bind="click: $parent.viewSupplier" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
-                                <i class="fa fa-folder-open-o "></i> View
-                            </a>
-                            <a data-bind="click: $parent.editRow" class="btn default btn-xs purple" style="margin-bottom: 2px !important;">
-                                <i class="fa fa-edit"></i> Edit
-                            </a>
+                            @*<td class="highlight">
+                                <div data-bind="css : status == 1 ? 'success' : 'danger' ">
+                                </div>
+                                <a href="javascript:;" data-bind="text:supplierCode"></a>
 
-                            <a data-bind="css : status == 1 ? 'red' : 'green', click: status == 1 ? $parent.deactivate : $parent.activate" class="btn default btn-xs display-hide" style="margin-bottom: 2px !important;">
-                                <i data-bind="css : status == 1 ? 'fa fa-times' : 'fa fa-check' "></i>
-                                <span data-bind="text: status == 1 ? 'Deactivate' : 'Activate' "></span>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            </td>*@
+                            <td data-bind="text:supplierCode"></td>
+                            <td class="display-hide" data-bind="text:supplierId"></td>
+                            <td data-bind="text:supplierName"></td>
+                            <td data-bind="text:supplierContactNumber"></td>
+                            <td data-bind="text:supplierContactPerson"></td>
+                            <td>
+                                <a data-bind="click: $parent.viewSupplier" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
+                                    <i class="fa fa-folder-open-o "></i> View
+                                </a>
+                                <a data-bind="click: $parent.editRow" class="btn default btn-xs purple" style="margin-bottom: 2px !important;">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+
+                                <a data-bind="css : status == 1 ? 'red' : 'green', click: status == 1 ? $parent.deactivate : $parent.activate" class="btn default btn-xs display-hide" style="margin-bottom: 2px !important;">
+                                    <i data-bind="css : status == 1 ? 'fa fa-times' : 'fa fa-check' "></i>
+                                    <span data-bind="text: status == 1 ? 'Deactivate' : 'Activate' "></span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+
+            Page <a data-bind="click:previousPage" class="btn btn-sm default prev" title="Prev"><i class="fa fa-angle-left"></i></a>
+            <input type="text" disabled name="page" data-bind="value:page" class="pagination-panel-input form-control input-mini input-inline input-sm" maxlenght="5" style="text-align:center; margin: 0 5px;">
+            <a data-bind="click:nextPage" class="btn btn-sm default next" title="Next"><i class="fa fa-angle-right"></i></a> of <span data-bind="text:pages"></span> | Found total <span data-bind="text:records"></span> records
         </div>
     </div>
 </div>

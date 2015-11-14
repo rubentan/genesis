@@ -94,7 +94,7 @@
             <div class="form-actions" style="padding: 10px 10px 0px 0px !important;">
                 <div class="row">
                     <div class="col-md-12" style="text-align: right;">
-                        <input type="button" class="btn yellow formItem" id="btnSubmitFilter" data-bind="click: asyncOperation" value="SUBMIT" >
+                        <input type="button" class="btn yellow formItem" id="btnSubmitFilter" data-bind="click: filterSubmit" value="SUBMIT">
                         <button type="button" class="btn red" id="btnResetFilter">Reset</button>
                     </div>
                 </div>
@@ -127,11 +127,12 @@
             </span>
         </div>
         
-        <div class="row" style="margin-bottom:10px;">
+        <div class="row filterContainer" style="margin-bottom:10px;">
 
-            Page <a href="#" class="btn btn-sm default prev disabled" title="Prev"><i class="fa fa-angle-left"></i></a>
-            <input type="text" class="pagination-panel-input form-control input-mini input-inline input-sm" maxlenght="5" style="text-align:center; margin: 0 5px;">
-            <a href="#" class="btn btn-sm default next disabled" title="Next"><i class="fa fa-angle-right"></i></a> of 1 | Found total 178 records
+            Page <a data-bind="click:previousPage" class="btn btn-sm default prev" title="Prev"><i class="fa fa-angle-left"></i></a>
+            <input type="text" disabled name="page" value="1" data-bind="value:page" class="pagination-panel-input form-control input-mini input-inline input-sm" maxlenght="5" style="text-align:center; margin: 0 5px;">
+            <a data-bind="click:nextPage" class="btn btn-sm default next" title="Next"><i class="fa fa-angle-right"></i></a> of <span data-bind="text:pages"></span> | Found total <span data-bind="text:records"></span> records
+            <input type="text" id="recordPerPage" name="recordPerPage" value="30" class="hidden"/>
         </div>
 
         <div class="row">
@@ -195,9 +196,9 @@
         
         <div class="row" style="margin-top:10px;">
 
-            Page <a href="#" class="btn btn-sm default prev disabled" title="Prev"><i class="fa fa-angle-left"></i></a>
-            <input type="text" class="pagination-panel-input form-control input-mini input-inline input-sm" maxlenght="5" style="text-align:center; margin: 0 5px;">
-            <a href="#" class="btn btn-sm default next disabled" title="Next"><i class="fa fa-angle-right"></i></a> of 1 | Found total 178 records
+            Page <a data-bind="click:previousPage" class="btn btn-sm default prev" title="Prev"><i class="fa fa-angle-left"></i></a>
+            <input type="text" disabled name="page" data-bind="value:page" class="pagination-panel-input form-control input-mini input-inline input-sm" maxlenght="5" style="text-align:center; margin: 0 5px;">
+            <a data-bind="click:nextPage" class="btn btn-sm default next" title="Next"><i class="fa fa-angle-right"></i></a> of <span data-bind="text:pages"></span> | Found total <span data-bind="text:records"></span> records
         </div>
     </div>
 </div>

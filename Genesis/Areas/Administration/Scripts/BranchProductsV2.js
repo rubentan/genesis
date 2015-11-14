@@ -23,13 +23,37 @@ var initButton = function () {
 
 };
 
-
+var varProd = function (data) {
+    var self = this;
+    self.productId = ko.observable(data.productId),
+    self.productCode = ko.observable(data.productCode),
+    self.productName = ko.observable(data.productName),
+    self.productDescription = ko.observable(data.productDescription),
+    self.categoryId = ko.observable(data.categoryId),
+    self.categoryName = ko.observable(data.categoryName),
+    self.reorderLevel = ko.observable(data.reorderLevel),
+    self.UOM = ko.observable(data.UOM),
+    self.unitPrice = ko.observable(data.unitPrice),
+    self.unitPriceSign = ko.observable(convertToCurrency(data.unitPrice)),
+    self.beginning = ko.observable(data.beginning),
+    self.incoming = ko.observable(data.incoming),
+    self.outgoing = ko.observable(data.outgoing),
+    self.ending = ko.computed(function () {
+        return parseInt(self.beginning()) + parseInt(self.incoming()) - parseInt(self.outgoing());
+    });
+};
 
 var ViewModel = function () {
     var _self = this;
     this.isLoading = ko.observable(false);
     _self.products = ko.observableArray();
     _self.priceHistory = ko.observableArray();
+    _self.records = ko.observable("0");
+    _self.page = ko.observable("1");
+
+    _self.pages = ko.pureComputed(function () {
+        return Math.ceil(_self.records() / $('#recordPerPage').val());
+    }, this);
 
     _self.product = {
         productId: ko.observable(),
@@ -45,7 +69,33 @@ var ViewModel = function () {
         incoming: ko.observable(),
         outgoing: ko.observable(),
         ending: ko.observable()
-};
+    };
+
+    
+
+    _self.nextPage = function () {
+        if (_self.page() == _self.pages()) {
+            _self.page("1");
+        } else {
+            _self.page(parseInt(_self.page()) + parseInt(1));
+        }
+        _self.asyncOperation();
+    };
+
+    _self.previousPage = function () {
+        if (_self.page() == 1) {
+            _self.page(_self.pages());
+        } else {
+            _self.page(parseInt(_self.page()) - parseInt(1));
+        }
+        _self.asyncOperation();
+    };
+
+
+    _self.filterSubmit = function () {
+        _self.page("1");
+        _self.asyncOperation();
+    };
 
     _self.asyncOperation = function () {
         _self.isLoading(true);
@@ -58,7 +108,18 @@ var ViewModel = function () {
             success: function (d) {
                 $(".problemAjax").hide();
                 _self.isLoading(false);
-                _self.products(d);
+                if (Object.keys(d).length > 0) {
+                    _self.records(d[0]["records"]);
+                } else {
+                    _self.records("0");
+                    _self.page("0");
+                }
+                //_self.products(d);
+
+                var mappedData = ko.utils.arrayMap(d, function (i) {
+                    return new varProd(i);
+                });
+                _self.products(mappedData);
             },
             error: function() {
                 $(".problemAjax").show();
@@ -140,7 +201,7 @@ var ViewModel = function () {
             data: ko.toJSON(param),
             dataType: 'json',
             success: function (d) {
-                _self.asyncOperation();
+                //_self.asyncOperation();
             },
             error: function () {
                 alert("error");
@@ -157,20 +218,20 @@ var ViewModel = function () {
         validator.resetForm();
         $('.problemForm', form1).hide();
 
-        _self.product.productId(products.productId);
-        _self.product.productCode(products.productCode);
-        _self.product.productName(products.productName);
-        _self.product.productDescription(products.productDescription);
-        _self.product.categoryId(products.categoryId);
-        _self.product.categoryName(products.categoryName);
-        _self.product.reorderLevel(products.reorderLevel);
-        _self.product.UOM(products.UOM);
-        _self.product.unitPrice(products.unitPrice);
-        _self.product.beginning(products.beginning);
-        _self.product.incoming(products.incoming);
-        _self.product.outgoing(products.outgoing);
+        _self.product.productId(products.productId());
+        _self.product.productCode(products.productCode());
+        _self.product.productName(products.productName());
+        _self.product.productDescription(products.productDescription());
+        _self.product.categoryId(products.categoryId());
+        _self.product.categoryName(products.categoryName());
+        _self.product.reorderLevel(products.reorderLevel());
+        _self.product.UOM(products.UOM());
+        _self.product.unitPrice(products.unitPrice());
+        _self.product.beginning(products.beginning());
+        _self.product.incoming(products.incoming());
+        _self.product.outgoing(products.outgoing());
 
-        $('#select2-chosen-1').html(products.categoryName);
+        $('#select2-chosen-1').html(products.categoryName());
         $('#AddEdit').modal('show');
 
     };
@@ -325,7 +386,7 @@ var ViewModel = function () {
         });
     };
 
-    _self.asyncOperation();
+    _self.filterSubmit();
 
     _self.formValidation();
 
