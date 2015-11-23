@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,31 +41,45 @@ namespace Genesis.DataAccess.Repositories
         }
 
         //used to get all branch sales
-        public List<dtoDocument> GetAll2(object filter = null, int? skip = null, int? take = null)
+        public List<dtoDocument> GetAll2(int page, int recordPerPage, object filter, bool isExport)
         {
-            string sQuery = string.Format(@"select a.documentId,a.referenceId,a.documentNumber,a.dateCreated,b.clientName,b.clientCode, sum(c.unitPrice*c.quantity) as salesPrice
-                                            from tbl_document a
-                                            left join tbl_client b
-                                            on a.referenceId = b.clientId
-                                            left join tbl_transaction c
-                                            on a.documentId = c.documentId 
-                                            Where (1 = 1)");
+//            string sQuery = string.Format(@"select a.documentId,a.referenceId,a.documentNumber,a.dateCreated,b.clientName,b.clientCode, sum(c.unitPrice*c.quantity) as salesPrice
+//                                            from tbl_document a
+//                                            left join tbl_client b
+//                                            on a.referenceId = b.clientId
+//                                            left join tbl_transaction c
+//                                            on a.documentId = c.documentId 
+//                                            Where (1 = 1)");
 
-            if (filter != null)
-            {
-                var f = (dtoDocument)filter;
-                sQuery += string.Format("and ('{0}' = '0' or a.documentId = {0}  )", f.documentId);
-                sQuery += string.Format("and ('{0}' = '' or a.documentNumber like '%{0}%'  )", f.documentNumber);
-                sQuery += string.Format("and ('{0}' = '' or b.clientName like '%{0}%'  )", f.clientName);
-                sQuery += string.Format("and ('{0}' = '' or b.clientCode like '%{0}%'  )", f.clientCode);
-                sQuery += string.Format("and ('{0}' = '' or a.transactionDate BETWEEN '{0}' AND '{1}'   )", f.dateFrom, f.dateTo);
-                sQuery += string.Format("and a.branchId = {0} ", f.branchId);
-            }
+//            if (filter != null)
+//            {
+//                var f = (dtoDocument)filter;
+//                sQuery += string.Format("and ('{0}' = '0' or a.documentId = {0}  )", f.documentId);
+//                sQuery += string.Format("and ('{0}' = '' or a.documentNumber like '%{0}%'  )", f.documentNumber);
+//                sQuery += string.Format("and ('{0}' = '' or b.clientName like '%{0}%'  )", f.clientName);
+//                sQuery += string.Format("and ('{0}' = '' or b.clientCode like '%{0}%'  )", f.clientCode);
+//                sQuery += string.Format("and ('{0}' = '' or a.transactionDate BETWEEN '{0}' AND '{1}'   )", f.dateFrom, f.dateTo);
+//                sQuery += string.Format("and a.branchId = {0} ", f.branchId);
+//            }
             
-            sQuery += "and a.documentType in ('1','5') ";
-            sQuery += "group by a.documentId,a.documentNumber,a.referenceId,a.dateCreated,b.clientName,b.clientCode";
+//            sQuery += "and a.documentType in ('1','5') ";
+//            sQuery += "group by a.documentId,a.documentNumber,a.referenceId,a.dateCreated,b.clientName,b.clientCode";
 
-            return DBContext.Database.SqlQuery<dtoDocument>(sQuery).ToList();
+//            return DBContext.Database.SqlQuery<dtoDocument>(sQuery).ToList();
+
+            var f = (dtoDocument)filter;
+            return DBContext.Database.SqlQuery<dtoDocument>("EXEC sp_GetAllBranchSales @Page,@RecsPerPage,@DocumentId,@DocumentNumber,@ClientName,@ClientCode,@DateFrom,@DateTo,@BranchId,@IsExport"
+                , new SqlParameter("Page", page)
+                , new SqlParameter("RecsPerPage", recordPerPage)
+                , new SqlParameter("DocumentId", f.documentId)
+                , new SqlParameter("DocumentNumber", f.documentNumber)
+                , new SqlParameter("ClientName", f.clientName)
+                , new SqlParameter("ClientCode", f.clientCode)
+                , new SqlParameter("DateTo", f.dateTo)
+                , new SqlParameter("DateFrom", f.dateFrom)
+                , new SqlParameter("BranchId", f.branchId)
+                , new SqlParameter("IsExport", isExport)
+                ).ToList();
         }
 
         public dtoResult SaveInvoiceTransaction(dtoDocument document, List<dtoTransaction> products)

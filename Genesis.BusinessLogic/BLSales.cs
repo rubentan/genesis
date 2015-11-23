@@ -22,9 +22,9 @@ namespace Genesis.BusinessLogic
             return repo.GetAll(filter, skip, take);
         }
 
-        public List<dtoDocument> GetAllSales2(object filter = null, int? skip = null, int? take = null)
+        public List<dtoDocument> GetAllSales2(int page, int recordPerPage, object filter, bool isExport)
         {
-            return repo.GetAll2(filter, skip, take);
+            return repo.GetAll2(page, recordPerPage, filter, isExport);
         }
 
         public int GetRecordCount(object filter = null)

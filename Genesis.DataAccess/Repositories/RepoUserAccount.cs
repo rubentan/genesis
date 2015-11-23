@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -62,26 +63,38 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoUserAccount>(sQuery).ToList();            
         }
 
-        public List<dtoUserAccount> GetAll2(object filter = null, int? skip = null, int? take = null)
+        public List<dtoUserAccount> GetAll2(int page, int recordPerPage, object filter, bool isExport)
         {
-            string sQuery = string.Format(@"SELECT TOP {0} a.*,b.branchName
-                                            FROM tbl_users  a
-                                            Left Join tbl_branch b
-                                            on a.branchId = b.branchId
-                                            WHERE (1 = 1)",take);
+//            string sQuery = string.Format(@"SELECT TOP {0} a.*,b.branchName
+//                                            FROM tbl_users  a
+//                                            Left Join tbl_branch b
+//                                            on a.branchId = b.branchId
+//                                            WHERE (1 = 1)",take);
 
-            if (filter != null)
-            {
-                var f = (dtoUserAccount)filter;               
-                sQuery += string.Format("and ('{0}' = '' or a.firstName like '%{0}%'  )", f.firstName);
-                sQuery += string.Format("and ('{0}' = '' or a.lastName like '%{0}%'  )", f.lastName);
-                sQuery += string.Format("and ('{0}' = '' or a.emailAddress like '%{0}%'  )", f.emailAddress);
-                sQuery += string.Format("and ('{0}' = '' or a.userName like '%{0}%'  )", f.userName);
-                sQuery += string.Format("and ({0} = 0 or a.branchId =  {0} )", f.branchId);
+//            if (filter != null)
+//            {
+//                var f = (dtoUserAccount)filter;               
+//                sQuery += string.Format("and ('{0}' = '' or a.firstName like '%{0}%'  )", f.firstName);
+//                sQuery += string.Format("and ('{0}' = '' or a.lastName like '%{0}%'  )", f.lastName);
+//                sQuery += string.Format("and ('{0}' = '' or a.emailAddress like '%{0}%'  )", f.emailAddress);
+//                sQuery += string.Format("and ('{0}' = '' or a.userName like '%{0}%'  )", f.userName);
+//                sQuery += string.Format("and ({0} = 0 or a.branchId =  {0} )", f.branchId);
 
-            }
+//            }
 
-            return DBContext.Database.SqlQuery<dtoUserAccount>(sQuery).ToList();
+//            return DBContext.Database.SqlQuery<dtoUserAccount>(sQuery).ToList();
+
+            var f = (dtoUserAccount)filter;
+            return DBContext.Database.SqlQuery<dtoUserAccount>("EXEC sp_GetAllUsers @Page,@RecsPerPage,@FirstName,@LastName,@UserName,@EmailAddress,@BranchId,@IsExport"
+                , new SqlParameter("Page", page)
+                , new SqlParameter("RecsPerPage", recordPerPage)
+                , new SqlParameter("FirstName", f.firstName)
+                , new SqlParameter("LastName", f.lastName)
+                , new SqlParameter("UserName", f.userName)
+                , new SqlParameter("EmailAddress", f.emailAddress)
+                , new SqlParameter("BranchId", f.branchId)
+                , new SqlParameter("IsExport", isExport)
+                ).ToList();
         }
 
         public dtoResult Insert(dtoUserAccount t)

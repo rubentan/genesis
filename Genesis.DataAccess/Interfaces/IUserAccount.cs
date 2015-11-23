@@ -9,7 +9,7 @@ namespace Genesis.DataAccess.Interfaces
 {
     public interface IUserAccount : IBase<dtoUserAccount>
     {
-        List<dtoUserAccount> GetAll2(object filter = null, int? skip = null, int? take = null);
+        List<dtoUserAccount> GetAll2(int page, int recordPerPage, object filter, bool isExport);
 
         List<string> CheckUserNameExists(string username);
 

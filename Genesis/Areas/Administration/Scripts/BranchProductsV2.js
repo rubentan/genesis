@@ -1,11 +1,8 @@
 ﻿
 $(function () {
-
     initButton();
-
     vm = new ViewModel();
     ko.applyBindings(vm);
-
 });
 
 var initButton = function () {
@@ -14,12 +11,10 @@ var initButton = function () {
         $('#formAddEdit').submit();
     });
  
-
     $('#btnResetFilter').click(function () {
         $('#productCodeSearch').val('');
         $('#productDescriptionSearch').val('');
     });
-
 
 };
 
@@ -90,7 +85,6 @@ var ViewModel = function () {
         }
         _self.asyncOperation();
     };
-
 
     _self.filterSubmit = function () {
         _self.page("1");

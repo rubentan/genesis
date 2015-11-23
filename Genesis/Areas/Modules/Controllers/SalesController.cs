@@ -99,6 +99,9 @@ namespace Genesis.Areas.Modules.Controllers
         public JsonResult GetSaleById(int documentId)
         {
             var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            var page = int.Parse(Request["page"]);
+            var recordPerPage = int.Parse(Request["recordPerPage"]);
+            var isExport = false;
             //int totalRecords = 0;
 
             var filter = new dtoDocument
@@ -109,7 +112,7 @@ namespace Genesis.Areas.Modules.Controllers
 
             //list = (new BLPurchase()).GetAllPurchases(filter, 0, 100);
             //totalRecords = service.GetRecordCount(filter);
-            var list = service.GetAllSales2(filter, 0, 20);
+            var list = service.GetAllSales2(page, recordPerPage, filter, isExport);
             //int count = list.Count();
 
             return Json(list);
@@ -126,6 +129,9 @@ namespace Genesis.Areas.Modules.Controllers
         public JsonResult GetAllSales()
         {
             var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            var page = int.Parse(Request["page"]);
+            var recordPerPage = int.Parse(Request["recordPerPage"]);
+            var isExport = false;
 
             //int totalRecords = 0;
 
@@ -142,7 +148,7 @@ namespace Genesis.Areas.Modules.Controllers
 
             //list = (new BLPurchase()).GetAllPurchases(filter, 0, 100);
             //totalRecords = service.GetRecordCount(filter);
-            var list = service.GetAllSales2(filter, 0, 20);
+            var list = service.GetAllSales2(page, recordPerPage, filter, isExport);
             //int count = list.Count();
 
             return Json(list);

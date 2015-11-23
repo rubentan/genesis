@@ -24,6 +24,35 @@ var viewModel = function () {
     var _self = this;
     this.isLoading = ko.observable(false);
     _self.documents = ko.observableArray();
+    _self.records = ko.observable("0");
+    _self.page = ko.observable("1");
+
+    _self.pages = ko.pureComputed(function () {
+        return Math.ceil(_self.records() / $('#recordPerPage').val());
+    }, this);
+
+    _self.nextPage = function () {
+        if (_self.page() == _self.pages()) {
+            _self.page("1");
+        } else {
+            _self.page(parseInt(_self.page()) + parseInt(1));
+        }
+        _self.asyncOperation();
+    };
+
+    _self.previousPage = function () {
+        if (_self.page() == 1) {
+            _self.page(_self.pages());
+        } else {
+            _self.page(parseInt(_self.page()) - parseInt(1));
+        }
+        _self.asyncOperation();
+    };
+
+    _self.filterSubmit = function () {
+        _self.page("1");
+        _self.asyncOperation();
+    };
 
     _self.asyncOperation = function () {
         _self.isLoading(true);
@@ -36,6 +65,12 @@ var viewModel = function () {
             success: function (d) {
                 $(".problemAjax").hide();
                 _self.isLoading(false);
+                if (Object.keys(d).length > 0) {
+                    _self.records(d[0]["records"]);
+                } else {
+                    _self.records("0");
+                    _self.page("1");
+                }
                 _self.documents(d);
             },
             error: function () {
@@ -44,6 +79,7 @@ var viewModel = function () {
             }
         });
     };
+
 
     _self.editRow = function (documents) {
         var dataUrl = $("#hdnEditSalesInvoiceUrl").attr("data-url");
@@ -67,5 +103,5 @@ var viewModel = function () {
         $('#dateTo').val('');
     };
 
-    _self.asyncOperation();
+    _self.filterSubmit();
 };

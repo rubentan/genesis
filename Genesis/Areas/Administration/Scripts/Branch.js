@@ -29,6 +29,12 @@ var ViewModel = function () {
     var _self = this;
     this.isLoading = ko.observable(false);
     _self.branches = ko.observableArray();
+    _self.records = ko.observable("0");
+    _self.page = ko.observable("1");
+
+    _self.pages = ko.pureComputed(function () {
+        return Math.ceil(_self.records() / $('#recordPerPage').val());
+    }, this);
 
     _self.branch = {
         branchId: ko.observable(),
@@ -37,6 +43,28 @@ var ViewModel = function () {
         branchAddress: ko.observable()
     };
 
+    _self.nextPage = function () {
+        if (_self.page() == _self.pages()) {
+            _self.page("1");
+        } else {
+            _self.page(parseInt(_self.page()) + parseInt(1));
+        }
+        _self.asyncOperation();
+    };
+
+    _self.previousPage = function () {
+        if (_self.page() == 1) {
+            _self.page(_self.pages());
+        } else {
+            _self.page(parseInt(_self.page()) - parseInt(1));
+        }
+        _self.asyncOperation();
+    };
+
+    _self.filterSubmit = function () {
+        _self.page("1");
+        _self.asyncOperation();
+    };
 
     _self.asyncOperation = function () {
         _self.isLoading(true);
@@ -51,6 +79,12 @@ var ViewModel = function () {
             success: function (d) {
                 $(".problemAjax").hide();
                 _self.isLoading(false);
+                if (Object.keys(d).length > 0) {
+                    _self.records(d[0]["records"]);
+                } else {
+                    _self.records("0");
+                    _self.page("0");
+                }
                 _self.branches(d);
             },
             error: function() {
@@ -187,7 +221,7 @@ var ViewModel = function () {
         });
     };
 
-    _self.asyncOperation();
+    _self.filterSubmit();
 
     _self.formValidation();
 

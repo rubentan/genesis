@@ -23,9 +23,9 @@ namespace Genesis.BusinessLogic
             return repo.GetAll(search, filter);
         }
 
-        public List<dtoBranch> GetAllBranches2(object filter = null, int? skip = null, int? take = null)
+        public List<dtoBranch> GetAllBranches2(int page, int recordPerPage, object filter, bool isExport)
         {
-            return repo.GetAll2(filter, skip, take);
+            return repo.GetAll2(page, recordPerPage, filter, isExport);
         }
 
         public List<string> CheckBranchCodeExists(string branchCode)
