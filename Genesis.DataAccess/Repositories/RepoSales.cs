@@ -66,20 +66,32 @@ namespace Genesis.DataAccess.Repositories
 //            sQuery += "group by a.documentId,a.documentNumber,a.referenceId,a.dateCreated,b.clientName,b.clientCode";
 
 //            return DBContext.Database.SqlQuery<dtoDocument>(sQuery).ToList();
+            var retList = new List<dtoDocument>();
+            try
+            {
 
-            var f = (dtoDocument)filter;
-            return DBContext.Database.SqlQuery<dtoDocument>("EXEC sp_GetAllBranchSales @Page,@RecsPerPage,@DocumentId,@DocumentNumber,@ClientName,@ClientCode,@DateFrom,@DateTo,@BranchId,@IsExport"
-                , new SqlParameter("Page", page)
-                , new SqlParameter("RecsPerPage", recordPerPage)
-                , new SqlParameter("DocumentId", f.documentId)
-                , new SqlParameter("DocumentNumber", f.documentNumber)
-                , new SqlParameter("ClientName", f.clientName)
-                , new SqlParameter("ClientCode", f.clientCode)
-                , new SqlParameter("DateTo", f.dateTo)
-                , new SqlParameter("DateFrom", f.dateFrom)
-                , new SqlParameter("BranchId", f.branchId)
-                , new SqlParameter("IsExport", isExport)
-                ).ToList();
+                var f = (dtoDocument) filter;
+                
+                  retList=  DBContext.Database.SqlQuery<dtoDocument>(
+                        "EXEC sp_GetAllBranchSales @Page,@RecsPerPage,@DocumentId,@ClientName,@ClientCode,@DocumentNumber,@DateFrom,@DateTo,@BranchId,@IsExport"
+                        , new SqlParameter("Page", page)
+                        , new SqlParameter("RecsPerPage", recordPerPage)
+                        , new SqlParameter("DocumentId", f.documentId)
+                        , new SqlParameter("DocumentNumber", f.documentNumber)
+                        , new SqlParameter("ClientName", f.clientName)
+                        , new SqlParameter("ClientCode", f.clientCode)
+                        , new SqlParameter("DateTo", f.dateTo)
+                        , new SqlParameter("DateFrom", f.dateFrom)
+                        , new SqlParameter("BranchId", f.branchId)
+                        , new SqlParameter("IsExport", isExport)
+                        ).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + " : " + ex.InnerException);
+            }
+
+            return retList;
         }
 
         public dtoResult SaveInvoiceTransaction(dtoDocument document, List<dtoTransaction> products)

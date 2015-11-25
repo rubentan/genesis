@@ -101,7 +101,7 @@ namespace Genesis.Areas.Administration.Controllers
             using (ExcelPackage pck = new ExcelPackage())
             {
                 //Create the worksheet
-                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Demo");
+                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Data");
 
                 //Load the datatable into the sheet, starting from cell A1. 
                 //Print the column names on row 1

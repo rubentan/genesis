@@ -82,6 +82,7 @@
                     <div class="col-md-12" style="text-align: right;">
                         <button type="button" class="btn yellow" id="btnSubmitFilter" data-bind="click: asyncOperation">Submit</button>
                         <button type="button" class="btn red" id="btnResetFilter" data-bind="click: ResetFilter">Reset</button>
+                        <input type="button" id="btnExport" class="btn formItem" value="Export" data-bind="click: exportSales">
                     </div>
                 </div>
             </div>
@@ -187,6 +188,7 @@
 <!-- End: life time stats -->
 
 <input type="hidden" id="hdnGetBranchSalesUrl" data-url="@Url.Action("GetAllSales", "Sales", new { area = "Modules" }, null)" />
+<input type="hidden" id="hdnExportBranchSalesUrl" data-url="@Url.Action("ExportAllSales", "Sales", new { area = "Modules" }, null)" />
 <input type="hidden" id="hdnEditSalesInvoiceUrl" data-url="@Url.Action("EditBranchSalesInvoice", "Sales", new { area = "Modules" }, null)" />
 <input type="hidden" id="hdnAddSalesInvoiceUrl" data-url="@Url.Action("AddBranchSalesInvoice", "Sales", new { area = "Modules" }, null)" />
 

@@ -80,6 +80,19 @@ var viewModel = function () {
         });
     };
 
+    _self.exportSales = function () {
+
+        var documentNumber = $('#txtDocumentNo').val();
+        var clientName = $('#clientName').val();
+        var clientCode = $('#clientCode').val();
+        var dateFrom = $('#dateFrom').val();
+        var dateTo = $('#dateTo').val();
+        var dataUrl = $("#hdnExportBranchSalesUrl").attr("data-url");
+        //alert(dataUrl + "?documentNumber=" + documentNumber + "&clientName=" + clientName + "&clientCode=" + clientCode + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo);
+        window.location = dataUrl + "?documentNumber=" + documentNumber + "&clientName=" + clientName + "&clientCode=" + clientCode + "&dateFrom=" +dateFrom+ "&dateTo=" + dateTo;
+    };
+
+
 
     _self.editRow = function (documents) {
         var dataUrl = $("#hdnEditSalesInvoiceUrl").attr("data-url");

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using Genesis.BusinessLogic;
 using Genesis.DataAccess.Repositories;
 using Genesis.DTO;
+using OfficeOpenXml;
 
 namespace Genesis.Areas.Modules.Controllers
 {
@@ -154,6 +157,50 @@ namespace Genesis.Areas.Modules.Controllers
             return Json(list);
         }
 
+        public void ExportAllSales()
+        {
+            var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            var page = 0;
+            var recordPerPage = 0;
+            var isExport = true;
+
+            var filter = new dtoDocument
+            {
+                documentNumber = Request.QueryString["documentNumber"],
+                clientCode = Request.QueryString["clientCode"],
+                clientName = Request.QueryString["clientName"],
+                dateFrom = Request.QueryString["dateFrom"] + " 00:00",
+                dateTo = Request.QueryString["dateTo"] + " 23:59",
+                branchId = currentUser.branchId,
+                //documentType = 1
+            };
+
+            //list = (new BLPurchase()).GetAllPurchases(filter, 0, 100);
+            //totalRecords = service.GetRecordCount(filter);
+            var list = service.GetAllSales2(page, recordPerPage, filter, isExport);
+            //int count = list.Count();
+
+            DataTable dt = new DataTable();
+            dt = ToDataTable(list);
+
+
+            using (ExcelPackage pck = new ExcelPackage())
+            {
+                //Create the worksheet
+                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Data");
+
+                //Load the datatable into the sheet, starting from cell A1. 
+                //Print the column names on row 1
+                ws.Cells["A1"].LoadFromDataTable(dt, true);
+
+                //Write it back to the client
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;  filename=BranchSales.xlsx");
+                Response.BinaryWrite(pck.GetAsByteArray());
+            }
+
+        }
+
         //Not going to be used
         public JsonResult GetSalesByFilter(dtoDocument filterParam)
         {
@@ -211,6 +258,9 @@ namespace Genesis.Areas.Modules.Controllers
         {
 
             var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            var page = int.Parse(Request["page"]);
+            var recordPerPage = int.Parse(Request["recordPerPage"]);
+            var isExport = false;
 
             //int totalRecords = 0;
 
@@ -220,18 +270,66 @@ namespace Genesis.Areas.Modules.Controllers
                 referenceNumber = Request["referenceNumber"],
                 clientCode = Request["clientCode"],
                 clientName = Request["clientName"],
-                //dateFrom = Request["dateFrom"],
-                //dateTo = Request["dateTo"],
+                dateFrom = Request["dateFrom"] + " 00:00",
+                dateTo = Request["dateTo"] + " 23:59",
                 branchId = currentUser.branchId,
                 //documentType = 1
             };
 
             //list = (new BLPurchase()).GetAllPurchases(filter, 0, 100);
             //totalRecords = service.GetRecordCount(filter);
-            var list = repoReceivable.GetAllReceivable2(filter,0,20);
+            var list = repoReceivable.GetAllReceivable2(page, recordPerPage, filter, isExport);
             //int count = list.Count();
             
             return Json(list);
+
+        }
+
+        public void ExportAllReceivables()
+        {
+
+            var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            var page = 0;
+            var recordPerPage = 0;
+            var isExport = true;
+
+            //int totalRecords = 0;
+
+
+            var filter = new dtoReceivable
+            {
+                referenceNumber = Request.QueryString["referenceNumber"],
+                clientCode = Request.QueryString["clientCode"],
+                clientName = Request.QueryString["clientName"],
+                dateFrom = Request.QueryString["dateFrom"] + " 00:00",
+                dateTo = Request.QueryString["dateTo"] + " 23:59",
+                branchId = currentUser.branchId,
+                //documentType = 1
+            };
+
+            //list = (new BLPurchase()).GetAllPurchases(filter, 0, 100);
+            //totalRecords = service.GetRecordCount(filter);
+            var list = repoReceivable.GetAllReceivable2(page, recordPerPage, filter, isExport);
+            //int count = list.Count();
+
+            DataTable dt = new DataTable();
+            dt = ToDataTable(list);
+
+
+            using (ExcelPackage pck = new ExcelPackage())
+            {
+                //Create the worksheet
+                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Data");
+
+                //Load the datatable into the sheet, starting from cell A1. 
+                //Print the column names on row 1
+                ws.Cells["A1"].LoadFromDataTable(dt, true);
+
+                //Write it back to the client
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;  filename=BranchReceivables.xlsx");
+                Response.BinaryWrite(pck.GetAsByteArray());
+            }
 
         }
 
@@ -295,6 +393,21 @@ namespace Genesis.Areas.Modules.Controllers
             return Json(receivable);
         }
 
-        
+        public static DataTable ToDataTable<T>(IList<T> data)
+        {
+            PropertyDescriptorCollection properties =
+                TypeDescriptor.GetProperties(typeof(T));
+            DataTable table = new DataTable();
+            foreach (PropertyDescriptor prop in properties)
+                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+            foreach (T item in data)
+            {
+                DataRow row = table.NewRow();
+                foreach (PropertyDescriptor prop in properties)
+                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                table.Rows.Add(row);
+            }
+            return table;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,31 +31,58 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoDocument>(sQuery).ToList();
         }
 
-        public List<dtoDocument> GetAll2(object filter = null, int? skip = null, int? take = null)
+        public List<dtoDocument> GetAll2(int page, int recordPerPage, object filter, bool isExport)
         {
-            string sQuery = string.Format(@"select a.documentId,a.referenceId,a.documentNumber,a.dateCreated,b.supplierName,b.supplierCode, sum(c.unitPrice*c.quantity) as salesPrice
-                                            from tbl_document a
-                                            left join tbl_supplier b
-                                            on a.referenceId = b.supplierId
-                                            left join tbl_transaction c
-                                            on a.documentId = c.documentId 
-                                            Where (1 = 1)");
+//            string sQuery = string.Format(@"select a.documentId,a.referenceId,a.documentNumber,a.dateCreated,b.supplierName,b.supplierCode, sum(c.unitPrice*c.quantity) as salesPrice
+//                                            from tbl_document a
+//                                            left join tbl_supplier b
+//                                            on a.referenceId = b.supplierId
+//                                            left join tbl_transaction c
+//                                            on a.documentId = c.documentId 
+//                                            Where (1 = 1)");
 
-            if (filter != null)
+//            if (filter != null)
+//            {
+//                var f = (dtoDocument)filter;
+//                sQuery += string.Format("and ('{0}' = '0' or a.documentId = {0}  )", f.documentId);
+//                sQuery += string.Format("and ('{0}' = '' or a.documentNumber like '%{0}%'  )", f.documentNumber);
+//                sQuery += string.Format("and ('{0}' = '' or b.supplierName like '%{0}%'  )", f.supplierName);
+//                sQuery += string.Format("and ('{0}' = '' or b.supplierCode like '%{0}%'  )", f.supplierCode);
+//                sQuery += string.Format("and ('{0}' = '' or a.transactionDate BETWEEN '{0}' AND '{1}'   )", f.dateFrom, f.dateTo);
+//                sQuery += string.Format("and a.branchId = {0} ", f.branchId);
+//            }
+
+//            sQuery += "and a.documentType in ('2','6') ";
+//            sQuery += "group by a.documentId,a.documentNumber,a.referenceId,a.dateCreated,b.supplierName,b.supplierCode";
+
+//            return DBContext.Database.SqlQuery<dtoDocument>(sQuery).ToList();
+
+            var retList = new List<dtoDocument>();
+            try
             {
+
                 var f = (dtoDocument)filter;
-                sQuery += string.Format("and ('{0}' = '0' or a.documentId = {0}  )", f.documentId);
-                sQuery += string.Format("and ('{0}' = '' or a.documentNumber like '%{0}%'  )", f.documentNumber);
-                sQuery += string.Format("and ('{0}' = '' or b.supplierName like '%{0}%'  )", f.supplierName);
-                sQuery += string.Format("and ('{0}' = '' or b.supplierCode like '%{0}%'  )", f.supplierCode);
-                sQuery += string.Format("and ('{0}' = '' or a.transactionDate BETWEEN '{0}' AND '{1}'   )", f.dateFrom, f.dateTo);
-                sQuery += string.Format("and a.branchId = {0} ", f.branchId);
+
+                retList = DBContext.Database.SqlQuery<dtoDocument>(
+                      "EXEC sp_GetAllBranchPurchases @Page,@RecsPerPage,@DocumentId,@SupplierName,@SupplierCode,@DocumentNumber,@DateFrom,@DateTo,@BranchId,@IsExport"
+                      , new SqlParameter("Page", page)
+                      , new SqlParameter("RecsPerPage", recordPerPage)
+                      , new SqlParameter("DocumentId", f.documentId)
+                      , new SqlParameter("DocumentNumber", f.documentNumber)
+                      , new SqlParameter("SupplierName", f.supplierName)
+                      , new SqlParameter("SupplierCode", f.supplierCode)
+                      , new SqlParameter("DateTo", f.dateTo)
+                      , new SqlParameter("DateFrom", f.dateFrom)
+                      , new SqlParameter("BranchId", f.branchId)
+                      , new SqlParameter("IsExport", isExport)
+                      ).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + " : " + ex.InnerException);
             }
 
-            sQuery += "and a.documentType in ('2','6') ";
-            sQuery += "group by a.documentId,a.documentNumber,a.referenceId,a.dateCreated,b.supplierName,b.supplierCode";
-
-            return DBContext.Database.SqlQuery<dtoDocument>(sQuery).ToList();
+            return retList;
         }
 
         public int GetRecordCount(object filter = null)
