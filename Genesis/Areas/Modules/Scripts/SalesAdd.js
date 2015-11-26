@@ -22,10 +22,10 @@ var viewModel = function () {
         productName: ko.observable(),
         productDescription: ko.observable(),
         uom: ko.observable(),
-        beginning: ko.observable(),
-        incoming: ko.observable(),
-        outgoing: ko.observable(),
-        ending: ko.observable(),
+        beginning: ko.observable('0'),
+        incoming: ko.observable('0'),
+        outgoing: ko.observable('0'),
+        ending: ko.observable('0'),
         unitPrice: ko.observable('0'),
         discountPrice: ko.observable(),
         quantity: ko.observable(),
@@ -215,7 +215,9 @@ var viewModel = function () {
         var dataUrl = $("#hdnReturnUrl").attr("data-url");
         window.location = dataUrl;
     };
+
     var dataUrl = $("#hdnGetAllBranchProductsUrl").attr("data-url");
+
     $.ajax({
         //url: '/Modules/Sales/GetClientsForDropDown',
         url: dataUrl,
@@ -235,7 +237,7 @@ var viewModel = function () {
 
                         var data = {
                             results: []
-                        }
+                        };
 
 
                         for (var i = 0; i < d.length; i++) {
@@ -274,7 +276,10 @@ var viewModel = function () {
                         });
                     } else {
                         _self.Product.unitPrice('');
-                        _self.Product.ending('');
+                        _self.Product.beginning('0');
+                        _self.Product.incoming('0');
+                        _self.Product.outgoing('0');
+                        _self.Product.ending('0');
                         _self.Product.uom('');
                     }
 
@@ -308,7 +313,7 @@ var initSelect = function() {
 
                     var data = {
                         results: []
-                    }
+                    };
 
 
                     for (var i = 0; i < d.length; i++) {

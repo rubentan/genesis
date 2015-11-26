@@ -140,17 +140,41 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6 name align-reverse">
-                                                    In Stock:
+                                                    Unit:
                                                 </div>
-                                                <div class="col-md-5 value" data-bind="text: Product.ending">
+                                                <div class="col-md-5 value" data-bind="text: Product.uom">
 
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6 name align-reverse">
-                                                    Unit:
+                                                    Beginning:
                                                 </div>
-                                                <div class="col-md-5 value" data-bind="text: Product.uom">
+                                                <div class="col-md-5 value" data-bind="text: Product.beginning">
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 name align-reverse">
+                                                    Incoming:
+                                                </div>
+                                                <div class="col-md-5 value" data-bind="text: Product.incoming">
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 name align-reverse">
+                                                    Outgoing:
+                                                </div>
+                                                <div class="col-md-5 value" data-bind="text: Product.outgoing">
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 name align-reverse">
+                                                    In Stock:
+                                                </div>
+                                                <div class="col-md-5 value" data-bind="text: Product.ending">
 
                                                 </div>
                                             </div>
@@ -185,9 +209,13 @@
                             </div>
                             <div class="form-actions">
                                 <div class="row">
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <button class="btn blue" data-bind="click:addProduct">Add Product</button>
-                                        <button class="btn default" data-bind="click:clearProductAdd" aria-hidden="true">Clear</button>
+                                    <div class="col-md-offset-2 col-md-10">
+                                        @*<button class="btn blue" data-bind="click:addProduct">Add Product</button>
+                                        <button class="btn default" data-bind="click:clearProductAdd" aria-hidden="true">Clear</button>*@
+                                        <button class="btn blue" style="width:120px;" data-bind="click:addProduct">Add Product</button>
+                                        @*<button class="btn default" data-bind="click:clearProductAdd" aria-hidden="true">Clear</button>*@
+                                        <button class="btn default" data-bind="click:clearProductAdd" style="width:120px;" aria-hidden="true">Clear</button>
+                                        <button type="button" class="btn green" style="width:120px;" data-bind="click: function () { updatePurchaseOrder() }">Save</button>
                                     </div>
                                 </div>
                             </div>
@@ -256,10 +284,10 @@
 
 
                             <div class="row static-info align-reverse">
-                                <div class="col-md-8 name">
+                                <div class="col-md-5 name">
                                     Grand Total:
                                 </div>
-                                <div class="col-md-3 value" data-bind="text:convertToCurrency(grandTotal())">
+                                <div class="col-md-5 value" data-bind="text:convertToCurrency(grandTotal())">
 
                                 </div>
                             </div>
@@ -268,8 +296,8 @@
                 </div>
                 
                 <div class="col-md-12 col-sm-12" style="text-align:right !important;">
-                    <button type="button" class="btn green" data-bind="click: function () { updatePurchaseOrder() }">Update</button>
-                    <button type="button" data-bind="click:backToList" class="btn ">Cancel</button>
+                    @*<button type="button" class="btn green" data-bind="click: function () { updatePurchaseOrder() }">Update</button>
+                    <button type="button" data-bind="click:backToList" class="btn ">Cancel</button>*@
                 </div>
             </div>    
         </div>

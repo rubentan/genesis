@@ -26,7 +26,10 @@ var viewModel = function () {
         productName: ko.observable(),
         productDescription: ko.observable(),
         uom: ko.observable(),
-        ending: ko.observable(),
+        beginning: ko.observable('0'),
+        incoming: ko.observable('0'),
+        outgoing: ko.observable('0'),
+        ending: ko.observable('0'),
         unitPrice: ko.observable('0'),
         discountPrice: ko.observable(),
         quantity: ko.observable(),
@@ -36,8 +39,6 @@ var viewModel = function () {
         total: ko.observable()
 
     };
-
-    
     
     _self.addProduct = function () {
 
@@ -78,8 +79,11 @@ var viewModel = function () {
 
     _self.clearProductAdd = function() {
         _self.Product.unitPrice('0');
-        _self.Product.ending('');
+        _self.Product.ending('0');
         _self.Product.uom('');
+        _self.Product.beginning('0');
+        _self.Product.incoming('0');
+        _self.Product.outgoing('0');
         $('#ddProduct').val('');
         $("#ddProduct").select2("val", "");
         $('#txtUnitPrice').val('');
@@ -133,8 +137,6 @@ var viewModel = function () {
             alert('Document Number is Required.');
         }
     };
-
-   
 
     _self.getDocumentDetails = function () {
         var dataUrl = $("#hdnGetDocumentDetailsUrl").attr("data-url");
@@ -196,6 +198,7 @@ var viewModel = function () {
         var dataUrl = $("#hdnBackToListUrl").attr("data-url");
         window.location = dataUrl;
     };
+
     var dataUrl = $("#hdnGetAllBranchProductsUrl").attr("data-url");
 
     $.ajax({
@@ -243,6 +246,9 @@ var viewModel = function () {
                         dataType: 'json',
                         success: function(d) {
                             _self.Product.unitPrice(d.unitPrice);
+                            _self.Product.beginning(d.beginning);
+                            _self.Product.incoming(d.incoming);
+                            _self.Product.outgoing(d.outgoing);
                             _self.Product.ending(d.ending);
                             _self.Product.uom(d.UOM);
                         },
@@ -252,7 +258,10 @@ var viewModel = function () {
                     });
                 } else {
                     _self.Product.unitPrice('');
-                    _self.Product.ending('');
+                    _self.Product.beginning('0');
+                    _self.Product.incoming('0');
+                    _self.Product.outgoing('0');
+                    _self.Product.ending('0');
                     _self.Product.uom('');
                 }
 
@@ -288,7 +297,7 @@ var initSelect = function() {
 
                     var data = {
                         results: []
-                    }
+                    };
 
 
                     for (var i = 0; i < d.length; i++) {

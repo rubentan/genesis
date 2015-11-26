@@ -59,8 +59,8 @@ namespace Genesis.Areas.Modules.Controllers
         public JsonResult GetPurchaseById(int documentId)
         {
             var currentUser = (dtoUserAccount)Session["CurrentUser"];
-            var page = int.Parse(Request.QueryString["page"]);
-            var recordPerPage = int.Parse(Request.QueryString["recordPerPage"]);
+            var page = 1;
+            var recordPerPage = 1;
             var isExport = false;
 
             //int totalRecords = 0;
@@ -69,6 +69,11 @@ namespace Genesis.Areas.Modules.Controllers
             var filter = new dtoDocument
             {
                 documentId = documentId,
+                documentNumber = "",
+                supplierCode = "",
+                supplierName = "",
+                dateFrom = "",
+                dateTo = "",
                 branchId = currentUser.branchId
 
             };

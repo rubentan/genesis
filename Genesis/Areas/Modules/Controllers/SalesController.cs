@@ -102,14 +102,19 @@ namespace Genesis.Areas.Modules.Controllers
         public JsonResult GetSaleById(int documentId)
         {
             var currentUser = (dtoUserAccount)Session["CurrentUser"];
-            var page = int.Parse(Request["page"]);
-            var recordPerPage = int.Parse(Request["recordPerPage"]);
+            var page = 1;
+            var recordPerPage = 1;
             var isExport = false;
             //int totalRecords = 0;
 
             var filter = new dtoDocument
             {
                 documentId = documentId,
+                dateFrom = "",
+                dateTo = "",
+                documentNumber = "",
+                clientName = "",
+                clientCode = "",
                 branchId = currentUser.branchId
             };
 
