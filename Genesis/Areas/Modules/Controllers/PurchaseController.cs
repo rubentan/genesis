@@ -291,6 +291,90 @@ namespace Genesis.Areas.Modules.Controllers
             return Json(payments, JsonRequestBehavior.AllowGet);
         }
 
+        //New (used by branch payment list)
+        [HttpPost]
+        public JsonResult GetAllPayments2()
+        {
+
+            var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            var page = int.Parse(Request["page"]);
+            var recordPerPage = int.Parse(Request["recordPerPage"]);
+            var isExport = false;
+
+            //int totalRecords = 0;
+
+
+            var filter = new dtoPayment
+            {
+                referenceNumber = Request["referenceNumber"],
+                supplierCode = Request["supplierCode"],
+                supplierName = Request["supplierName"],
+                dateFrom = Request["dateFrom"] + " 00:00",
+                dateTo = Request["dateTo"] + " 23:59",
+                branchId = currentUser.branchId,
+                //documentType = 1
+            };
+
+            //list = (new BLPurchase()).GetAllPurchases(filter, 0, 100);
+            //totalRecords = service.GetRecordCount(filter);
+            var list = repPayment.GetAllPayments(page, recordPerPage, filter, isExport);
+            //int count = list.Count();
+
+            return Json(list);
+
+        }
+
+        //New (used by branch payments list)
+        public void ExportAllPayments()
+        {
+
+            var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            var page = 0;
+            var recordPerPage = 0;
+            var isExport = true;
+
+            //int totalRecords = 0;
+
+
+            var filter = new dtoPayment
+            {
+                referenceNumber = Request.QueryString["referenceNumber"],
+                supplierCode = Request.QueryString["supplierCode"],
+                supplierName = Request.QueryString["supplierName"],
+                dateFrom = Request.QueryString["dateFrom"] + " 00:00",
+                dateTo = Request.QueryString["dateTo"] + " 23:59",
+                branchId = currentUser.branchId,
+                //documentType = 1
+            };
+
+            //list = (new BLPurchase()).GetAllPurchases(filter, 0, 100);
+            //totalRecords = service.GetRecordCount(filter);
+            var list = repPayment.GetAllPayments(page, recordPerPage, filter, isExport);
+            //int count = list.Count();
+
+            DataTable dt = new DataTable();
+            dt = ToDataTable(list);
+
+
+            using (ExcelPackage pck = new ExcelPackage())
+            {
+                //Create the worksheet
+                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Data");
+
+                //Load the datatable into the sheet, starting from cell A1. 
+                //Print the column names on row 1
+                ws.Cells["A1"].LoadFromDataTable(dt, true);
+
+                //Write it back to the client
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;  filename=BranchReceivables.xlsx");
+                Response.BinaryWrite(pck.GetAsByteArray());
+            }
+
+        }
+
+
+
         public JsonResult GetPurchaseOrdersByFilter(dtoDocument filter)
         {
             var list = new List<dtoDocument>();

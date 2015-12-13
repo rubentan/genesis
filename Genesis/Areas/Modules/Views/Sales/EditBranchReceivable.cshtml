@@ -60,8 +60,7 @@
     <div class="portlet-body">
 
         <div class="row">
-            <div class="col-md-12 col-sm-12">
-
+            <div class="col-md-4 col-sm-12">
                 <div class="portlet box grey-cascade ">
                     <div class="portlet-title">
                         <div class="caption">
@@ -89,86 +88,72 @@
                     </div>
                 </div>
 
-            </div>
-
-        </div>
-
-        <div class="row" id="existingPaymentDiv">
-            <div class="col-md-12 col-sm-12">
-
                 <div class="portlet box grey-cascade ">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="fa fa-gift"></i>Payment Details
-                        </div>
-                        <div class="tools">
-                            <a href="javascript:;" class="collapse">
-                            </a>
-
-                        </div>
-                    </div>
-                    <div class="portlet-body form">
-                        <!-- BEGIN FORM-->
-                        <form action="javascript:;" class="form-horizontal form-bordered form-row-stripped">
-                            <div class="form-body">
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Ref #</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" data-bind="value:referenceNumber" id="txtReferenceNumber" disabled />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Remaining Cheque Amount</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" data-bind="value:remainingChequeAmount" id="txtRemainingChequeAmount" disabled />
-
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Cheque Number</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" data-bind="value:existingChequeNumber" id="txtChequeNumberExisting" disabled />
-
-                                    </div>
-                                </div>
-                                <div class="form-group ">
-                                    <label class="control-label col-md-3">Cheque Date</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" data-bind="value:existingChequeDate" id="txtChequeDateExisting" disabled />
-
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Issuing Bank</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" data-bind="value:existingIssuingBank" id="txtBankExisting" disabled />
-                                    </div>
-                                </div>
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-gift"></i>Payment Details
                             </div>
-                        </form>
-                        <!-- END FORM-->
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <!-- BEGIN FORM-->
+                            <form action="javascript:;" class="form-horizontal form-bordered form-row-stripped">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Ref #</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control input-sm" data-bind="value:referenceNumber" id="txtReferenceNumber" disabled />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Remaining Amount</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control input-sm" data-bind="value:remainingChequeAmount" id="txtRemainingChequeAmount" disabled />
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Cheque Number</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control input-sm" data-bind="value:existingChequeNumber" id="txtChequeNumberExisting" disabled />
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label class="control-label col-md-3">Cheque Date</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control input-sm" data-bind="value:existingChequeDate" id="txtChequeDateExisting" disabled />
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Issuing Bank</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control input-sm" data-bind="value:existingIssuingBank" id="txtBankExisting" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- END FORM-->
+                        </div>
                     </div>
-                </div>
 
-            </div>
-
-        </div>
-
-
-        <div class="row" id="divAddReceivableOrder">
-            <div class="col-md-12 col-sm-12">
                 <div class="portlet grey-cascade box">
                     <div class="portlet-title">
                         <div class="caption">
                             <i class="fa fa-cogs"></i>Add Sales Invoice
                         </div>
                         @*<div class="actions">
-                                <a href="#AddProduct" data-toggle="modal" class="btn btn-default btn-sm" data-bind="click: function () { getAllNotYetReceivables() }">
-                                    <i class="fa fa-plus"></i> Add
-                                </a>
+                    <a href="#AddProduct" data-toggle="modal" class="btn btn-default btn-sm" data-bind="click: function () { getAllNotYetReceivables() }">
+                        <i class="fa fa-plus"></i> Add
+                    </a>
 
-                            </div>*@
+                </div>*@
                     </div>
                     <div class="portlet-body form">
                         <div class="form-horizontal form-bordered form-row-stripped">
@@ -185,7 +170,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label"></label>
                                     <div class="col-md-9">
-                                        <div class="well">
+                                        <div class="well" style="margin-bottom: 0 !important">
                                             <div class="row">
                                                 <div class="col-md-5 name align-reverse">
                                                     Total Price:
@@ -214,7 +199,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">Amount to pay</label>
+                                    <label class="control-label col-md-3">Pay Amount</label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control input-sm" data-bind="value:amountToPay" id="txtAmountToPay" />
                                     </div>
@@ -222,9 +207,10 @@
                             </div>
                             <div class="form-actions">
                                 <div class="row">
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <button class="btn blue" data-bind="click:addDocument">Add Document</button>
-                                        <button class="btn default" data-bind="click:clearDocumentAdd" aria-hidden="true">Clear</button>
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <button class="btn blue" style="width:120px;" data-bind="click:addDocument">Add Document</button>
+                                        <button class="btn default" style="width:120px;" data-bind="click:clearDocumentAdd" aria-hidden="true">Clear</button>
+                                        <button type="button" style="width:120px;" class="btn green" data-bind="click: function () { addSalesReceivable() }">Save</button>
                                     </div>
                                 </div>
                             </div>
@@ -232,10 +218,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row" id="divListReceivableOrder">
-            <div class="col-md-12 col-sm-12">
+            <div class="col-md-8 col-sm-12">
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered table-striped" id="dataTable_orderItem2">
                         <thead>
@@ -273,52 +256,70 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="well">
 
+                            <div class="row static-info align-reverse">
+                                <div class="col-md-8 name">
+                                    Total Payment Amount:
+                                </div>
+                                <div class="col-md-3 value" data-bind="text:convertToCurrency(PaymentAmount())">
 
-        <div class="row">
-            <div class="col-md-6">
-            </div>
-            <div class="col-md-6">
-                <div class="well">
+                                </div>
+                            </div>
+                            <div class="row static-info align-reverse">
+                                <div class="col-md-8 name">
+                                    Total Document Paid:
+                                </div>
+                                <div class="col-md-3 value" data-bind="text:convertToCurrency(GrandTotal())">
 
-                    <div class="row static-info align-reverse">
-                        <div class="col-md-8 name">
-                            Total Payment Amount:
-                        </div>
-                        <div class="col-md-3 value" data-bind="text:convertToCurrency(PaymentAmount())">
+                                </div>
+                            </div>
+                            <div class="row static-info align-reverse">
+                                <div class="col-md-8 name">
+                                    Excess Payment:
+                                </div>
+                                <div class="col-md-3 value" data-bind="text:convertToCurrency(ExcessPaymentAmount())">
 
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row static-info align-reverse">
-                        <div class="col-md-8 name">
-                            Total Document Paid:
-                        </div>
-                        <div class="col-md-3 value" data-bind="text:convertToCurrency(GrandTotal())">
-
-                        </div>
-                    </div>
-                    <div class="row static-info align-reverse">
-                        <div class="col-md-8 name">
-                            Excess Payment:
-                        </div>
-                        <div class="col-md-3 value" data-bind="text:convertToCurrency(ExcessPaymentAmount())">
-
-                        </div>
-                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12" style="text-align:right !important;">
+                    @*<button type="button" class="btn yellow-crusta" data-bind="click: function () { addSalesReceivable() }">Add Receivable</button>
+                    <button type="button" class="btn red">Cancel</button>*@
                 </div>
             </div>
         </div>
 
+        @*<div class="row" id="existingPaymentDiv">
+            
+        </div>*@
 
-        <div class="row">
 
-            <div class="col-md-12 col-sm-12" style="text-align:right !important;">
-                <button type="button" class="btn yellow-crusta" data-bind="click: function () { addSalesReceivable() }">Add Receivable</button>
-                <button type="button" class="btn red">Cancel</button>
+        @*<div class="row" id="divAddReceivableOrder">
+            <div class="col-md-12 col-sm-12">
+                
             </div>
-        </div>
+        </div>*@
+
+        @*<div class="row" id="divListReceivableOrder">
+            
+        </div>*@
+
+
+        
+
+
+        @*<div class="row">
+
+            
+        </div>*@
     </div>
 </div>
 

@@ -184,9 +184,6 @@ var viewModel = function () {
     };
 
     //General
-
-
-
     _self.addDocument = function () {
         var paymentTotal = 0;
         if (_self.isNew() == true) {

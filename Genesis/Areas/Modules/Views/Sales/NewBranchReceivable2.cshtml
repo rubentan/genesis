@@ -53,8 +53,6 @@
             </a>
         </div>
 
-
-
     </div>
     <div class="portlet-body">
 
@@ -286,9 +284,10 @@
                             </div>
                             <div class="form-actions">
                                 <div class="row">
-                                    <div class="col-md-offset-4 col-md-8">
-                                        <button class="btn blue" data-bind="click:addDocument">Add Document</button>
-                                        <button class="btn default" data-bind="click:clearDocumentAdd" aria-hidden="true">Clear</button>
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <button class="btn blue" style="width:120px;" data-bind="click:addDocument">Add Document</button>
+                                        <button class="btn default" style="width:120px;" data-bind="click:clearDocumentAdd" aria-hidden="true">Clear</button>
+                                        <button type="button" style="width:120px;" class="btn green" data-bind="click: function () { addSalesReceivable() }">Save</button>
                                     </div>
                                 </div>
                             </div>
@@ -372,8 +371,8 @@
                 </div>
                 
                 <div class="col-md-12 col-sm-12" style="text-align:right !important;">
-                    <button type="button" class="btn yellow-crusta" data-bind="click: function () { addSalesReceivable() }">Add Receivable</button>
-                    <button type="button" class="btn red">Cancel</button>
+                    @*<button type="button" class="btn yellow-crusta" data-bind="click: function () { addSalesReceivable() }">Add Receivable</button>
+                    <button type="button" class="btn red">Cancel</button>*@
                 </div>
             </div>
 

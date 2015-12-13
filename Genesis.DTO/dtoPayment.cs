@@ -28,5 +28,11 @@ namespace Genesis.DTO
         public DateTime? dateLastModified { get; set; }
         public int? createdBy { get; set; }
         public DateTime? dateCreated { get; set; }
+
+        public string dateFrom { get; set; }
+        public string dateTo { get; set; }
+
+        public int branchId { get; set; }
+        public int records { get; set; }
     }
 }

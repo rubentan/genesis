@@ -1,4 +1,5 @@
-﻿using Genesis.DataAccess.Interfaces;
+﻿using System.Data.SqlClient;
+using Genesis.DataAccess.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -133,6 +134,35 @@ namespace Genesis.DataAccess.Repositories
         public dtoResult Delete(dtoPayment t)
         {
             throw new NotImplementedException();
+        }
+
+        public List<dtoPayment> GetAllPayments(int page, int recordPerPage, object filter, bool isExport)
+        {
+            var retList = new List<dtoPayment>();
+            try
+            {
+
+                var f = (dtoPayment)filter;
+
+                retList = DBContext.Database.SqlQuery<dtoPayment>(
+                      "EXEC sp_GetAllBranchPayables @Page,@RecsPerPage,@SupplierName,@SupplierCode,@ReferenceNumber,@DateFrom,@DateTo,@BranchId,@IsExport"
+                      , new SqlParameter("Page", page)
+                      , new SqlParameter("RecsPerPage", recordPerPage)
+                      , new SqlParameter("ReferenceNumber", f.referenceNumber)
+                      , new SqlParameter("SupplierName", f.supplierName)
+                      , new SqlParameter("SupplierCode", f.supplierCode)
+                      , new SqlParameter("DateTo", f.dateTo)
+                      , new SqlParameter("DateFrom", f.dateFrom)
+                      , new SqlParameter("BranchId", f.branchId)
+                      , new SqlParameter("IsExport", isExport)
+                      ).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + " : " + ex.InnerException);
+            }
+
+            return retList;
         }
 
         public List<dtoPayment> GetPaymentsByFilters(dtoPayment filter)

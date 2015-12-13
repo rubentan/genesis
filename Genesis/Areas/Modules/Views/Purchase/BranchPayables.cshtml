@@ -174,13 +174,11 @@
 </div>
 <!-- End: life time stats -->
 
+<input type="hidden" id="hdnGetBranchPaymentsUrl" data-url="@Url.Action("GetAllPayments2", "Purchase", new { area = "Modules" }, null)" />
+<input type="hidden" id="hdnExportBranchPaymentsUrl" data-url="@Url.Action("ExportAllPurchases", "Purchase", new { area = "Modules" }, null)" />
+<input type="hidden" id="hdnEditPurchasePaymentUrl" data-url="@Url.Action("EditBranchReceivable", "Sales", new { area = "Modules" }, null)" />
+<input type="hidden" id="hdnAddPurchasePaymentUrl" data-url="@Url.Action("NewBranchReceivable2", "Sales", new { area = "Modules" }, null)" />
 
-
+<script src="@Url.Content("~/Areas/Modules/Scripts/vmPayment.js")"></script>
 <script src="~/Scripts/_generic.js"></script>
 <script src="~/Areas/Modules/Scripts/Payment.js"></script>
-
-<style type="text/css">
-    #datatable_ajax_filter {
-        display: none;
-    }
-</style>
