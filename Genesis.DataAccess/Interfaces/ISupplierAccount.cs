@@ -20,5 +20,9 @@ namespace Genesis.DataAccess.Interfaces
         List<dtoSupplierPayment> GetSupplierPayments(string id);
 
         List<string> CheckSupplierCodeExists(string supplierCode);
+
+        List<dtoSupplierPurchaseOrder> GetSupplierPurchaseOrdersWithBalance(string id);
+        dtoSupplierPurchaseOrder GetPurchaseOrderDetails(string id);
+
     }
 }

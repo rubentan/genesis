@@ -165,7 +165,7 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoReceivable>(sQuery).ToList();
         }
 
-            public dtoReceivable GetExistingPaymentDetail(int receivableId)
+        public dtoReceivable GetExistingPaymentDetail(int receivableId)
         {
             string sQuery = string.Format(@"select a.receivableId, a.clientId, a.referenceNumber, a.cashAmount, a.chequeDate, a.chequeBank, a.chequeNumber, a.paymentDate,
                                             sum(b.paymentPrice) as totalPayment, (a.cashAmount - sum(b.paymentPrice)) as remainingBalance

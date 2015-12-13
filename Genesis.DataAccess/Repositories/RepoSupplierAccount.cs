@@ -315,12 +315,64 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<string>(sQuery).ToList();
         }
 
-        public List<KeyValue> GetSuppliersFroDropDown()
+        public List<KeyValue> GetSuppliersFroDropDown(string search, int branchId)
         {
-            string sQuery = "select id=supplierId, text= supplierName  from tbl_supplier";
-            return DBContext.Database.SqlQuery<KeyValue>(sQuery).ToList();
+            List<KeyValue> retList = new List<KeyValue>();
+            try
+            {
+
+                string sQuery = string.Format(@"select id=supplierId,text= supplierName from tbl_supplier 
+                                            where ('{0}' = '' 
+                                            or supplierCode like '%{0}%' 
+                                            or supplierName like '%{0}%' 
+                                            or supplierContactPerson like '%{0}%')
+                                            and branchId = {1}", search, branchId);
+
+                retList = DBContext.Database.SqlQuery<KeyValue>(sQuery).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + " : " + ex.InnerException);
+            }
+
+            return retList;
         }
 
         #endregion
+
+
+        public List<dtoSupplierPurchaseOrder> GetSupplierPurchaseOrdersWithBalance(string id)
+        {
+            var sqlString =
+                String.Format(@"select document.documentId,document.documentNumber,document.transactionDate, 
+                                cast(sum(((trans.quantity*trans.unitPrice*(1-trans.discountA/100))*(1-trans.discountB/100))*(1-trans.discountC/100)) as decimal(18,2)) as totalPrice, 
+                                (select ISNULL(sum(paymentPrice),0) from tbl_paymentDetails n where n.documentId = document.documentId ) as totalPayments 
+                                from tbl_document document 
+                                left join tbl_transaction trans 
+                                on document.documentId = trans.documentId 
+                                where document.referenceId = {0} and document.documentType = 2
+                                group by document.documentId,document.documentNumber,document.transactionDate 
+                                having (select ISNULL(sum(paymentPrice),0) from tbl_paymentDetails n where n.documentId = document.documentId ) < cast(sum(((trans.quantity*trans.unitPrice*(1-trans.discountA/100))*(1-trans.discountB/100))*(1-trans.discountC/100)) as decimal(18,2))
+                                ", id);
+
+            return DBContext.Database.SqlQuery<dtoSupplierPurchaseOrder>(sqlString).ToList();
+        }
+
+        public dtoSupplierPurchaseOrder GetPurchaseOrderDetails(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                id = "0";
+
+            var sqlString = String.Format(@"select document.documentId,document.documentNumber,document.transactionDate, 
+                            cast(sum(((trans.quantity*trans.unitPrice*(1-trans.discountA/100))*(1-trans.discountB/100))*(1-trans.discountC/100)) as decimal(18,4)) as totalPrice, 
+                            (select ISNULL(sum(paymentPrice),0) from tbl_paymentDetails n where n.documentId = document.documentId ) as totalPayments 
+                            from tbl_document document 
+                            left join tbl_transaction trans 
+                            on document.documentId = trans.documentId 
+                            where document.documentType = 2 and document.documentId = {0}
+                            group by document.documentId,document.documentNumber,document.transactionDate", id);
+
+            return DBContext.Database.SqlQuery<dtoSupplierPurchaseOrder>(sqlString).FirstOrDefault();
+        }
     }
 }

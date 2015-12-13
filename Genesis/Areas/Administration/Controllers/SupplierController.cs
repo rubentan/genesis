@@ -135,5 +135,17 @@ namespace Genesis.Areas.Administration.Controllers
 
 #endregion
 
+        public JsonResult GetSupplierPurchaseOrdersWithBalance(string id)
+        {
+            var list = serviceSupplier.GetSupplierPurchaseOrdersWithBalance(id);
+            return Json(list);
+        }
+
+        public JsonResult GetPurchaseOrderDetails(string id)
+        {
+            var invoice = serviceSupplier.GetPurchaseOrderDetails(id);
+            return Json(invoice);
+        }
+
     }
 }

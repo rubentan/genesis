@@ -144,5 +144,15 @@ namespace Genesis.BusinessLogic
         {
             return repo.Update(supplier);
         }
+
+        public List<dtoSupplierPurchaseOrder> GetSupplierPurchaseOrdersWithBalance(string id)
+        {
+            return repo.GetSupplierPurchaseOrdersWithBalance(id);
+        }
+
+        public dtoSupplierPurchaseOrder GetPurchaseOrderDetails(string id)
+        {
+            return repo.GetPurchaseOrderDetails(id);
+        }
     }
 }

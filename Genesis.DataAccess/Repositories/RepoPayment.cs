@@ -181,8 +181,8 @@ namespace Genesis.DataAccess.Repositories
                             && (filter.chequeDate == null || i.chequeDate == filter.chequeDate)
                             && (filter.chequeBank == null || i.chequeBank.Contains(filter.chequeBank))
                             && (filter.totalPayment == null || i.totalPayment == filter.totalPayment)
-                            && (filter.DateFrom == null || i.dateCreated >= filter.DateFrom)
-                            && (filter.DateTo == null || i.dateCreated <= filter.DateTo)
+                            //&& (filter.DateFrom == null || i.dateCreated >= filter.DateFrom)
+                           // && (filter.DateTo == null || i.dateCreated <= filter.DateTo)
                             select new dtoPayment {
                                 paymentId = i.paymentId,
                                 supplierId = i.supplierId,
@@ -314,5 +314,104 @@ namespace Genesis.DataAccess.Repositories
 
             return returnItems;
         }
+
+        public List<dtoPayment> GetExistingPayments(int supplierId)
+        {
+            string sQuery = string.Format(@"select a.paymentId, a.supplierId, a.referenceNumber, a.cashAmount, a.chequeDate, a.chequeBank, a.chequeNumber, a.paymentDate,
+                            sum(b.paymentPrice) as totalPayment, (a.cashAmount - sum(b.paymentPrice)) as remainingBalance
+                            from tbl_payment a
+                            left join tbl_paymentDetails b
+                            on a.paymentId = b.paymentId
+                            where a.supplierId = {0}
+                            group by a.paymentId,a.supplierId, a.referenceNumber, a.cashAmount, a.chequeDate, a.chequeBank, a.chequeNumber, a.paymentDate
+                            having sum(b.paymentPrice) < a.cashAmount", supplierId);
+
+            return DBContext.Database.SqlQuery<dtoPayment>(sQuery).ToList();
+        }
+
+        public dtoPayment GetExistingPaymentDetail(int receivableId)
+        {
+            string sQuery = string.Format(@"select a.paymentId, a.supplierId, a.referenceNumber, a.cashAmount, a.chequeDate, a.chequeBank, a.chequeNumber, a.paymentDate,
+                            sum(b.paymentPrice) as totalPayment, (a.cashAmount - sum(b.paymentPrice)) as remainingBalance
+                            from tbl_payment a
+                            left join tbl_paymentDetails b
+                            on a.paymentId = b.paymentId
+                            where a.paymentId = {0}
+                            group by a.paymentId,a.supplierId, a.referenceNumber, a.cashAmount, a.chequeDate, a.chequeBank, a.chequeNumber, a.paymentDate
+                            having sum(b.paymentPrice) < a.cashAmount", receivableId);
+
+            return DBContext.Database.SqlQuery<dtoPayment>(sQuery).FirstOrDefault();
+        }
+
+        public dtoResult SavePaymentTransaction2(dtoPayment header, List<dtoPaymentDetail> details)
+        {
+            var result = new dtoResult();
+            try
+            {
+                if (header.isNew)
+                {
+                    AddPayment(ref header);
+                }
+
+                if (details != null)
+                    foreach (var item in details)
+                    {
+                        item.paymentId = header.paymentId;
+                        item.paymentPrice = item.totalPayAmount;
+                        item.createdBy = header.createdBy;
+                        item.dateCreated = header.dateCreated;
+                        AddPaymentDetail(item);
+                    }
+
+                DBContext.SaveChanges();
+                result.isSuccessful = true;
+
+            }
+            catch (Exception ex)
+            {
+                result.isSuccessful = false;
+                result.errorMsg = ex.ToString();
+            }
+            return result;
+        }
+
+        public void AddPayment(ref dtoPayment t)
+        {
+
+            var payment = new tbl_payment()
+            {
+                referenceNumber = t.referenceNumber,
+                cashAmount = t.chequeAmount,
+                chequeNumber = t.chequeNumber,
+                chequeDate = t.chequeDate,
+                chequeBank = t.chequeBank,
+                dateCreated = DateTime.Now,
+                createdBy = t.createdBy,
+                supplierId = t.supplierId
+            };
+
+            DBContext.tbl_payment.Add(payment);
+            DBContext.SaveChanges();
+
+            t.paymentId = payment.paymentId;
+        }
+
+        public void AddPaymentDetail(dtoPaymentDetail t)
+        {
+
+            var paymentDetail = new tbl_paymentDetails()
+            {
+                paymentId = t.paymentId,
+                paymentPrice = t.paymentPrice,
+                documentId = t.documentId,
+                dateCreated = DateTime.Now,
+                createdBy = t.createdBy,
+            };
+
+            DBContext.tbl_paymentDetails.Add(paymentDetail);
+            DBContext.SaveChanges();
+
+        }
+
     }
 }

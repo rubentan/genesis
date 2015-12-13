@@ -26,7 +26,7 @@ namespace Genesis.Areas.Modules.Controllers
             repoClient = new RepoClientAccount();
         }
 
-
+    #region Branch Sales
         public ActionResult BranchSales()
         {
             return View();
@@ -246,17 +246,10 @@ namespace Genesis.Areas.Modules.Controllers
             return Json(result);
         }
 
-        //Receivables
-        public ActionResult BranchReceivables()
-        {
-            return View();
-        }
+    #endregion
 
-        public ActionResult EditBranchReceivable(int? id)
-        {
-            ViewBag.id = id;
-            return View();
-        }
+
+    #region Branch Receivables (New)
 
         [HttpPost]
         public JsonResult GetAllReceivables()
@@ -285,7 +278,7 @@ namespace Genesis.Areas.Modules.Controllers
             //totalRecords = service.GetRecordCount(filter);
             var list = repoReceivable.GetAllReceivable2(page, recordPerPage, filter, isExport);
             //int count = list.Count();
-            
+
             return Json(list);
 
         }
@@ -337,8 +330,8 @@ namespace Genesis.Areas.Modules.Controllers
             }
 
         }
-
-        public ActionResult NewBranchReceivable()
+        
+        public ActionResult BranchReceivables()
         {
             return View();
         }
@@ -398,6 +391,25 @@ namespace Genesis.Areas.Modules.Controllers
             return Json(receivable);
         }
 
+    #endregion
+
+
+    #region Branch Receivables (Old)
+
+        public ActionResult NewBranchReceivable()
+        {
+            return View();
+        }
+
+        public ActionResult EditBranchReceivable(int? id)
+        {
+            ViewBag.id = id;
+            return View();
+        }
+
+    #endregion
+
+        #region Shared
         public static DataTable ToDataTable<T>(IList<T> data)
         {
             PropertyDescriptorCollection properties =
@@ -414,5 +426,9 @@ namespace Genesis.Areas.Modules.Controllers
             }
             return table;
         }
+    #endregion
+
+
+       
     }
 }

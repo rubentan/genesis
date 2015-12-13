@@ -34,7 +34,7 @@ namespace Genesis.Areas.Modules.Controllers
             repoSupplier = new RepoSupplierAccount();
         }
 
-
+        #region Branch Purchases
         public ActionResult BranchPurchases()
         {
             return View();
@@ -233,65 +233,10 @@ namespace Genesis.Areas.Modules.Controllers
        
         }
 
-        public JsonResult GetSupplierForDropDown()
-        {
-            var list = repoSupplier.GetSuppliersFroDropDown();
-            return Json(list);
-        }
+        #endregion
 
-        public static DataTable ToDataTable<T>(IList<T> data)
-        {
-            PropertyDescriptorCollection properties =
-                TypeDescriptor.GetProperties(typeof(T));
-            DataTable table = new DataTable();
-            foreach (PropertyDescriptor prop in properties)
-                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
-            foreach (T item in data)
-            {
-                DataRow row = table.NewRow();
-                foreach (PropertyDescriptor prop in properties)
-                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
-                table.Rows.Add(row);
-            }
-            return table;
-        }
+        #region Branch Payables (New)
 
-        #region Payment
-
-        public ActionResult BranchPayables()
-        {
-            return View();
-        }
-
-        public ActionResult NewBranchPayment()
-        {
-            return View();
-        }
-
-        public JsonResult GetAllPayments()
-        {
-            
-            var filter = new dtoPayment
-            {
-                referenceNumber = String.IsNullOrWhiteSpace(Request["documentNumber"]) ? null : Request["documentNumber"],
-                supplierCode = String.IsNullOrWhiteSpace(Request["supplierCode"]) ? null : Request["supplierCode"],
-                supplierName = String.IsNullOrWhiteSpace(Request["supplierName"]) ? null : Request["supplierName"],
-                DateFrom = String.IsNullOrWhiteSpace(Request["dateFrom"]) ? (DateTime?)null : Convert.ToDateTime(Request["dateFrom"]),
-                DateTo = String.IsNullOrWhiteSpace(Request["dateTo"]) ? (DateTime?)null : Convert.ToDateTime(Request["dateTo"])
-            };
-
-            var payments = repPayment.GetPaymentsByFilters(filter);
-
-            return Json(payments, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetPaymentsByFilter(dtoPayment filter)
-        {
-            var payments = repPayment.GetPaymentsByFilters(filter);
-            return Json(payments, JsonRequestBehavior.AllowGet);
-        }
-
-        //New (used by branch payment list)
         [HttpPost]
         public JsonResult GetAllPayments2()
         {
@@ -324,7 +269,6 @@ namespace Genesis.Areas.Modules.Controllers
 
         }
 
-        //New (used by branch payments list)
         public void ExportAllPayments()
         {
 
@@ -367,12 +311,87 @@ namespace Genesis.Areas.Modules.Controllers
 
                 //Write it back to the client
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                Response.AddHeader("content-disposition", "attachment;  filename=BranchReceivables.xlsx");
+                Response.AddHeader("content-disposition", "attachment;  filename=BranchPayables.xlsx");
                 Response.BinaryWrite(pck.GetAsByteArray());
             }
 
         }
 
+
+        public ActionResult NewBranchPayment2()
+        {
+            return View();
+        }
+
+        public ActionResult BranchPayables()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetExistingPayments(int clientId)
+        {
+            var list = repPayment.GetExistingPayments(clientId);
+            return Json(list);
+        }
+
+        public JsonResult GetExistingPaymentDetail(int paymentId)
+        {
+            var receivable = repPayment.GetExistingPaymentDetail(paymentId);
+            return Json(receivable);
+        }
+
+        [HttpPost]
+        public JsonResult SavePaymentTransaction2(dtoPayment header, List<dtoPaymentDetail> details)
+        {
+            var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            header.branchId = currentUser.branchId;
+
+            if (header.isNew)
+            {
+                header.createdBy = currentUser.userId;
+                header.dateCreated = DateTime.Now;
+            }
+
+            var result = repPayment.SavePaymentTransaction2(header, details);
+            return Json(result);
+        }
+
+        #endregion
+
+
+        #region Branch Payables (Old)
+        
+
+        public ActionResult NewBranchPayment()
+        {
+            return View();
+        }
+
+        public JsonResult GetAllPayments()
+        {
+            
+            var filter = new dtoPayment
+            {
+                referenceNumber = String.IsNullOrWhiteSpace(Request["documentNumber"]) ? null : Request["documentNumber"],
+                supplierCode = String.IsNullOrWhiteSpace(Request["supplierCode"]) ? null : Request["supplierCode"],
+                supplierName = String.IsNullOrWhiteSpace(Request["supplierName"]) ? null : Request["supplierName"],
+                //DateFrom = String.IsNullOrWhiteSpace(Request["dateFrom"]) ? (DateTime?)null : Convert.ToDateTime(Request["dateFrom"]),
+                //DateTo = String.IsNullOrWhiteSpace(Request["dateTo"]) ? (DateTime?)null : Convert.ToDateTime(Request["dateTo"])
+            };
+
+            var payments = repPayment.GetPaymentsByFilters(filter);
+
+            return Json(payments, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPaymentsByFilter(dtoPayment filter)
+        {
+            var payments = repPayment.GetPaymentsByFilters(filter);
+            return Json(payments, JsonRequestBehavior.AllowGet);
+        }
+
+        
 
 
         public JsonResult GetPurchaseOrdersByFilter(dtoDocument filter)
@@ -390,9 +409,9 @@ namespace Genesis.Areas.Modules.Controllers
         }
 
         [HttpPost]
-        public JsonResult SavePaymentTransaction(dtoPayment Header, List<dtoPaymentDetail> Details)
+        public JsonResult SavePaymentTransaction(dtoPayment header, List<dtoPaymentDetail> details)
         {
-            var respose = repPayment.SavePaymentTransaction(Header, Details);
+            var respose = repPayment.SavePaymentTransaction(header, details);
 
             return Json(respose, JsonRequestBehavior.AllowGet);
         }
@@ -403,6 +422,43 @@ namespace Genesis.Areas.Modules.Controllers
             return Json(details, JsonRequestBehavior.AllowGet);
         }
         #endregion
+
+
+        #region shared
+        public JsonResult GetSupplierForDropDown(string search)
+        {
+            //var list = repoSupplier.GetSuppliersFroDropDown();
+            var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            var results = from result in repoSupplier.GetSuppliersFroDropDown(search, currentUser.branchId)
+                          select new
+                          {
+                              id = result.id,
+                              text = result.text,
+                          };
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        public static DataTable ToDataTable<T>(IList<T> data)
+        {
+            PropertyDescriptorCollection properties =
+                TypeDescriptor.GetProperties(typeof(T));
+            DataTable table = new DataTable();
+            foreach (PropertyDescriptor prop in properties)
+                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+            foreach (T item in data)
+            {
+                DataRow row = table.NewRow();
+                foreach (PropertyDescriptor prop in properties)
+                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+
+
+        #endregion
+
     }
 }
 ;

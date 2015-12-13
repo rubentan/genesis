@@ -60,7 +60,7 @@ namespace Genesis.DTO
 
         public string referenceNumber { get; set; }
 
-        public decimal cashAmount { get; set; }
+        public decimal? cashAmount { get; set; }
 
         public DateTime dateCreated { get; set; }
     }
