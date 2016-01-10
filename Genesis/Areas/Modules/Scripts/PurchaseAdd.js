@@ -134,51 +134,55 @@ var viewModel = function () {
     _self.addPurchaseOrder = function () {
         var dataUrl = $("#hdnAddPurchaseOrderUrl").attr("data-url");
         if ($('#txtDocumentNumber').val() != "") {
-            if ($('#ddSupplier').val() != "") {
-                if ($('#txtTransactionDate').val() != "") {
-                    if (_self.orderItems().length > 0 ) {
-                        var param = {
-                            header: {
-                                documentNumber: $('#txtDocumentNumber').val(),
-                                documentType: 2,
-                                transactionDate: $('#txtTransactionDate').val(),
-                                referenceId: $('#ddSupplier').val(),
+            if ($('#txtDocumentNumber').val().substring(0,2) == "PO" || $('#txtDocumentNumber').val().substring(0,2) == "RT" || $('#txtDocumentNumber').val().substring(0,2) == "DR" || $('#txtDocumentNumber').val().substring(0,2) == "OS") {
+                if ($('#ddSupplier').val() != "") {
+                    if ($('#txtTransactionDate').val() != "") {
+                        if (_self.orderItems().length > 0 ) {
+                            var param = {
+                                header: {
+                                    documentNumber: $('#txtDocumentNumber').val(),
+                                    documentType: 2,
+                                    transactionDate: $('#txtTransactionDate').val(),
+                                    referenceId: $('#ddSupplier').val(),
 
-                            },
-                            details: _self.orderItems()
-                        };
+                                },
+                                details: _self.orderItems()
+                            };
 
-                        if (!checkExisting(param)) {
+                            if (!checkExisting(param)) {
 
-                            $.ajax({
-                                //url: '/Modules/Purchase/SavePurchaseTransaction',
-                                url: dataUrl,
-                                type: 'POST',
-                                data: ko.toJSON(param),
-                                contentType: 'application/json; charset=utf-8',
-                                dataType: 'json',
-                                success: function() {
-                                    _self.orderItems.removeAll();
-                                    _self.grandTotal('0');
-                                    $('#txtDocumentNumber').val('');
-                                    $('#txtTransactionDate').val('');
-                                    $("#ddSupplier").select2("val", "");
-                                    _self.clearProductAdd();
-                                    alert('Successfully Added Purchase Record.');
-                                    document.body.scrollTop = document.documentElement.scrollTop = 0;
-                                }
-                            });
+                                $.ajax({
+                                    //url: '/Modules/Purchase/SavePurchaseTransaction',
+                                    url: dataUrl,
+                                    type: 'POST',
+                                    data: ko.toJSON(param),
+                                    contentType: 'application/json; charset=utf-8',
+                                    dataType: 'json',
+                                    success: function() {
+                                        _self.orderItems.removeAll();
+                                        _self.grandTotal('0');
+                                        $('#txtDocumentNumber').val('');
+                                        $('#txtTransactionDate').val('');
+                                        $("#ddSupplier").select2("val", "");
+                                        _self.clearProductAdd();
+                                        alert('Successfully Added Purchase Record.');
+                                        document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                    }
+                                });
+                            } else {
+                                alert('Transaction Date and Number has already been used.');
+                            }
                         } else {
-                            alert('Transaction Date and Number has already been used.');
+                            alert('Order Product Items are Required.');
                         }
                     } else {
-                        alert('Order Product Items are Required.');
+                        alert('Transaction Date is Required.');
                     }
                 } else {
-                    alert('Transaction Date is Required.');
+                    alert('Supplier is Required.');
                 }
             } else {
-                alert('Supplier is Required.');
+                alert('Document Number is Invalid (PO,RT,DR,OS).');
             }
         } else {
             alert('Document Number is Required.');

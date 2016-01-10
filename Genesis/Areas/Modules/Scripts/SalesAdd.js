@@ -126,49 +126,53 @@ var viewModel = function () {
     _self.addSalesInvoice = function () {
         var dataUrl = $("#hdnAddPurchaseOrderUrl").attr("data-url");
         if ($('#txtDocumentNumber').val() != "") {
-            if ($('#ddClient').val() != "") {
-                if ($('#txtTransactionDate').val() != "") {
-                        if (_self.orderItems().length > 0) {
-                            var param = {
-                                header: {
-                                    documentNumber: $('#txtDocumentNumber').val(),
-                                    documentType: 1,
-                                    transactionDate: $('#txtTransactionDate').val(),
-                                    referenceId: $('#ddClient').val(),
+            if ($('#txtDocumentNumber').val().substring(0,2) == "SI" || $('#txtDocumentNumber').val().substring(0,2) == "RF" || $('#txtDocumentNumber').val().substring(0,2) == "DR" || $('#txtDocumentNumber').val().substring(0,2) == "OS") {
+                if ($('#ddClient').val() != "") {
+                    if ($('#txtTransactionDate').val() != "") {
+                            if (_self.orderItems().length > 0) {
+                                var param = {
+                                    header: {
+                                        documentNumber: $('#txtDocumentNumber').val(),
+                                        documentType: 1,
+                                        transactionDate: $('#txtTransactionDate').val(),
+                                        referenceId: $('#ddClient').val(),
 
-                                },
-                                details: _self.orderItems()
-                            };
-                            if (!checkExisting(param)) {
-                                $.ajax({
-                                    //url: '/Modules/Sales/SaveInvoiceTransaction',
-                                    url: dataUrl,
-                                    type: 'POST',
-                                    data: ko.toJSON(param),
-                                    contentType: 'application/json; charset=utf-8',
-                                    dataType: 'json',
-                                    success: function() {
-                                        _self.orderItems.removeAll();
-                                        _self.grandTotal('0');
-                                        $('#txtDocumentNumber').val('');
-                                        $('#txtTransactionDate').val('');
-                                        $("#ddClient").select2("val", "");
-                                        _self.clearProductAdd();
-                                        alert('Successfully Added Sales Record.');
-                                        document.body.scrollTop = document.documentElement.scrollTop = 0;
-                                    }
-                                });
+                                    },
+                                    details: _self.orderItems()
+                                };
+                                if (!checkExisting(param)) {
+                                    $.ajax({
+                                        //url: '/Modules/Sales/SaveInvoiceTransaction',
+                                        url: dataUrl,
+                                        type: 'POST',
+                                        data: ko.toJSON(param),
+                                        contentType: 'application/json; charset=utf-8',
+                                        dataType: 'json',
+                                        success: function() {
+                                            _self.orderItems.removeAll();
+                                            _self.grandTotal('0');
+                                            $('#txtDocumentNumber').val('');
+                                            $('#txtTransactionDate').val('');
+                                            $("#ddClient").select2("val", "");
+                                            _self.clearProductAdd();
+                                            alert('Successfully Added Sales Record.');
+                                            document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                        }
+                                    });
+                                } else {
+                                    alert('Transaction Date and Number is has already been used.');
+                                }
                             } else {
-                                alert('Transaction Date and Number is has already been used.');
+                                alert('Invoice Product Items are Required.');
                             }
-                        } else {
-                            alert('Invoice Product Items are Required.');
-                        }
+                    } else {
+                        alert('Transaction Date is Required.');
+                    }
                 } else {
-                    alert('Transaction Date is Required.');
+                    alert('Client is Required.');
                 }
             } else {
-                alert('Client is Required.');
+                alert('Document Number is Invalid (SI,RF,DR,OS).');
             }
         } else {
             alert('Document Number is Required.');

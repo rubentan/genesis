@@ -256,6 +256,14 @@ namespace Genesis.DataAccess.Repositories
                     case "RT":
                         docType = 6;
                         break;
+                    //Delivery Receipt - still sales invoice instead of 7.
+                    case "DR":
+                        docType = 1;
+                        break;
+                    //Delivery Receipt - still sales invoice instead of 8.
+                    case "OS":
+                        docType = 1;
+                        break;
                 }
 
                 document.documentType = docType;
@@ -281,19 +289,20 @@ namespace Genesis.DataAccess.Repositories
                         product.incoming = product.incoming - item.quantity;
                         product.ending = (product.beginning + product.incoming) - product.outgoing;
 
-                        if (document.documentType == 2)
+                        switch (document.documentType)
                         {
-                            //item.transactionType = 1;
-                            product.unitPrice = item.unitPrice;
-                            product.incoming = product.incoming - item.quantity;
-                            product.ending = (product.beginning + product.incoming) - product.outgoing;
-                        }
-                        else if (document.documentType == 6)
-                        {
-                            //item.transactionType = 6;
-                            product.unitPrice = item.unitPrice;
-                            product.outgoing = product.outgoing - item.quantity;
-                            product.ending = (product.beginning + product.incoming) - product.outgoing;
+                            case 8:
+                            case 7:
+                            case 2:
+                                product.unitPrice = item.unitPrice;
+                                product.incoming = product.incoming - item.quantity;
+                                product.ending = (product.beginning + product.incoming) - product.outgoing;
+                                break;
+                            case 6:
+                                product.unitPrice = item.unitPrice;
+                                product.outgoing = product.outgoing - item.quantity;
+                                product.ending = (product.beginning + product.incoming) - product.outgoing;
+                                break;
                         }
                     }
                     DBContext.tbl_transaction.Remove(item);
@@ -302,21 +311,21 @@ namespace Genesis.DataAccess.Repositories
                 if (products != null)
                 foreach (var item in products)
                 {
+                    //if (item.transactionId != 0) continue;
+                    item.documentId = document.documentId;
 
-                    if (item.transactionId == 0)
+                    switch (document.documentType)
                     {
-                        item.documentId = document.documentId;
-
-                        if (document.documentType == 2)
-                        {
+                        case 8:
+                        case 7:
+                        case 2:
                             item.transactionType = 1;
-                        }
-                        else if (document.documentType == 6)
-                        {
+                            break;
+                        case 6:
                             item.transactionType = 6;
-                        }
-                        AddTransaction(item, document.createdBy);
+                            break;
                     }
+                    AddTransaction(item, document.createdBy);
                 }
 
                 DBContext.SaveChanges();

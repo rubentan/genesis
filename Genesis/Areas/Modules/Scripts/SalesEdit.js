@@ -148,6 +148,7 @@ var viewModel = function () {
             success: function (d) {
                 _self.documentNumber(d.documentNumber);
                 _self.dateCreated(d.dateCreated);
+                $("#select2").select2(d.clientCode, d.clientName); //set the value
             },
             error: function () { alert('ajax error'); }
         });
