@@ -266,7 +266,15 @@ namespace Genesis.DataAccess.Repositories
                         break;
                 }
 
+                var incompletePrice = products
+                    .Where(_=>_.unitPrice ==0)
+                    .Select(_ => _.transactionId).ToList();
+
+                document.payment = incompletePrice.Count > 0 ? 0 : 1;
+
                 document.documentType = docType;
+
+
 
                 if (document.documentId == 0)
                 {
@@ -285,21 +293,22 @@ namespace Genesis.DataAccess.Repositories
                     var product = DBContext.tbl_product.FirstOrDefault(d => d.productId == item.productId);
                     if (product != null)
                     {
-                        product.unitPrice = item.unitPrice;
-                        product.incoming = product.incoming - item.quantity;
-                        product.ending = (product.beginning + product.incoming) - product.outgoing;
+                        //product.unitPrice = item.unitPrice;
+                        //product.incoming = product.incoming - item.quantity;
+                        //product.ending = (product.beginning + product.incoming) - product.outgoing;
 
                         switch (document.documentType)
                         {
                             case 8:
                             case 7:
                             case 2:
-                                product.unitPrice = item.unitPrice;
+                                //product.unitPrice = item.unitPrice;
                                 product.incoming = product.incoming - item.quantity;
                                 product.ending = (product.beginning + product.incoming) - product.outgoing;
                                 break;
                             case 6:
-                                product.unitPrice = item.unitPrice;
+                                //If return do not change price
+                                //product.unitPrice = item.unitPrice;
                                 product.outgoing = product.outgoing - item.quantity;
                                 product.ending = (product.beginning + product.incoming) - product.outgoing;
                                 break;
@@ -361,7 +370,8 @@ namespace Genesis.DataAccess.Repositories
                 documentType = t.documentType,
                 //documentType = docType,
                 documentId = t.documentId,
-                branchId = t.branchId
+                branchId = t.branchId,
+                payment = t.payment
             };
 
             DBContext.tbl_document.Add(document);
@@ -382,6 +392,7 @@ namespace Genesis.DataAccess.Repositories
                 item.documentNumber = t.documentNumber;
                 item.referenceId = t.referenceId;
                 item.transactionDate = t.transactionDate;
+                item.payment = t.payment;
                 DBContext.SaveChanges();
             }
 
@@ -413,17 +424,20 @@ namespace Genesis.DataAccess.Repositories
             {
                 if (t.transactionType == 1)
                 {
-                    var priceHistory = new tbl_productPriceHistory()
+                    if (t.unitPrice > 0)
                     {
-                        productId = product.productId,
-                        dateCreated = DateTime.Now,
-                        createdBy = userId,
-                        price = product.unitPrice
-                    };
+                        var priceHistory = new tbl_productPriceHistory()
+                        {
+                            productId = product.productId,
+                            dateCreated = DateTime.Now,
+                            createdBy = userId,
+                            price = product.unitPrice
+                        };
 
-                    DBContext.tbl_productPriceHistory.Add(priceHistory);
+                        DBContext.tbl_productPriceHistory.Add(priceHistory);
 
-                    product.unitPrice = t.unitPrice;
+                        product.unitPrice = t.unitPrice;
+                    }
                     product.incoming = product.incoming + t.quantity;
                     product.ending = (product.beginning + product.incoming) - product.outgoing;
                 }

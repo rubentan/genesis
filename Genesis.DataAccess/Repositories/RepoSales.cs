@@ -296,6 +296,7 @@ namespace Genesis.DataAccess.Repositories
                 item.documentNumber = t.documentNumber;
                 item.referenceId = t.referenceId;
                 item.transactionDate = t.transactionDate;
+                item.payment = t.payment;
                 DBContext.SaveChanges();
             }
 

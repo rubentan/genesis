@@ -350,7 +350,7 @@ namespace Genesis.DataAccess.Repositories
                                 from tbl_document document 
                                 left join tbl_transaction trans 
                                 on document.documentId = trans.documentId 
-                                where document.referenceId = {0} and document.documentType = 2
+                                where document.referenceId = {0} and document.documentType = 2 and payment = 1
                                 group by document.documentId,document.documentNumber,document.transactionDate 
                                 having (select ISNULL(sum(paymentPrice),0) from tbl_paymentDetails n where n.documentId = document.documentId ) < cast(sum(((trans.quantity*trans.unitPrice*(1-trans.discountA/100))*(1-trans.discountB/100))*(1-trans.discountC/100)) as decimal(18,2))
                                 ", id);

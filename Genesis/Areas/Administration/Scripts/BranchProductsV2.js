@@ -94,6 +94,7 @@ var ViewModel = function () {
     _self.asyncOperation = function () {
         _self.isLoading(true);
         var dataUrl = $("#hdnLoadBranchProductsUrl").attr("data-url");
+        //console.log(dataUrl + getFilters());
         $.ajax({
             //url: '/Administration/Product/GetAllBranchProducts' + getFilters(),
             url: dataUrl + getFilters(),

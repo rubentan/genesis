@@ -69,14 +69,16 @@ var initGlobal = function() {
 };
 
 var getFilters = function () {
-    var queryString = "?";
+    var queryString = "";
     $(".filterContainer input,.filterContainer  select").each(function () {
 
-        queryString += $(this).attr('name') + '=' + $(this).val() + '&';
-
+        queryString += $(this).attr('name') + '=' + encodeURIComponent($(this).val()) + '&';
+        //console.log("q: " + encodeURIComponent(queryString));
     });
-
-    return queryString.substring(0, queryString.length - 1);
+    //console.log("before : " + queryString);
+    //console.log("after : " + encodeURIComponent(queryString));
+    
+    return "?" + queryString.substring(0, queryString.length - 1);
 
 };
 
