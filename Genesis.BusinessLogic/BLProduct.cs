@@ -39,9 +39,9 @@ namespace Genesis.BusinessLogic
             return repo.GetRecordCount(filter);
         }
 
-        public List<dtoProduct> GetBranchProducts(object filter = null, int? skip = null, int? take = null)
+        public List<dtoProduct> GetBranchProducts(int page, int recordPerPage, object filter,bool isExport)
         {
-            return repo.GetBranchProducts(filter,skip,take);
+            return repo.GetBranchProducts(page, recordPerPage, filter,isExport);
         }
 
         public List<dtoProductTransactions> GetProductTransactions(int id)
@@ -138,6 +138,11 @@ namespace Genesis.BusinessLogic
         public dtoResult Update(dtoProduct product)
         {
             return repo.Update(product);
+        }
+
+        public dtoResult InLineUpdate(dtoProduct product)
+        {
+            return repo.InLineUpdate(product);
         }
     }
 }

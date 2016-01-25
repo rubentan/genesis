@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -155,55 +156,69 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoSupplier>(sQuery).ToList();
         }
 
-        public List<dtoSupplier> GetAll(object filter = null, int? skip = null, int? take = null)
+        public List<dtoSupplier> GetAll(int page, int recordPerPage, object filter, bool isExport)
         {
-            if (skip == null)
-                skip = 0;
-            if (take == null)
-                take = 10;
+            //if (skip == null)
+            //    skip = 0;
+            //if (take == null)
+            //    take = 10;
 
-            string sQuery = string.Format(@"SELECT TOP {0}
-	                                              [Row]
-	                                              ,[supplierId]
-                                                  ,[supplierCode]
-                                                  ,[supplierName]
-                                                  ,[supplierAddress]
-                                                  ,[supplierContactNumber]
-                                                  ,[supplierContactPerson]
-                                                  ,[branchId]
-                                                  ,[status]
-                                                  ,[dateCreated]
-                                                  ,[createdBy]
-                                            FROM (  SELECT
-                                                    ROW_NUMBER() OVER(ORDER BY [supplierId]) AS [Row]
-                                                      ,[supplierId]
-                                                      ,[supplierCode]
-                                                      ,[supplierName]
-                                                      ,[supplierAddress]
-                                                      ,[supplierContactNumber]
-                                                      ,[supplierContactPerson]
-                                                      ,[branchId]
-                                                      ,[status]
-                                                      ,[dateCreated]
-                                                      ,[createdBy]
-                                                    FROM [Genesis].[dbo].[tbl_supplier]
-                                                    WHERE (1 = 1)
-                                            ", take);
+//            string sQuery = string.Format(@"SELECT TOP {0}
+//	                                              [Row]
+//	                                              ,[supplierId]
+//                                                  ,[supplierCode]
+//                                                  ,[supplierName]
+//                                                  ,[supplierAddress]
+//                                                  ,[supplierContactNumber]
+//                                                  ,[supplierContactPerson]
+//                                                  ,[branchId]
+//                                                  ,[status]
+//                                                  ,[dateCreated]
+//                                                  ,[createdBy]
+//                                            FROM (  SELECT
+//                                                    ROW_NUMBER() OVER(ORDER BY [supplierId]) AS [Row]
+//                                                      ,[supplierId]
+//                                                      ,[supplierCode]
+//                                                      ,[supplierName]
+//                                                      ,[supplierAddress]
+//                                                      ,[supplierContactNumber]
+//                                                      ,[supplierContactPerson]
+//                                                      ,[branchId]
+//                                                      ,[status]
+//                                                      ,[dateCreated]
+//                                                      ,[createdBy]
+//                                                    FROM [tbl_supplier]
+//                                                    WHERE (1 = 1)
+//                                            ", take);
 
-            if (filter != null)
-            {
-                var f = (dtoSupplier)filter;
-                sQuery += string.Format(" AND ('{0}' = '' OR supplierCode LIKE '%{0}%')", f.supplierCode);
-                sQuery += string.Format(" AND ('{0}' = '' OR supplierName LIKE '%{0}%')", f.supplierName);
-                sQuery += string.Format(" AND ('{0}' = '' OR supplierContactNumber LIKE '%{0}%')", f.supplierContactNumber);
-                sQuery += string.Format(" AND ('{0}' = '' OR supplierContactPerson LIKE '%{0}%')", f.supplierContactPerson);
-                sQuery += string.Format(" AND ('{0}' = '' OR branchId LIKE '%{0}%')", f.branchId);
-                //sQuery += string.Format(" AND ({0} = 0 OR [status] = {0})", f.status);
-            }
+            //if (filter != null)
+            //{
+            //    var f = (dtoSupplier)filter;
+            //    sQuery += string.Format(" AND ('{0}' = '' OR supplierCode LIKE '%{0}%')", f.supplierCode);
+            //    sQuery += string.Format(" AND ('{0}' = '' OR supplierName LIKE '%{0}%')", f.supplierName);
+            //    sQuery += string.Format(" AND ('{0}' = '' OR supplierContactNumber LIKE '%{0}%')", f.supplierContactNumber);
+            //    sQuery += string.Format(" AND ('{0}' = '' OR supplierContactPerson LIKE '%{0}%')", f.supplierContactPerson);
+            //    sQuery += string.Format(" AND ('{0}' = '' OR branchId LIKE '%{0}%')", f.branchId);
+            //    //sQuery += string.Format(" AND ({0} = 0 OR [status] = {0})", f.status);
+            //}
 
-            sQuery += string.Format(") x WHERE x.[Row] > {0}", skip);
+            //sQuery += string.Format(") x WHERE x.[Row] > {0}", skip);
+            //return DBContext.Database.SqlQuery<dtoSupplier>(sQuery).ToList();
 
-            return DBContext.Database.SqlQuery<dtoSupplier>(sQuery).ToList();
+            var f = (dtoSupplier)filter;
+            return DBContext.Database.SqlQuery<dtoSupplier>("EXEC sp_GetAllSuppliers @Page,@RecsPerPage,@SupplierCode,@SupplierName,@SupplierContactNumber,@SupplierContactPerson,@BranchId,@Status,@IsExport"
+                , new SqlParameter("Page", page)
+                , new SqlParameter("RecsPerPage", recordPerPage)
+                , new SqlParameter("SupplierCode", f.supplierCode)
+                , new SqlParameter("SupplierName", f.supplierName)
+                , new SqlParameter("SupplierContactNumber", f.supplierContactNumber)
+                , new SqlParameter("SupplierContactPerson", f.supplierContactPerson)
+                , new SqlParameter("BranchId", f.branchId)
+                , new SqlParameter("Status", f.status)
+                , new SqlParameter("IsExport", isExport)
+                ).ToList();
+
+            
         }
 
         public int GetRecordCount(object filter = null)
@@ -300,12 +315,64 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<string>(sQuery).ToList();
         }
 
-        public List<KeyValue> GetSuppliersFroDropDown()
+        public List<KeyValue> GetSuppliersFroDropDown(string search, int branchId)
         {
-            string sQuery = "select id=supplierId, text= supplierName  from tbl_supplier";
-            return DBContext.Database.SqlQuery<KeyValue>(sQuery).ToList();
+            List<KeyValue> retList = new List<KeyValue>();
+            try
+            {
+
+                string sQuery = string.Format(@"select id=supplierId,text= supplierName from tbl_supplier 
+                                            where ('{0}' = '' 
+                                            or supplierCode like '%{0}%' 
+                                            or supplierName like '%{0}%' 
+                                            or supplierContactPerson like '%{0}%')
+                                            and branchId = {1}", search, branchId);
+
+                retList = DBContext.Database.SqlQuery<KeyValue>(sQuery).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + " : " + ex.InnerException);
+            }
+
+            return retList;
         }
 
         #endregion
+
+
+        public List<dtoSupplierPurchaseOrder> GetSupplierPurchaseOrdersWithBalance(string id)
+        {
+            var sqlString =
+                String.Format(@"select document.documentId,document.documentNumber,document.transactionDate, 
+                                cast(sum(((trans.quantity*trans.unitPrice*(1-trans.discountA/100))*(1-trans.discountB/100))*(1-trans.discountC/100)) as decimal(18,2)) as totalPrice, 
+                                (select ISNULL(sum(paymentPrice),0) from tbl_paymentDetails n where n.documentId = document.documentId ) as totalPayments 
+                                from tbl_document document 
+                                left join tbl_transaction trans 
+                                on document.documentId = trans.documentId 
+                                where document.referenceId = {0} and document.documentType = 2 and payment = 1
+                                group by document.documentId,document.documentNumber,document.transactionDate 
+                                having (select ISNULL(sum(paymentPrice),0) from tbl_paymentDetails n where n.documentId = document.documentId ) < cast(sum(((trans.quantity*trans.unitPrice*(1-trans.discountA/100))*(1-trans.discountB/100))*(1-trans.discountC/100)) as decimal(18,2))
+                                ", id);
+
+            return DBContext.Database.SqlQuery<dtoSupplierPurchaseOrder>(sqlString).ToList();
+        }
+
+        public dtoSupplierPurchaseOrder GetPurchaseOrderDetails(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                id = "0";
+
+            var sqlString = String.Format(@"select document.documentId,document.documentNumber,document.transactionDate, 
+                            cast(sum(((trans.quantity*trans.unitPrice*(1-trans.discountA/100))*(1-trans.discountB/100))*(1-trans.discountC/100)) as decimal(18,4)) as totalPrice, 
+                            (select ISNULL(sum(paymentPrice),0) from tbl_paymentDetails n where n.documentId = document.documentId ) as totalPayments 
+                            from tbl_document document 
+                            left join tbl_transaction trans 
+                            on document.documentId = trans.documentId 
+                            where document.documentType = 2 and document.documentId = {0}
+                            group by document.documentId,document.documentNumber,document.transactionDate", id);
+
+            return DBContext.Database.SqlQuery<dtoSupplierPurchaseOrder>(sqlString).FirstOrDefault();
+        }
     }
 }

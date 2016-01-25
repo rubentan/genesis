@@ -10,7 +10,7 @@ namespace Genesis.DataAccess.Interfaces
     public interface ISupplierAccount : IBase<dtoSupplier>
     {
         List<dtoSupplier> GetAll(string search, object filter = null, int? skip = null, int? take = null);
-        List<dtoSupplier> GetAll(object filter = null, int? skip = null, int? take = null);
+        List<dtoSupplier> GetAll(int page, int recordPerPage, object filter,bool isExport);
         int GetRecordCount(object filter = null);
         dtoSupplier GetByID(int supplierId);
         dtoSupplier GetByCode(string supplierCode);
@@ -20,5 +20,9 @@ namespace Genesis.DataAccess.Interfaces
         List<dtoSupplierPayment> GetSupplierPayments(string id);
 
         List<string> CheckSupplierCodeExists(string supplierCode);
+
+        List<dtoSupplierPurchaseOrder> GetSupplierPurchaseOrdersWithBalance(string id);
+        dtoSupplierPurchaseOrder GetPurchaseOrderDetails(string id);
+
     }
 }

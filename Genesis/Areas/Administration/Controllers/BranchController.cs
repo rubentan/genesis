@@ -35,7 +35,10 @@ namespace Genesis.Areas.Administration.Controllers
 
         public JsonResult GetAllBranches()
         {
-            var list = new List<dtoBranch>();
+            var currentUser = (dtoUserAccount)Session["CurrentUser"];
+            var page = int.Parse(Request["page"]);
+            var recordPerPage = int.Parse(Request["recordPerPage"]);
+            var isExport = false;
 
             var filter = new dtoBranch()
             {
@@ -43,7 +46,7 @@ namespace Genesis.Areas.Administration.Controllers
                 branchName = Request["searchBranchName"]
               };
 
-            list = repo.GetAllBranches2(filter, 0, 20);
+            var list = repo.GetAllBranches2(page, recordPerPage, filter, isExport);
 
 
             return Json(list);

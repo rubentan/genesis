@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,28 +16,55 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoReceivable>(sQuery).ToList();
         }
 
-        public List<dtoReceivable> GetAllReceivable2(object filter = null, int? skip = null, int? take = null)
+        public List<dtoReceivable> GetAllReceivable2(int page, int recordPerPage, object filter, bool isExport)
         {
 
-            string sQuery = string.Format(@"select top {0} t1.*, t2.clientName, t2.clientCode 
-                                            from tbl_receivable t1
-                                            left join tbl_client t2
-                                            on t1.clientId = t2.clientId
-                                            Where (1 = 1) ", take);
+//            string sQuery = string.Format(@"select top {0} t1.*, t2.clientName, t2.clientCode 
+//                                            from tbl_receivable t1
+//                                            left join tbl_client t2
+//                                            on t1.clientId = t2.clientId
+//                                            Where (1 = 1) ", take);
 
-            if (filter != null)
-            {
-                var f = (dtoReceivable)filter;
-                sQuery += string.Format("and ('{0}' = '' or t1.referenceNumber like '%{0}%'  )", f.referenceNumber);
-                sQuery += string.Format("and ('{0}' = '' or t2.clientName like '%{0}%'  )", f.clientName);
-                sQuery += string.Format("and ('{0}' = '' or t2.clientCode like '%{0}%'  )", f.clientCode);
-                sQuery += string.Format("and t2.branchId = {0} ", f.branchId);
-            }
+//            if (filter != null)
+//            {
+//                var f = (dtoReceivable)filter;
+//                sQuery += string.Format("and ('{0}' = '' or t1.referenceNumber like '%{0}%'  )", f.referenceNumber);
+//                sQuery += string.Format("and ('{0}' = '' or t2.clientName like '%{0}%'  )", f.clientName);
+//                sQuery += string.Format("and ('{0}' = '' or t2.clientCode like '%{0}%'  )", f.clientCode);
+//                sQuery += string.Format("and t2.branchId = {0} ", f.branchId);
+//            }
 
-            sQuery += "order by t1.dateCreated desc";
+//            sQuery += "order by t1.dateCreated desc";
             
 
-            return DBContext.Database.SqlQuery<dtoReceivable>(sQuery).ToList();
+//            return DBContext.Database.SqlQuery<dtoReceivable>(sQuery).ToList();
+
+            var retList = new List<dtoReceivable>();
+            try
+            {
+
+                var f = (dtoReceivable)filter;
+
+                retList = DBContext.Database.SqlQuery<dtoReceivable>(
+                      "EXEC sp_GetAllBranchReceivables @Page,@RecsPerPage,@ClientName,@ClientCode,@ReferenceNumber,@DateFrom,@DateTo,@BranchId,@IsExport"
+                      , new SqlParameter("Page", page)
+                      , new SqlParameter("RecsPerPage", recordPerPage)
+                      , new SqlParameter("ReferenceNumber", f.referenceNumber)
+                      , new SqlParameter("ClientName", f.clientName)
+                      , new SqlParameter("ClientCode", f.clientCode)
+                      , new SqlParameter("DateTo", f.dateTo)
+                      , new SqlParameter("DateFrom", f.dateFrom)
+                      , new SqlParameter("BranchId", f.branchId)
+                      , new SqlParameter("IsExport", isExport)
+                      ).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + " : " + ex.InnerException);
+            }
+
+            return retList;
+
         }
 
         public List<dtoReceivableOrder> GetReceivableOrderByClient(int clientId)
@@ -137,7 +165,7 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoReceivable>(sQuery).ToList();
         }
 
-            public dtoReceivable GetExistingPaymentDetail(int receivableId)
+        public dtoReceivable GetExistingPaymentDetail(int receivableId)
         {
             string sQuery = string.Format(@"select a.receivableId, a.clientId, a.referenceNumber, a.cashAmount, a.chequeDate, a.chequeBank, a.chequeNumber, a.paymentDate,
                                             sum(b.paymentPrice) as totalPayment, (a.cashAmount - sum(b.paymentPrice)) as remainingBalance

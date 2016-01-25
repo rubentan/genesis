@@ -10,7 +10,7 @@ namespace Genesis.DataAccess.Interfaces
 {
     public interface IBranch : IBase<dtoBranch>
     {
-        List<dtoBranch> GetAll2(object filter = null, int? skip = null, int? take = null);
+        List<dtoBranch> GetAll2(int page, int recordPerPage, object filter, bool isExport);
 
         List<string> CheckBranchCodeExists(string branchCode);
     }

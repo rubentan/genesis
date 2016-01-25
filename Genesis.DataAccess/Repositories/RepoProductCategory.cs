@@ -24,7 +24,7 @@ namespace Genesis.DataAccess.Repositories
                                           ,[categoryName]
                                           ,[dateCreated]
                                           ,[createdBy]
-                                      FROM [Genesis].[dbo].[tbl_productCategory] WHERE categoryName LIKE '%{0}%' OR categoryCode LIKE '%{0}%'", search);
+                                      FROM [tbl_productCategory] WHERE categoryName LIKE '%{0}%' OR categoryCode LIKE '%{0}%'", search);
             return DBContext.Database.SqlQuery<dtoProductCategory>(sQuery).ToList();
         }
 

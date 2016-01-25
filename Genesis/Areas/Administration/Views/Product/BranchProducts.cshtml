@@ -150,11 +150,17 @@
                             <a data-bind="click: $parent.viewPrice,text:convertToCurrency(unitPrice)" class="btn-link default btn-xs blue" style="margin-bottom: 2px !important;">
                             </a>
                         </td>
-                        <td data-bind="text:beginning"></td>
-                        <td data-bind="text:incoming"></td>
-                        <td data-bind="text:outgoing"></td>
+                        <td data-bind="text:beginning">
+                        </td>
+                        <td data-bind="text:incoming">
+                        </td>
+                        <td data-bind="text:outgoing">
+                        </td>
                         <td data-bind="text:ending"></td>
                         <td>
+                            @*<a data-bind="click: $parent.saveRow" class="btn default btn-xs red" style="margin-bottom: 2px !important;">
+                                <i class="fa fa-save"></i>
+                            </a>*@
                             <a data-bind="click: $parent.viewProduct" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
                                 <i class="fa fa-folder-open-o "></i> View
                             </a>

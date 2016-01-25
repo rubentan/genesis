@@ -137,9 +137,10 @@ namespace Genesis.Areas.Administration.Controllers
         public JsonResult GetAllUsers()
         {
 
-
-            //int totalRecords = 0;
-
+            var currentUser = (dtoUserAccount) Session["CurrentUser"];
+            var page = int.Parse(Request["page"]);
+            var recordPerPage = int.Parse(Request["recordPerPage"]);
+            var isExport = false;
 
             var filter = new dtoUserAccount
             {
@@ -150,7 +151,7 @@ namespace Genesis.Areas.Administration.Controllers
                 branchId = (Request["searchBranchId"] == "null" || Request["searchBranchId"] == "") ? 0 : Convert.ToInt32(Request["searchBranchId"])                
             };
 
-            var list = serviceUserAccount.GetAllUsers2(filter, 0, 20);
+            var list = serviceUserAccount.GetAllUsers2(page, recordPerPage, filter, isExport);
             //totalRecords = serviceUserAccount.GetRecordCount(filter);
 
             //int count = list.Count();

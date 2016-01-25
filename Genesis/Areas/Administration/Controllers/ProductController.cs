@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using Genesis.BusinessLogic;
 using Genesis.DTO;
+using OfficeOpenXml;
 
 namespace Genesis.Areas.Administration.Controllers
 {
@@ -27,6 +30,10 @@ namespace Genesis.Areas.Administration.Controllers
         public JsonResult GetAllBranchProducts()
         {
             var currentUser = (dtoUserAccount) Session["CurrentUser"];
+            var page = int.Parse(Request["page"]);
+            var recordPerPage = int.Parse(Request["recordPerPage"]);
+            var isExport = false;
+
             var filter = new dtoProduct
             {
                 productCode = Request["productCodeSearch"],
@@ -35,12 +42,9 @@ namespace Genesis.Areas.Administration.Controllers
                 branchId = currentUser.branchId
             };
 
-            var list = serviceProduct.GetBranchProducts(filter, 0, 20);
-
-           
-
-            return Json(list);
-            
+           var list = serviceProduct.GetBranchProducts(page, recordPerPage, filter,isExport);
+           var ret = Json(list);
+           return ret;
         }
 
         public JsonResult CheckProductCodeExists(string productCode)
@@ -55,6 +59,73 @@ namespace Genesis.Areas.Administration.Controllers
                 return Json("Product Code already in use.", JsonRequestBehavior.AllowGet);
             }
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        public static DataTable ToDataTable<T>(IList<T> data)
+        {
+            PropertyDescriptorCollection properties =
+                TypeDescriptor.GetProperties(typeof(T));
+            DataTable table = new DataTable();
+            foreach (PropertyDescriptor prop in properties)
+                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+            foreach (T item in data)
+            {
+                DataRow row = table.NewRow();
+                foreach (PropertyDescriptor prop in properties)
+                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+
+        public void ExportBranchProducts(string productCode, string productDesc)
+        {
+            var currentUser = (dtoUserAccount) Session["CurrentUser"];
+            var page = 0;
+            var recordPerPage = 0;
+            var isExport = true;
+
+            var filter = new dtoProduct
+            {
+                productCode = productCode,
+                productDescription = productDesc,
+                branchId = currentUser.branchId
+            };
+
+            var list = serviceProduct.GetBranchProducts(page, recordPerPage, filter, isExport);
+
+            DataTable dt = new DataTable();
+            dt = ToDataTable(list);
+
+
+            using (ExcelPackage pck = new ExcelPackage())
+            {
+                //Create the worksheet
+                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Data");
+
+                //Load the datatable into the sheet, starting from cell A1. 
+                //Print the column names on row 1
+                ws.Cells["A1"].LoadFromDataTable(dt, true);
+
+                //Write it back to the client
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;  filename=ProductDetails.xlsx");
+                Response.BinaryWrite(pck.GetAsByteArray());
+            }
+
+
+        }
+
+        [HttpPost]
+        public JsonResult InLineUpdate(dtoProduct product)
+        {
+            dtoResult result;
+            var currentUser = (dtoUserAccount)Session["CurrentUser"];
+
+                product.modifiedBy = currentUser.userId;
+                result = serviceProduct.InLineUpdate(product);
+
+            return Json(result);
         }
 
         [HttpPost]
@@ -81,6 +152,11 @@ namespace Genesis.Areas.Administration.Controllers
         }
 
         public ActionResult BranchProducts()
+        {
+            return View();
+        }
+
+        public ActionResult BranchProductsV2()
         {
             return View();
         }

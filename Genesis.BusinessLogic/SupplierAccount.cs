@@ -28,9 +28,9 @@ namespace Genesis.BusinessLogic
             return repo.GetAll(search, filter);
         }
 
-        public List<dtoSupplier> GetAllSuppliers(object filter = null, int? skip = null, int? take = null)
+        public List<dtoSupplier> GetAllSuppliers(int page, int recordPerPage, object filter,bool isExport)
         {
-            return repo.GetAll(filter, skip, take);
+            return repo.GetAll(page, recordPerPage, filter,isExport);
         }
 
         public List<dtoSupplier> GetAllSuppliers(string search, object filter = null, int? skip = null, int? take = null)
@@ -143,6 +143,16 @@ namespace Genesis.BusinessLogic
         public dtoResult Update(dtoSupplier supplier)
         {
             return repo.Update(supplier);
+        }
+
+        public List<dtoSupplierPurchaseOrder> GetSupplierPurchaseOrdersWithBalance(string id)
+        {
+            return repo.GetSupplierPurchaseOrdersWithBalance(id);
+        }
+
+        public dtoSupplierPurchaseOrder GetPurchaseOrderDetails(string id)
+        {
+            return repo.GetPurchaseOrderDetails(id);
         }
     }
 }

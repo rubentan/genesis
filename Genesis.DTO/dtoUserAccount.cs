@@ -21,6 +21,7 @@ namespace Genesis.DTO
         public Nullable<System.DateTime> dateLastLogin { get; set; }
         public System.DateTime dateCreated { get; set; }
         public Nullable<System.DateTime> dateLastPasswordChange { get; set; }
+        public int records { get; set; }
 
         //Custom Fields
         public string branchName { get; set; }

@@ -36,6 +36,7 @@ namespace Genesis.DTO
         public string dateTo { get; set; }
 
         public int branchId { get; set; }
+        public int records { get; set; }
 
         
         

@@ -27,6 +27,7 @@ namespace Genesis.DTO
         public string clientName { get; set; }
         public string clientCode { get; set; }
         public decimal? totalPaid { get; set; }
-        
+        public int records { get; set; }
+        public int payment { get; set; }
     }
 }

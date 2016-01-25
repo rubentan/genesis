@@ -68,3 +68,5 @@ C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.WebPages.Razor.xml
 C:\Users\rj\Documents\GitHub\genesis\Genesis\obj\Release\Genesis.csprojResolveAssemblyReference.cache
 C:\Users\rj\Documents\GitHub\genesis\Genesis\obj\Release\Genesis.dll
 C:\Users\rj\Documents\GitHub\genesis\Genesis\obj\Release\Genesis.pdb
+C:\Users\rj\Documents\GitHub\Genesis\Genesis\bin\EPPlus.dll
+C:\Users\rj\Documents\GitHub\Genesis\Genesis\bin\EPPlus.xml

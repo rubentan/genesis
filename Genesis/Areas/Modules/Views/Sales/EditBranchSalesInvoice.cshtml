@@ -10,7 +10,6 @@
     <script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js")" type="text/javascript"></script>
 
-
 }
 
 @section scripts{
@@ -19,9 +18,6 @@
     <script src="@Url.Content("~/Content/assets/admin/layout3/scripts/demo.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Content/assets/global/scripts/datatable.js")" type="text/javascript"></script>
     
-
-
-
 }
 @section css{
     <link href="@Url.Content("~/Content/assets/global/plugins/select2/select2.css")" rel="stylesheet" type="text/css">
@@ -62,15 +58,14 @@
     <div class="portlet-body">
 
         <div class="row">
-            <div class="col-md-12 col-sm-12">
-
+            <div class="col-md-4 col-sm-12">
                 <div class="portlet box grey-cascade ">
                     <div class="portlet-title">
                         <div class="caption">
                             <i class="fa fa-gift"></i>Invoice Details
                         </div>
                         <div class="tools">
-                            <a href="javascript:;" class="collapse">
+                            <a tabindex="-1"  href="javascript:;" class="collapse">
                             </a>
 
                         </div>
@@ -80,22 +75,22 @@
                         <form action="javascript:;" class="form-horizontal form-bordered form-row-stripped">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">Document #</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" id="txtDocumentNumber" />
-
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="control-label col-md-3">Client</label>
                                     <div class="col-md-9">
                                         <input type="hidden" id="ddClient" class="form-control select2 input-sm">
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="control-label col-md-3">Document #</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control input-sm" disabled id="txtDocumentNumber" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label col-md-3">Date</label>
                                     <div class="col-md-9">
-                                        <input class="form-control input-sm date-picker" type="text" value="" id="txtTransactionDate" />
+                                        <input class="form-control input-sm" type="text" value="" id="txtTransactionDate" />
                                     </div>
                                 </div>
 
@@ -104,19 +99,13 @@
                         <!-- END FORM-->
                     </div>
                 </div>
-
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-12 col-sm-12">
                 <div class="portlet grey-cascade box">
                     <div class="portlet-title">
                         <div class="caption">
                             <i class="fa fa-cogs"></i>Invoice Items
                         </div>
                         <div class="tools">
-                            <a href="javascript:;" class="collapse">
+                            <a tabindex="-1" href="javascript:;" class="collapse">
                             </a>
 
                         </div>
@@ -134,28 +123,52 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label"></label>
                                     <div class="col-md-9">
-                                        <div class="well">
+                                        <div class="well" style="margin-bottom: 0 !important">
                                             <div class="row">
-                                                <div class="col-md-3 name align-reverse">
+                                                <div class="col-md-6 name align-reverse">
                                                     List Price:
                                                 </div>
-                                                <div class="col-md-6 value" data-bind="text: convertToCurrency(Product.unitPrice())">
+                                                <div class="col-md-5 value" data-bind="text: convertToCurrency(Product.unitPrice())">
 
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-3 name align-reverse">
-                                                    In Stock:
-                                                </div>
-                                                <div class="col-md-6 value" data-bind="text: Product.ending">
-
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-3 name align-reverse">
+                                                <div class="col-md-6 name align-reverse">
                                                     Unit:
                                                 </div>
-                                                <div class="col-md-6 value" data-bind="text: Product.uom">
+                                                <div class="col-md-5 value" data-bind="text: Product.uom">
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 name align-reverse">
+                                                    Beginning:
+                                                </div>
+                                                <div class="col-md-5 value" data-bind="text: Product.beginning">
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 name align-reverse">
+                                                    Incoming:
+                                                </div>
+                                                <div class="col-md-5 value" data-bind="text: Product.incoming">
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 name align-reverse">
+                                                    Outgoing:
+                                                </div>
+                                                <div class="col-md-5 value" data-bind="text: Product.outgoing">
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 name align-reverse">
+                                                    In Stock:
+                                                </div>
+                                                <div class="col-md-5 value" data-bind="text: Product.ending">
 
                                                 </div>
                                             </div>
@@ -164,23 +177,27 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Unit Price</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" id="txtUnitPrice">
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="col-md-3 control-label">Quantity</label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control input-sm" id="txtQuantity">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Unit Price</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control input-sm" id="txtUnitPrice">
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-actions">
                                 <div class="row">
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <button class="btn blue" data-bind="click:addProduct">Add Product</button>
-                                        <button class="btn default" data-bind="click:clearProductAdd" aria-hidden="true">Clear</button>
+                                    <div class="col-md-offset-2 col-md-10">
+                                        @*<button class="btn blue" data-bind="click:addProduct">Add Product</button>
+                                        <button class="btn default" data-bind="click:clearProductAdd" aria-hidden="true">Clear</button>*@
+                                        <button class="btn blue" data-bind="click:addProduct" style="width:120px;">Add Product</button>
+                                        @*<button class="btn yellow" data-bind="click:addProductPost">Add and Post</button>*@
+                                        <button class="btn default" data-bind="click:clearProductAdd" style="width:120px;" aria-hidden="true">Clear</button>
+                                        <button type="button" class="btn green" style="width:120px;" data-bind="click: function () { updateSalesInvoice() }">Save</button>
                                     </div>
                                 </div>
                             </div>
@@ -193,9 +210,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 col-sm-12">
+            
+            <div class="col-md-8 col-sm-12">
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered table-striped">
                         <thead>
@@ -234,35 +250,32 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-            </div>
-            <div class="col-md-6">
-                <div class="well">
+                
+                <div class="row">
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="well">
 
 
-                    <div class="row static-info align-reverse">
-                        <div class="col-md-8 name">
-                            Grand Total:
-                        </div>
-                        <div class="col-md-3 value" data-bind="text:convertToCurrency(grandTotal())">
+                            <div class="row static-info align-reverse">
+                                <div class="col-md-5 name">
+                                    Grand Total:
+                                </div>
+                                <div class="col-md-5 value" data-bind="text:convertToCurrency(grandTotal())">
 
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-12 col-sm-12" style="text-align:right !important;">
+                    @*<button type="button" class="btn green" data-bind="click: function () { updateSalesInvoice() }">Update</button>
+                    <button type="button" data-bind="click:backToList" class="btn ">Cancel</button>*@
                 </div>
             </div>
         </div>
 
-        <div class="row">
-
-            <div class="col-md-12 col-sm-12" style="text-align:right !important;">
-                <button type="button" class="btn green" data-bind="click: function () { updateSalesInvoice() }">Update</button>
-                <button type="button" data-bind="click:backToList" class="btn ">Cancel</button>
-            </div>
-        </div>
     </div>
 </div>
 

@@ -11,7 +11,7 @@ namespace Genesis.DataAccess.Interfaces
     {
         List<dtoDocument> GetAll(string search, object filter = null, int? skip = null, int? take = null);
         List<dtoDocument> GetAll(object filter = null, int? skip = null, int? take = null);
-        List<dtoDocument> GetAll2(object filter = null, int? skip = null, int? take = null);
+        List<dtoDocument> GetAll2(int page, int recordPerPage, object filter, bool isExport);
         int GetRecordCount(object filter = null);
 
         List<dtoTransaction> GetAllOrderItems(int documentId);

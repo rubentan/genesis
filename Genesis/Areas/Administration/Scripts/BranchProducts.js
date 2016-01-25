@@ -43,8 +43,9 @@ var ViewModel = function () {
         unitPrice: ko.observable(),
         beginning: ko.observable(),
         incoming: ko.observable(),
-        outgoing: ko.observable()
-    };
+        outgoing: ko.observable(),
+        ending: ko.observable()
+};
 
     _self.asyncOperation = function () {
         _self.isLoading(true);
@@ -117,6 +118,11 @@ var ViewModel = function () {
 
         $('#viewPrice').modal('show');
 
+    };
+
+    _self.saveRow = function(products) {
+        //alert(products.beginning + '-' + products.incoming + '-' + products.outgoing );
+        //_self.products = '123';
     };
 
     _self.editRow = function (products) {

@@ -184,9 +184,6 @@ var viewModel = function () {
     };
 
     //General
-
-
-
     _self.addDocument = function () {
         var paymentTotal = 0;
         if (_self.isNew() == true) {
@@ -275,11 +272,11 @@ var viewModel = function () {
                                         contentType: 'application/json; charset=utf-8',
                                         dataType: 'json',
                                         success: function () {
-                                            _self.orderItems.removeAll();
-                                            _self.grandTotal('0');
-                                            $('#txtDocumentNumber').val('');
-                                            $('#txtTransactionDate').datepicker("setDate", new Date());
-                                            $("#ddClient").select2("val", "");
+                                            //_self.orderItems.removeAll();
+                                            //_self.grandTotal('0');
+                                            //$('#txtDocumentNumber').val('');
+                                            //$('#txtTransactionDate').datepicker("setDate", new Date());
+                                            //$("#ddClient").select2("val", "");
 
                                             alert('Success');
                                         }
@@ -329,11 +326,11 @@ var viewModel = function () {
                                         contentType: 'application/json; charset=utf-8',
                                         dataType: 'json',
                                         success: function () {
-                                            _self.orderItems.removeAll();
-                                            _self.grandTotal('0');
-                                            $('#txtDocumentNumber').val('');
-                                            $('#txtTransactionDate').datepicker("setDate", new Date());
-                                            $("#ddClient").select2("val", "");
+                                            //_self.orderItems.removeAll();
+                                            //_self.grandTotal('0');
+                                            //$('#txtDocumentNumber').val('');
+                                            //$('#txtTransactionDate').datepicker("setDate", new Date());
+                                            //$("#ddClient").select2("val", "");
 
                                             alert('Success');
                                         }
@@ -375,11 +372,11 @@ var viewModel = function () {
             $("#existingPaymentDiv").hide();
             $("#newPaymentDiv").show();
             $("#divAddReceivableOrder").show();
-            $("#divListReceivableOrder").show();
+            //$("#divListReceivableOrder").show();
         } else {
             _self.isNew(false);
             $("#divAddReceivableOrder").hide();
-            $("#divListReceivableOrder").hide();
+            //$("#divListReceivableOrder").hide();
             $("#newPaymentDiv").hide();
             $("#existingPaymentDiv").show();
             _self.loadExistingPayments();
@@ -387,7 +384,7 @@ var viewModel = function () {
 
         _self.loadClientDocuments();
         $("#divAddReceivableOrder").show();
-        $("#divListReceivableOrder").show();
+        //$("#divListReceivableOrder").show();
 
 
     });
@@ -428,7 +425,7 @@ var viewModel = function () {
         $("#newPaymentDiv").hide();
         $("#existingPaymentDiv").hide();
         $("#divAddReceivableOrder").hide();
-        $("#divListReceivableOrder").hide();
+        //$("#divListReceivableOrder").hide();
 
         if (clientId != null && clientId > 0) {
 

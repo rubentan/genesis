@@ -1,11 +1,11 @@
 ﻿$(function () {
-    if (jQuery().datepicker) {
-        $('.date-picker').datepicker({
-            rtl: Metronic.isRTL(),
-            orientation: "left",
-            autoclose: true
-        }).datepicker("setDate", new Date());;
-    }
+    //if (jQuery().datepicker) {
+    //    $('.date-picker').datepicker({
+    //        rtl: Metronic.isRTL(),
+    //        orientation: "left",
+    //        autoclose: true
+    //    }).datepicker("setDate", new Date());;
+    //}
     initSelect();
     
     vm = new viewModel();
@@ -23,10 +23,10 @@ var viewModel = function () {
         productName: ko.observable(),
         productDescription: ko.observable(),
         uom: ko.observable(),
-        beginning: ko.observable(),
-        incoming: ko.observable(),
-        outgoing: ko.observable(),
-        ending: ko.observable(),
+        beginning: ko.observable('0'),
+        incoming: ko.observable('0'),
+        outgoing: ko.observable('0'),
+        ending: ko.observable('0'),
         unitPrice: ko.observable('0'),
         discountPrice: ko.observable(),
         quantity: ko.observable(),
@@ -116,8 +116,11 @@ var viewModel = function () {
 
     _self.clearProductAdd = function() {
         _self.Product.unitPrice('0');
-        _self.Product.ending('');
+        _self.Product.ending('0');
         _self.Product.uom('');
+        _self.Product.beginning('0');
+        _self.Product.incoming('0');
+        _self.Product.outgoing('0');
         $('#ddProduct').val('');
         $("#ddProduct").select2("val", "");
         $('#txtUnitPrice').val('');
@@ -131,49 +134,85 @@ var viewModel = function () {
     _self.addPurchaseOrder = function () {
         var dataUrl = $("#hdnAddPurchaseOrderUrl").attr("data-url");
         if ($('#txtDocumentNumber').val() != "") {
-            if ($('#ddSupplier').val() != "") {
-                if ($('#txtTransactionDate').val() != "") {
-                    if (_self.orderItems().length > 0 ) {
-                        var param = {
-                            header: {
-                                documentNumber: $('#txtDocumentNumber').val(),
-                                documentType: 2,
-                                transactionDate: $('#txtTransactionDate').val(),
-                                referenceId: $('#ddSupplier').val(),
+            if ($('#txtDocumentNumber').val().substring(0,2) == "PO" || $('#txtDocumentNumber').val().substring(0,2) == "RT" || $('#txtDocumentNumber').val().substring(0,2) == "DR" || $('#txtDocumentNumber').val().substring(0,2) == "OS") {
+                if ($('#ddSupplier').val() != "") {
+                    if ($('#txtTransactionDate').val() != "") {
+                        if (_self.orderItems().length > 0 ) {
+                            var param = {
+                                header: {
+                                    documentNumber: $('#txtDocumentNumber').val(),
+                                    documentType: 2,
+                                    transactionDate: $('#txtTransactionDate').val(),
+                                    referenceId: $('#ddSupplier').val(),
 
-                            },
-                            details: _self.orderItems()
-                        };
+                                },
+                                details: _self.orderItems()
+                            };
 
-                        $.ajax({
-                            //url: '/Modules/Purchase/SavePurchaseTransaction',
-                            url: dataUrl,
-                            type: 'POST',
-                            data: ko.toJSON(param),
-                            contentType: 'application/json; charset=utf-8',
-                            dataType: 'json',
-                            success: function () {
-                                _self.orderItems.removeAll();
-                                _self.grandTotal('0');
-                                $('#txtDocumentNumber').val('');
-                                $('#txtTransactionDate').datepicker("setDate", new Date());
-                                $("#ddSupplier").select2("val", "");
+                            if (!checkExisting(param)) {
 
-                                alert('Success');
+                                $.ajax({
+                                    //url: '/Modules/Purchase/SavePurchaseTransaction',
+                                    url: dataUrl,
+                                    type: 'POST',
+                                    data: ko.toJSON(param),
+                                    contentType: 'application/json; charset=utf-8',
+                                    dataType: 'json',
+                                    success: function() {
+                                        _self.orderItems.removeAll();
+                                        _self.grandTotal('0');
+                                        $('#txtDocumentNumber').val('');
+                                        $('#txtTransactionDate').val('');
+                                        $("#ddSupplier").select2("val", "");
+                                        _self.clearProductAdd();
+                                        alert('Successfully Added Purchase Record.');
+                                        document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                    }
+                                });
+                            } else {
+                                alert('Transaction Date and Number has already been used.');
                             }
-                        });
+                        } else {
+                            alert('Order Product Items are Required.');
+                        }
                     } else {
-                        alert('Order Product Items are Required.');
+                        alert('Transaction Date is Required.');
                     }
                 } else {
-                    alert('Transaction Date is Required.');
+                    alert('Supplier is Required.');
                 }
             } else {
-                alert('Supplier is Required.');
+                alert('Document Number is Invalid (PO,RT,DR,OS).');
             }
         } else {
             alert('Document Number is Required.');
         }
+    };
+
+    function checkExisting(param) {
+
+        var dataUrl = $("#hdnCheckExistingDocument").attr("data-url");
+        var retVal = true;
+
+        $.ajax({
+            url: dataUrl,
+            type: 'POST',
+            data: ko.toJSON(param),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            async: false,
+            success: function (d) {
+                //alert(d);
+                retVal = d;
+            },
+            error: function (error) {
+                //alert(error.responseText);
+                alert(error);
+            }
+        });
+
+
+        return retVal;
     };
 
     _self.addSalesInvoiceContinue = function () {
@@ -188,62 +227,77 @@ var viewModel = function () {
     };
 
     var dataUrl = $("#hdnGetAllBranchProductsUrl").attr("data-url");
-    $("#ddProduct").select2({
-        placeholder: 'Select...',
-        //Does the user have to enter any data before sending the ajax request
-        minimumInputLength: 3,
-        allowClear: true,
-        ajax: {
-            //How long the user has to pause their typing before sending the next request
-            quietMillis: 150,
-            //The url of the json service
-            //url: '/Modules/Sales/GetAllBranchProducts',
-            url: dataUrl,
-            dataType: 'json',
-            //Our search term and what page we are on
-            data: function (term) {
-                return {
-                    search: term
-                };
-            },
-            results: function (data) {
-                //Used to determine whether or not there are more results available,
-                //and if requests for more data should be sent in the infinite scrolling
-                return { results: data };
-            }
-        }
-    }).on('change', function (e) {
-        var param = {
-            productId: $('#ddProduct').val()
-        };
-        var dataUrl = $("#hdnGetProductUrl").attr("data-url");
-        if ($('#ddProduct').val() != "") {
-            $.ajax({
-                //url: '/Modules/Sales/GetProduct',
-                url: dataUrl,
-                type: 'POST',
-                data: JSON.stringify(param),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                success: function(d) {
-                    _self.Product.unitPrice(d.unitPrice);
-                    _self.Product.beginning(d.beginning);
-                    _self.Product.incoming(d.incoming);
-                    _self.Product.outgoing(d.outgoing);
-                    _self.Product.ending(d.ending);
-                    _self.Product.uom(d.UOM);
+
+    $.ajax({
+        //url: '/Modules/Purchase/GetSupplierForDropDown',
+        url: dataUrl,
+        type: 'POST',
+        dataType: 'json',
+        success: function(d) {
+
+            $("#ddProduct").select2({
+                placeholder: 'Select...',
+                allowClear: true,
+                minimumInputLength: 3,
+                matcher: function (term, text, opt) {
+                    return text.toUpperCase().indexOf(term.toUpperCase()) >= 0 || opt.parent("optgroup").attr("label").toUpperCase().indexOf(term.toUpperCase()) >= 0;
                 },
-                error: function() {
+                query: function (query) {
 
+                    var data = {
+                        results: []
+                    };
+
+
+                    for (var i = 0; i < d.length; i++) {
+                        if (d[i].text.toUpperCase().indexOf(query.term.toUpperCase()) > -1) {
+                            data.results.push(d[i]);
+                        }
+                    }
+
+
+                    query.callback(data);
                 }
+            }).on('change', function (e) {
+                var param = {
+                    productId: $('#ddProduct').val()
+                };
+                var dataUrl = $("#hdnGetProductUrl").attr("data-url");
+                if ($('#ddProduct').val() != "") {
+                    $.ajax({
+                        //url: '/Modules/Sales/GetProduct',
+                        url: dataUrl,
+                        type: 'POST',
+                        data: JSON.stringify(param),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function(d) {
+                            _self.Product.unitPrice(d.unitPrice);
+                            _self.Product.beginning(d.beginning);
+                            _self.Product.incoming(d.incoming);
+                            _self.Product.outgoing(d.outgoing);
+                            _self.Product.ending(d.ending);
+                            _self.Product.uom(d.UOM);
+                        },
+                        error: function() {
+
+                        }
+                    });
+                } else {
+                    _self.Product.unitPrice('0');
+                    _self.Product.beginning('0');
+                    _self.Product.incoming('0');
+                    _self.Product.outgoing('0');
+                    _self.Product.ending('0');
+                    _self.Product.uom('');
+                }
+
+
             });
-        } else {
-            _self.Product.unitPrice('');
-            _self.Product.ending('');
-            _self.Product.uom('');
+        },
+        error: function() {
+
         }
-
-
     });
 };
 

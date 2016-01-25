@@ -1,11 +1,11 @@
 ﻿$(function () {
-    if (jQuery().datepicker) {
-        $('.date-picker').datepicker({
-            rtl: Metronic.isRTL(),
-            orientation: "left",
-            autoclose: true
-        });
-    }
+    //if (jQuery().datepicker) {
+    //    $('.date-picker').datepicker({
+    //        rtl: Metronic.isRTL(),
+    //        orientation: "left",
+    //        autoclose: true
+    //    });
+    //}
     initSelect();
     vm = new viewModel();
     ko.applyBindings(vm);
@@ -26,7 +26,10 @@ var viewModel = function () {
         productName: ko.observable(),
         productDescription: ko.observable(),
         uom: ko.observable(),
-        ending: ko.observable(),
+        beginning: ko.observable('0'),
+        incoming: ko.observable('0'),
+        outgoing: ko.observable('0'),
+        ending: ko.observable('0'),
         unitPrice: ko.observable('0'),
         discountPrice: ko.observable(),
         quantity: ko.observable(),
@@ -36,8 +39,6 @@ var viewModel = function () {
         total: ko.observable()
 
     };
-
-    
     
     _self.addProduct = function () {
 
@@ -78,8 +79,11 @@ var viewModel = function () {
 
     _self.clearProductAdd = function() {
         _self.Product.unitPrice('0');
-        _self.Product.ending('');
+        _self.Product.ending('0');
         _self.Product.uom('');
+        _self.Product.beginning('0');
+        _self.Product.incoming('0');
+        _self.Product.outgoing('0');
         $('#ddProduct').val('');
         $("#ddProduct").select2("val", "");
         $('#txtUnitPrice').val('');
@@ -134,8 +138,6 @@ var viewModel = function () {
         }
     };
 
-   
-
     _self.getDocumentDetails = function () {
         var dataUrl = $("#hdnGetDocumentDetailsUrl").attr("data-url");
         $.ajax({
@@ -146,6 +148,7 @@ var viewModel = function () {
             success: function (d) {
                 _self.documentNumber(d.documentNumber);
                 _self.dateCreated(d.dateCreated);
+                $("#select2").select2(d.clientCode, d.clientName); //set the value
             },
             error: function () { alert('ajax error'); }
         });
@@ -196,62 +199,80 @@ var viewModel = function () {
         var dataUrl = $("#hdnBackToListUrl").attr("data-url");
         window.location = dataUrl;
     };
+
     var dataUrl = $("#hdnGetAllBranchProductsUrl").attr("data-url");
-    $("#ddProduct").select2({
-        placeholder: 'Select...',
-        //Does the user have to enter any data before sending the ajax request
-        minimumInputLength: 3,
-        allowClear: true,
-        ajax: {
-            //How long the user has to pause their typing before sending the next request
-            quietMillis: 150,
-            //The url of the json service
-            //url: '/Modules/Sales/GetAllBranchProducts',
-            url: dataUrl,
-            dataType: 'json',
-            //Our search term and what page we are on
-            data: function (term) {
-                return {
-                    search: term
-                };
-            },
-            results: function (data) {
-                //Used to determine whether or not there are more results available,
-                //and if requests for more data should be sent in the infinite scrolling
-                return { results: data };
-            }
-        }
-    }).on('change', function (e) {
-        var param = {
-            productId: $('#ddProduct').val()
-        };
-        var dataUrl = $("#hdnGetProductUrl").attr("data-url");
-        if ($('#ddProduct').val() != "") {
-            $.ajax({
-                //url: '/Modules/Sales/GetProduct',
-                url: dataUrl,
-                type: 'POST',
-                data: JSON.stringify(param),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                success: function(d) {
-                    _self.Product.unitPrice(d.unitPrice);
-                    _self.Product.ending(d.ending);
-                    _self.Product.uom(d.UOM);
+
+    $.ajax({
+        //url: '/Modules/Purchase/GetSupplierForDropDown',
+        url: dataUrl,
+        type: 'POST',
+        dataType: 'json',
+        success: function(d) {
+
+            $("#ddProduct").select2({
+                placeholder: 'Select...',
+                allowClear: true,
+                minimumInputLength: 3,
+                matcher: function (term, text, opt) {
+                    return text.toUpperCase().indexOf(term.toUpperCase()) >= 0 || opt.parent("optgroup").attr("label").toUpperCase().indexOf(term.toUpperCase()) >= 0;
                 },
-                error: function() {
+                query: function (query) {
 
+                    var data = {
+                        results: []
+                    };
+
+
+                    for (var i = 0; i < d.length; i++) {
+                        if (d[i].text.toUpperCase().indexOf(query.term.toUpperCase()) > -1) {
+                            data.results.push(d[i]);
+                        }
+                    }
+
+
+                    query.callback(data);
                 }
+            }).on('change', function (e) {
+                var param = {
+                    productId: $('#ddProduct').val()
+                };
+                var dataUrl = $("#hdnGetProductUrl").attr("data-url");
+                if ($('#ddProduct').val() != "") {
+                    $.ajax({
+                        //url: '/Modules/Sales/GetProduct',
+                        url: dataUrl,
+                        type: 'POST',
+                        data: JSON.stringify(param),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function(d) {
+                            _self.Product.unitPrice(d.unitPrice);
+                            _self.Product.beginning(d.beginning);
+                            _self.Product.incoming(d.incoming);
+                            _self.Product.outgoing(d.outgoing);
+                            _self.Product.ending(d.ending);
+                            _self.Product.uom(d.UOM);
+                        },
+                        error: function() {
+
+                        }
+                    });
+                } else {
+                    _self.Product.unitPrice('');
+                    _self.Product.beginning('0');
+                    _self.Product.incoming('0');
+                    _self.Product.outgoing('0');
+                    _self.Product.ending('0');
+                    _self.Product.uom('');
+                }
+
+
             });
-        } else {
-            _self.Product.unitPrice('');
-            _self.Product.ending('');
-            _self.Product.uom('');
+        },
+        error: function () {
+
         }
-
-
     });
-
     //_self.getDocumentDetails();
     _self.getOrderItems();
 };
@@ -277,7 +298,7 @@ var initSelect = function() {
 
                     var data = {
                         results: []
-                    }
+                    };
 
 
                     for (var i = 0; i < d.length; i++) {

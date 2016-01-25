@@ -12,7 +12,7 @@ namespace Genesis.DataAccess.Interfaces
         IEnumerable<dtoDocument> GetAll(string search, object filter = null, int? skip = null, int? take = null);
         IEnumerable<dtoDocument> GetAll(object filter = null, int? skip = null, int? take = null);
 
-        List<dtoDocument> GetAll2(object filter = null, int? skip = null, int? take = null);
+        List<dtoDocument> GetAll2(int page, int recordPerPage, object filter, bool isExport);
         int GetRecordCount(object filter = null);
 
         dtoResult SaveInvoiceTransaction(dtoDocument header, List<dtoTransaction> details);
@@ -22,5 +22,7 @@ namespace Genesis.DataAccess.Interfaces
         List<dtoTransaction> GetAllSaleItems(int documentId);
 
         List<dtoReceivable> GetAllReceivables(object filter = null, int? skip = null, int? take = null);
+
+        Boolean CheckExistingDocument(string documentNumber, DateTime? documentTime);
     }
 }

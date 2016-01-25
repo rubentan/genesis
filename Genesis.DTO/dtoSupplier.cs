@@ -21,6 +21,7 @@ namespace Genesis.DTO
         public int createdBy { get; set; }
         public int? modifiedBy { get; set; }
         public DateTime? dateLastModified { get; set; }
+        public int records { get; set; }
 
         //Custom Columns
 
@@ -59,7 +60,7 @@ namespace Genesis.DTO
 
         public string referenceNumber { get; set; }
 
-        public decimal cashAmount { get; set; }
+        public decimal? cashAmount { get; set; }
 
         public DateTime dateCreated { get; set; }
     }

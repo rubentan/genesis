@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,20 +22,30 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoBranch>("select * from tbl_branch").ToList();
         }
 
-        public List<dtoBranch> GetAll2(object filter = null, int? skip = null, int? take = null)
+        public List<dtoBranch> GetAll2(int page, int recordPerPage, object filter, bool isExport)
         {
-            string sQuery = string.Format(@"SELECT TOP {0} * FROM tbl_branch 
-                                            WHERE (1 = 1) ", take);
+//            string sQuery = string.Format(@"SELECT TOP {0} * FROM tbl_branch 
+//                                            WHERE (1 = 1) ", take);
 
-            if (filter != null)
-            {
-                var f = (dtoBranch)filter;
-                sQuery += string.Format("and ('{0}' = '' or branchName like '%{0}%'  )", f.branchName);
-                sQuery += string.Format("and ('{0}' = '' or branchCode like '%{0}%' )", f.branchCode);
+//            if (filter != null)
+//            {
+//                var f = (dtoBranch)filter;
+//                sQuery += string.Format("and ('{0}' = '' or branchName like '%{0}%'  )", f.branchName);
+//                sQuery += string.Format("and ('{0}' = '' or branchCode like '%{0}%' )", f.branchCode);
 
-            }
+//            }
 
-            return DBContext.Database.SqlQuery<dtoBranch>(sQuery).ToList();
+//            return DBContext.Database.SqlQuery<dtoBranch>(sQuery).ToList();
+
+            var f = (dtoBranch)filter;
+            return DBContext.Database.SqlQuery<dtoBranch>("EXEC sp_GetAllBranches @Page,@RecsPerPage,@BranchCode,@BranchName,@IsExport"
+                , new SqlParameter("Page", page)
+                , new SqlParameter("RecsPerPage", recordPerPage)
+                , new SqlParameter("BranchName", f.branchName)
+                , new SqlParameter("BranchCode", f.branchCode)
+                , new SqlParameter("IsExport", isExport)
+                ).ToList();
+
         }
 
 

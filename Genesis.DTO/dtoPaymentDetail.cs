@@ -8,13 +8,21 @@ namespace Genesis.DTO
 {
     public class dtoPaymentDetail
     {
-        public Int32? paymentDetailsId { get; set; }
-        public Int32? documentId { get; set; }
-        public String documentNo { get; set; }
-        public Int32? paymentId { get; set; }
-        public Decimal? paymentPrice { get; set; }
-        public Decimal? totalAmount { get; set; }
-        public Decimal? totalPaid { get; set; }
+        public int paymentDetailsId { get; set; }
+        public int? documentId { get; set; }
+        public string documentNo { get; set; }
+        public int? paymentId { get; set; }
+        public decimal? paymentPrice { get; set; }
+        public decimal? totalAmount { get; set; }
+        public decimal? totalPaid { get; set; }
+        public DateTime? dateCreated { get; set; }
+        public int? createdBy { get; set; }
+        public DateTime? dateLastModified { get; set; }
+        public int? lastModifiedBy { get; set; }
+        public string documentNumber { get; set; }
+        public decimal totalPayAmount { get; set; }
+        public decimal remainingBalance { get; set; }
+        public decimal totalPayment { get; set; }
        
     }
 }

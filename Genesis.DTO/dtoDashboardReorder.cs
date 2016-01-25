@@ -10,6 +10,8 @@ namespace Genesis.DTO
     {
         public int productId { get; set; }
         public string productCode { get; set; }
+        public string UOM { get; set; }
+        public int reorderLevel{ get; set; }
         public string productDescription { get; set; }
         public int ending { get; set; }
 

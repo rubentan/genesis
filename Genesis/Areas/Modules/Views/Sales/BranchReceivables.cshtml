@@ -46,7 +46,7 @@
     </div>
     <div class="portlet-body form">
         <div class="form-horizontal filterContainer" role="form">
-            <div class="form-body filterContainer">
+            <div class="form-body">
                 <div class="form-group">
                     <label class="col-md-2 control-labels" style="padding-top:5px;width:12% !important;">Reference Num</label>
                     <div class="col-md-4" style="margin-right:90px !important;">
@@ -58,30 +58,29 @@
                     </div>
                 </div>
 
-                @*<div class="form-group">
+                <div class="form-group">
                     <label class="col-md-2 control-labels" style="padding-top:5px;width:12% !important;">Client Code</label>
                     <div class="col-md-4" style="margin-right:90px !important;">
                         <input type="text" class="form-control input-sm" placeholder="Client Code" name="clientCode" id="clientCode">
                     </div>
-                    @*<label class="col-md-2 control-labels" style="padding-top:5px;width:12% !important;">Date Created</label>
+                    <label class="col-md-2 control-labels" style="padding-top:5px;width:12% !important;">Date Created</label>
                     <div class="col-md-4">
                         <div class="input-group date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-                            <input type="text" class="form-control input-sm" name="dateFrom">
+                            <input type="text" class="form-control input-sm date-from" name="dateFrom" id="dateFrom">
                             <span class="input-group-addon input-sm">
                                 to
                             </span>
-                            <input type="text" class="form-control input-sm" name="dateTo">
+                            <input type="text" class="form-control input-sm date-to" name="dateTo" id="dateTo">
                         </div>
                     </div>
-                </div>*@
-
-
+                </div>
             </div>
             <div class="form-actions" style="padding: 10px 10px 0px 0px !important;">
                 <div class="row">
                     <div class="col-md-12" style="text-align: right;">
                         <button type="button" class="btn yellow" id="btnSubmitFilter" data-bind="click: asyncOperation">Submit</button>
                         <button type="button" class="btn red" id="btnResetFilter" data-bind="click: ResetFilter">Reset</button>
+                        <input type="button" id="btnExport" class="btn formItem" value="Export" data-bind="click: exportReceivables">
                     </div>
                 </div>
             </div>
@@ -112,49 +111,67 @@
                     Ajax encountered a problem, Please contact system administrator.
                 </span>
             </div>
-            <div class="table-container" data-bind="loadingWhen: isLoading">
-                <table class="table table-striped table-bordered table-hover" id="tblDocuments">
-                    <thead>
-                        <tr role="row" class="heading">
+            
+            <div class="row filterContainer" style="margin-bottom:10px;">
 
-                            <th width="10%">
-                                Ref #
-                            </th>
-                            <th width="30%">
-                                Client Name
-                            </th>
-                            <th width="15%">
-                                Client Code
-                            </th>
-                            <th width="20%">
-                                Cash Amount
-                            </th>
-                            <th width="15%">
-                                Date Created
-                            </th>
-                            <th width="10%">
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody data-bind="foreach: listReceivables">
-                        <tr>
+                Page <a data-bind="click:previousPage" class="btn btn-sm default prev" title="Prev"><i class="fa fa-angle-left"></i></a>
+                <input type="text" disabled name="page" value="1" data-bind="value:page" class="pagination-panel-input form-control input-mini input-inline input-sm" maxlenght="5" style="text-align:center; margin: 0 5px;">
+                <a data-bind="click:nextPage" class="btn btn-sm default next" title="Next"><i class="fa fa-angle-right"></i></a> of <span data-bind="text:pages"></span> | Found total <span data-bind="text:records"></span> records
+                <input type="text" id="recordPerPage" name="recordPerPage" value="30" class="hidden" />
+            </div>
 
-                            <td data-bind="text: referenceNumber"></td>
-                            <td data-bind="text: clientName"></td>
-                            <td data-bind="text: clientCode"></td>
-                            <td data-bind="text: convertToCurrency(cashAmount)"></td>
-                            <td data-bind="text: convertDateFromJson( dateCreated )"></td>
+            <div class="row">
+                <div class="table-container" data-bind="loadingWhen: isLoading">
+                    <table class="table table-striped table-bordered table-hover" id="tblDocuments">
+                        <thead>
+                            <tr role="row" class="heading">
 
-                            <td>
-                                <a data-bind="click: editRow" class="btn default btn-xs purple" style="margin-bottom: 2px !important;">
-                                    <i class="fa fa-edit"></i> Edit
-                                </a>
-                            </td>
-                        </tr>
+                                <th width="10%">
+                                    Ref #
+                                </th>
+                                <th width="30%">
+                                    Client Name
+                                </th>
+                                <th width="15%">
+                                    Client Code
+                                </th>
+                                <th width="20%">
+                                    Cash Amount
+                                </th>
+                                <th width="15%">
+                                    Date Created
+                                </th>
+                                <th width="10%">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: listReceivables">
+                            <tr>
 
-                    </tbody>
-                </table>
+                                <td data-bind="text: referenceNumber"></td>
+                                <td data-bind="text: clientName"></td>
+                                <td data-bind="text: clientCode"></td>
+                                <td data-bind="text: convertToCurrency(cashAmount)"></td>
+                                <td data-bind="text: convertDateFromJson( dateCreated )"></td>
+
+                                <td>
+                                    <a data-bind="click: editRow" class="btn default btn-xs purple display-hide" style="margin-bottom: 2px !important;">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row" style="margin-top:10px;">
+
+                Page <a data-bind="click:previousPage" class="btn btn-sm default prev" title="Prev"><i class="fa fa-angle-left"></i></a>
+                <input type="text" disabled name="page" data-bind="value:page" class="pagination-panel-input form-control input-mini input-inline input-sm" maxlenght="5" style="text-align:center; margin: 0 5px;">
+                <a data-bind="click:nextPage" class="btn btn-sm default next" title="Next"><i class="fa fa-angle-right"></i></a> of <span data-bind="text:pages"></span> | Found total <span data-bind="text:records"></span> records
             </div>
         </div>
     </div>
@@ -162,8 +179,8 @@
 <!-- End: life time stats -->
 
 
-
 <input type="hidden" id="hdnGetBranchReceivablesUrl" data-url="@Url.Action("GetAllReceivables", "Sales", new { area = "Modules" }, null)" />
+<input type="hidden" id="hdnExportBranchReceivablesUrl" data-url="@Url.Action("ExportAllReceivables", "Sales", new { area = "Modules" }, null)" />
 <input type="hidden" id="hdnEditSalesReceivableUrl" data-url="@Url.Action("EditBranchReceivable", "Sales", new { area = "Modules" }, null)" />
 <input type="hidden" id="hdnAddSalesReceivablesUrl" data-url="@Url.Action("NewBranchReceivable2", "Sales", new { area = "Modules" }, null)" />
 

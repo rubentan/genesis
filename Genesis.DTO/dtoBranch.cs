@@ -16,5 +16,7 @@ namespace Genesis.DTO
         public int? createdBy { get; set; }
         public DateTime? dateLastModified { get; set; }
         public int? lastModifiedBy { get; set; }
+        public int records { get; set; }
+
     }
 }

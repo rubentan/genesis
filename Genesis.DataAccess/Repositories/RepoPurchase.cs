@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,30 +31,58 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoDocument>(sQuery).ToList();
         }
 
-        public List<dtoDocument> GetAll2(object filter = null, int? skip = null, int? take = null)
+        public List<dtoDocument> GetAll2(int page, int recordPerPage, object filter, bool isExport)
         {
-            string sQuery = string.Format(@"select a.documentId,a.referenceId,a.documentNumber,a.dateCreated,b.supplierName,b.supplierCode, sum(c.unitPrice*c.quantity) as salesPrice
-                                            from tbl_document a
-                                            left join tbl_supplier b
-                                            on a.referenceId = b.supplierId
-                                            left join tbl_transaction c
-                                            on a.documentId = c.documentId 
-                                            Where (1 = 1)");
+//            string sQuery = string.Format(@"select a.documentId,a.referenceId,a.documentNumber,a.dateCreated,b.supplierName,b.supplierCode, sum(c.unitPrice*c.quantity) as salesPrice
+//                                            from tbl_document a
+//                                            left join tbl_supplier b
+//                                            on a.referenceId = b.supplierId
+//                                            left join tbl_transaction c
+//                                            on a.documentId = c.documentId 
+//                                            Where (1 = 1)");
 
-            if (filter != null)
+//            if (filter != null)
+//            {
+//                var f = (dtoDocument)filter;
+//                sQuery += string.Format("and ('{0}' = '0' or a.documentId = {0}  )", f.documentId);
+//                sQuery += string.Format("and ('{0}' = '' or a.documentNumber like '%{0}%'  )", f.documentNumber);
+//                sQuery += string.Format("and ('{0}' = '' or b.supplierName like '%{0}%'  )", f.supplierName);
+//                sQuery += string.Format("and ('{0}' = '' or b.supplierCode like '%{0}%'  )", f.supplierCode);
+//                sQuery += string.Format("and ('{0}' = '' or a.transactionDate BETWEEN '{0}' AND '{1}'   )", f.dateFrom, f.dateTo);
+//                sQuery += string.Format("and a.branchId = {0} ", f.branchId);
+//            }
+
+//            sQuery += "and a.documentType in ('2','6') ";
+//            sQuery += "group by a.documentId,a.documentNumber,a.referenceId,a.dateCreated,b.supplierName,b.supplierCode";
+
+//            return DBContext.Database.SqlQuery<dtoDocument>(sQuery).ToList();
+
+            var retList = new List<dtoDocument>();
+            try
             {
+
                 var f = (dtoDocument)filter;
-                sQuery += string.Format("and ('{0}' = '0' or a.documentId = {0}  )", f.documentId);
-                sQuery += string.Format("and ('{0}' = '' or a.documentNumber like '%{0}%'  )", f.documentNumber);
-                sQuery += string.Format("and ('{0}' = '' or b.supplierName like '%{0}%'  )", f.supplierName);
-                sQuery += string.Format("and ('{0}' = '' or b.supplierCode like '%{0}%'  )", f.supplierCode);
-                sQuery += string.Format("and a.branchId = {0} ", f.branchId);
+
+                retList = DBContext.Database.SqlQuery<dtoDocument>(
+                      "EXEC sp_GetAllBranchPurchases @Page,@RecsPerPage,@DocumentId,@SupplierName,@SupplierCode,@DocumentNumber,@DateFrom,@DateTo,@BranchId,@IsExport"
+                      , new SqlParameter("Page", page)
+                      , new SqlParameter("RecsPerPage", recordPerPage)
+                      , new SqlParameter("DocumentId", f.documentId)
+                      , new SqlParameter("DocumentNumber", f.documentNumber)
+                      , new SqlParameter("SupplierName", f.supplierName)
+                      , new SqlParameter("SupplierCode", f.supplierCode)
+                      , new SqlParameter("DateTo", f.dateTo)
+                      , new SqlParameter("DateFrom", f.dateFrom)
+                      , new SqlParameter("BranchId", f.branchId)
+                      , new SqlParameter("IsExport", isExport)
+                      ).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + " : " + ex.InnerException);
             }
 
-            sQuery += "and a.documentType =2 ";
-            sQuery += "group by a.documentId,a.documentNumber,a.referenceId,a.dateCreated,b.supplierName,b.supplierCode";
-
-            return DBContext.Database.SqlQuery<dtoDocument>(sQuery).ToList();
+            return retList;
         }
 
         public int GetRecordCount(object filter = null)
@@ -216,6 +245,35 @@ namespace Genesis.DataAccess.Repositories
             var result = new dtoResult();
             try
             {
+                int docType = 0;
+                switch (document.documentNumber.Substring(0, 2))
+                {
+                    //purchase order
+                    case "PO":
+                        docType = 2;
+                        break;
+                    //purchase return
+                    case "RT":
+                        docType = 6;
+                        break;
+                    //Delivery Receipt - still sales invoice instead of 7.
+                    case "DR":
+                        docType = 1;
+                        break;
+                    //Delivery Receipt - still sales invoice instead of 8.
+                    case "OS":
+                        docType = 1;
+                        break;
+                }
+
+                var incompletePrice = products
+                    .Where(_=>_.unitPrice ==0)
+                    .Select(_ => _.transactionId).ToList();
+
+                document.payment = incompletePrice.Count > 0 ? 0 : 1;
+
+                document.documentType = docType;
+
 
 
                 if (document.documentId == 0)
@@ -235,9 +293,26 @@ namespace Genesis.DataAccess.Repositories
                     var product = DBContext.tbl_product.FirstOrDefault(d => d.productId == item.productId);
                     if (product != null)
                     {
-                        product.unitPrice = item.unitPrice;
-                        product.incoming = product.incoming - item.quantity;
-                        product.ending = (product.beginning + product.incoming) - product.outgoing;
+                        //product.unitPrice = item.unitPrice;
+                        //product.incoming = product.incoming - item.quantity;
+                        //product.ending = (product.beginning + product.incoming) - product.outgoing;
+
+                        switch (document.documentType)
+                        {
+                            case 8:
+                            case 7:
+                            case 2:
+                                //product.unitPrice = item.unitPrice;
+                                product.incoming = product.incoming - item.quantity;
+                                product.ending = (product.beginning + product.incoming) - product.outgoing;
+                                break;
+                            case 6:
+                                //If return do not change price
+                                //product.unitPrice = item.unitPrice;
+                                product.outgoing = product.outgoing - item.quantity;
+                                product.ending = (product.beginning + product.incoming) - product.outgoing;
+                                break;
+                        }
                     }
                     DBContext.tbl_transaction.Remove(item);
                 }
@@ -245,13 +320,21 @@ namespace Genesis.DataAccess.Repositories
                 if (products != null)
                 foreach (var item in products)
                 {
+                    //if (item.transactionId != 0) continue;
+                    item.documentId = document.documentId;
 
-                    if (item.transactionId == 0)
+                    switch (document.documentType)
                     {
-                        item.documentId = document.documentId;
-                        item.transactionType = 1;
-                        AddTransaction(item, document.createdBy);
+                        case 8:
+                        case 7:
+                        case 2:
+                            item.transactionType = 1;
+                            break;
+                        case 6:
+                            item.transactionType = 6;
+                            break;
                     }
+                    AddTransaction(item, document.createdBy);
                 }
 
                 DBContext.SaveChanges();
@@ -276,6 +359,7 @@ namespace Genesis.DataAccess.Repositories
         public void AddDocument(ref dtoDocument t)
         {
 
+
             var document = new tbl_document
             {
                 documentNumber = t.documentNumber,
@@ -284,8 +368,10 @@ namespace Genesis.DataAccess.Repositories
                 dateCreated = DateTime.Now,
                 createdBy = t.createdBy,
                 documentType = t.documentType,
+                //documentType = docType,
                 documentId = t.documentId,
-                branchId = t.branchId
+                branchId = t.branchId,
+                payment = t.payment
             };
 
             DBContext.tbl_document.Add(document);
@@ -306,6 +392,7 @@ namespace Genesis.DataAccess.Repositories
                 item.documentNumber = t.documentNumber;
                 item.referenceId = t.referenceId;
                 item.transactionDate = t.transactionDate;
+                item.payment = t.payment;
                 DBContext.SaveChanges();
             }
 
@@ -331,24 +418,37 @@ namespace Genesis.DataAccess.Repositories
 
 
             var product = DBContext.tbl_product.FirstOrDefault(d => d.productId == t.productId);
-            var priceHistory = new tbl_productPriceHistory()
-            {
-                productId = product.productId,
-                dateCreated = DateTime.Now,
-                createdBy = userId,
-                price = product.unitPrice
-            };
-
-            DBContext.tbl_productPriceHistory.Add(priceHistory);
-
-
             
 
             if (product != null)
             {
-                product.unitPrice = t.unitPrice;
-                product.incoming = product.incoming + t.quantity;
-                product.ending = (product.beginning + product.incoming) - product.outgoing;
+                if (t.transactionType == 1)
+                {
+                    if (t.unitPrice > 0)
+                    {
+                        var priceHistory = new tbl_productPriceHistory()
+                        {
+                            productId = product.productId,
+                            dateCreated = DateTime.Now,
+                            createdBy = userId,
+                            price = product.unitPrice
+                        };
+
+                        DBContext.tbl_productPriceHistory.Add(priceHistory);
+
+                        product.unitPrice = t.unitPrice;
+                    }
+                    product.incoming = product.incoming + t.quantity;
+                    product.ending = (product.beginning + product.incoming) - product.outgoing;
+                }
+                else if (t.transactionType == 6)
+                {
+                    //product.unitPrice = t.unitPrice;
+                    product.outgoing = product.outgoing + t.quantity;
+                    product.ending = (product.beginning + product.incoming) - product.outgoing;
+                }
+
+                
             }
 
 

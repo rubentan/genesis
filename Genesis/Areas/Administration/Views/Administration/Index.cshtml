@@ -87,7 +87,7 @@
                             <tbody data-bind="foreach: receivables">
                                 <tr>
                                     <td>
-                                        <a href="javascript:;" data-bind="text:clientName">
+                                        <a data-bind="click: $parent.viewClient,text:clientName">
                                         </a>
                                     </td>
                                     <td data-bind="text:convertDateTimeFromJson(dateCreated)"></td>
@@ -155,7 +155,7 @@
                             <tbody data-bind="foreach: payables">
                                 <tr>
                                     <td>
-                                        <a href="javascript:;" data-bind="text:supplierName">
+                                        <a  data-bind="click: $parent.viewSupplier,text:supplierName">
                                         </a>
                                     </td>
                                     <td data-bind="text:convertDateTimeFromJson(dateCreated)"></td>
@@ -177,7 +177,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
 
         <!-- Begin: Reorders -->
         <div id="portletReorders" data-url="@Url.Action("GetReorders", "Administration", new { area = "Administration" }, null)" class="portlet light">
@@ -216,6 +216,12 @@
                                         Description
                                     </th>
                                     <th>
+                                        Unit
+                                    </th>
+                                    <th>
+                                        Reorder-Limit
+                                    </th>
+                                    <th>
                                         Ending
                                     </th>
                                     <th>
@@ -224,11 +230,10 @@
                             </thead>
                             <tbody data-bind="foreach: reorders">
                                 <tr>
-                                    <td>
-                                        <a href="javascript:;" data-bind="text:productCode">
-                                        </a>
-                                    </td>
+                                    <td data-bind="text:productCode"></td>
                                     <td data-bind="text:productDescription"></td>
+                                    <td data-bind="text:UOM"></td>
+                                    <td data-bind="text:reorderLevel"></td>
                                     <td data-bind="text:ending"></td>
                                     <td>
                                         <a data-bind="click: $parent.viewReorderProduct" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
@@ -250,7 +255,8 @@
 <input type="hidden" id="viewReceivableDocumentUrl" data-url="@Url.Action("EditBranchSalesInvoice", "Sales", new { area = "Modules" }, null)" />
 <input type="hidden" id="viewPurchaseDocumentUrl" data-url="@Url.Action("EditBranchPurchaseOrder", "Purchase", new { area = "Modules" }, null)" />
 <input type="hidden" id="viewProductDocumentUrl" data-url="@Url.Action("ViewProductDetails", "Product", new { area = "Administration" }, null)" />
-
+<input type="hidden" id="viewClientUrl" data-url="@Url.Action("ViewClient", "Client", new { area = "Administration" }, null)" />
+<input type="hidden" id="viewSupplierUrl" data-url="@Url.Action("ViewSupplier", "Supplier", new { area = "Administration" }, null)" />
 
 <script src="@Url.Content("~/Areas/Administration/Scripts/Dashboard.js")"></script>
 

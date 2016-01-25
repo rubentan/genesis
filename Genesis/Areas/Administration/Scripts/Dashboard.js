@@ -97,6 +97,17 @@ var ViewModel = function () {
         window.location = url;
     };
 
+    _self.viewClient = function (receivables) {
+        //window.location = "/Administration/Product/ViewProductDetails?id=" + reorders.productId;
+        var url = $('#viewClientUrl').attr('data-url') + "?id=" + receivables.clientId;
+        window.location = url;
+    };
+
+    _self.viewSupplier = function (payables) {
+        //window.location = "/Administration/Product/ViewProductDetails?id=" + reorders.productId;
+        var url = $('#viewSupplierUrl').attr('data-url') + "?id=" + payables.supplierId;
+        window.location = url;
+    };
 
     _self.asyncOperationReceivables();
 
