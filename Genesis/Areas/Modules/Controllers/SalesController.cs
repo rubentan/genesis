@@ -5,13 +5,14 @@ using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using Genesis.BusinessLogic;
+using Genesis.Controllers;
 using Genesis.DataAccess.Repositories;
 using Genesis.DTO;
 using OfficeOpenXml;
 
 namespace Genesis.Areas.Modules.Controllers
 {
-    public class SalesController : Controller
+    public class SalesController : BaseController
     {
         BLSales service;
         RepoReceivable repoReceivable;

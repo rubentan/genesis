@@ -279,7 +279,7 @@ namespace Genesis.DataAccess.Repositories
 
         public List<string> CheckProductCodeExists(string productCode)
         {
-            string sQuery = string.Format("select top 1 productCode from tbl_product where productCode = '{0}'", productCode);
+            string sQuery = string.Format("select top 1 productCode from tbl_product where productCode = '{0}' and status=1", productCode);
 
             return DBContext.Database.SqlQuery<string>(sQuery).ToList();
         }
@@ -320,8 +320,9 @@ namespace Genesis.DataAccess.Repositories
                                                 , beginning
                                                 , incoming
                                                 , outgoing
-                                                , ending) 
-                                                VALUES(@P0, @P1, @P2, @P3, @P4, @P5, @P6, @P7, GETDATE(), @P8, @P9, @P10, @P11)");
+                                                , ending
+                                                , status) 
+                                                VALUES(@P0, @P1, @P2, @P3, @P4, @P5, @P6, @P7, GETDATE(), @P8, @P9, @P10, @P11, 1)");
 
                 parameterList.Add(t.categoryId);
                 parameterList.Add(t.productCode);
@@ -446,7 +447,33 @@ namespace Genesis.DataAccess.Repositories
 
         public dtoResult SoftDelete(dtoProduct t)
         {
-            throw new NotImplementedException();
+            dtoResult objResult = new dtoResult();
+            List<object> parameterList = new List<object>();
+            object[] parameters1 = null;
+
+            try
+            {
+                string sQuery = string.Format(@"UPDATE tbl_product SET 
+                                                status=0
+                                                , dateLastModified=GETDATE()
+                                                , modifiedBy=@P0
+                                                WHERE productId=@P1");
+
+
+                parameterList.Add(t.modifiedBy);
+                parameterList.Add(t.productId);
+                parameters1 = parameterList.ToArray();
+
+                DBContext.Database.ExecuteSqlCommand(sQuery, parameters1);
+                objResult.isSuccessful = true;
+            }
+            catch (Exception ex)
+            {
+                objResult.isSuccessful = false;
+                objResult.errorMsg = ex.Message;
+            }
+
+            return objResult;
         }
 
         public dtoResult Delete(dtoProduct t)

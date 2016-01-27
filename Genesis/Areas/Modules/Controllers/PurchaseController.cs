@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using Genesis.BusinessLogic;
+using Genesis.Controllers;
 using Genesis.DataAccess.Interfaces;
 using Genesis.DataAccess.Repositories;
 using Genesis.DTO;
@@ -12,7 +13,7 @@ using OfficeOpenXml;
 
 namespace Genesis.Areas.Modules.Controllers
 {
-    public class PurchaseController : Controller
+    public class PurchaseController : BaseController
     {
         BLPurchase service;
         SupplierAccount serviceSupplier;

@@ -144,5 +144,10 @@ namespace Genesis.BusinessLogic
         {
             return repo.InLineUpdate(product);
         }
+
+        public dtoResult SoftDeleteProduct(dtoProduct product)
+        {
+            return repo.SoftDelete(product);
+        }
     }
 }

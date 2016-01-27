@@ -26,6 +26,7 @@ namespace Genesis.DTO
         public int? createdBy { get; set; }
         public DateTime? dateCreated { get; set; }
         public int records { get; set; }
+        public int status { get; set; }
 
         //Custom Fields
         public string categoryCode { get; set; }
