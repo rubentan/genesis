@@ -134,6 +134,7 @@ namespace Genesis.Areas.Modules.Controllers
             return Json(list);
         }
 
+
         [HttpPost]
         public JsonResult GetAllSales()
         {

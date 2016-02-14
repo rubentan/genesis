@@ -313,16 +313,25 @@
                                     <thead>
                                         <tr role="row" class="heading">
 
-                                            <th width="30%">
+                                            <th width="15%">
                                                 Ref #
                                             </th>
                                             <th class="display-hide">
                                                 ID
                                             </th>
-                                            <th width="30%">
+                                            <th width="15%">
+                                                Number
+                                            </th>
+                                            <th width="15%">
+                                                Date
+                                            </th>
+                                            <th width="15%">
+                                                Bank
+                                            </th>
+                                            <th width="20%">
                                                 Amt
                                             </th>
-                                            <th width="30%">
+                                            <th width="15%">
                                                 Date Created
                                             </th>
                                             <th width="5%">
@@ -333,6 +342,9 @@
                                         <tr>
                                             <td data-bind="text:referenceNumber"></td>
                                             <td class="display-hide" data-bind="text:receivableId"></td>
+                                            <td data-bind="text:chequeNumber"></td>
+                                            <td data-bind="text:convertDateTimeFromJson(chequeDate)"></td>
+                                            <td data-bind="text:chequeBank"></td>
                                             <td data-bind="text:convertToCurrency(cashAmount)"></td>
                                             <td data-bind="text:convertDateTimeFromJson(dateCreated)"></td>
                                             <td>
