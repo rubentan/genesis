@@ -285,6 +285,13 @@ namespace Genesis.Areas.Modules.Controllers
 
         }
 
+        [HttpPost]
+        public JsonResult GetAllReceivableItems(int receivableId)
+        {
+            var list = service.GetAllReceivableItems(receivableId);
+            return Json(list);
+        }
+
         public void ExportAllReceivables()
         {
 

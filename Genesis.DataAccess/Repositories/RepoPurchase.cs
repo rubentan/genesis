@@ -356,6 +356,13 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoTransaction>(sQuery).ToList();
         }
 
+        public List<dtoPaymentDetail> GetAllPaymentItems(int documentId)
+        {
+            string sQuery = string.Format("exec [GetAllPaymentItems] {0}", documentId);
+
+            return DBContext.Database.SqlQuery<dtoPaymentDetail>(sQuery).ToList();
+        }
+
         public void AddDocument(ref dtoDocument t)
         {
 

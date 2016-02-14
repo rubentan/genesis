@@ -53,5 +53,10 @@ namespace Genesis.BusinessLogic
             return repo.GetAllPurchaseItems(documentId);
         }
 
+        public List<dtoPaymentDetail> GetAllPaymentItems(int documentId)
+        {
+            return repo.GetAllPaymentItems(documentId);
+        }
+
     }
 }

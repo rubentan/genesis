@@ -121,6 +121,8 @@ namespace Genesis.Areas.Modules.Controllers
         }
 
         
+
+
         public void ExportAllPurchases()
         {
             var currentUser = (dtoUserAccount) Session["CurrentUser"];
@@ -268,6 +270,12 @@ namespace Genesis.Areas.Modules.Controllers
 
             return Json(list);
 
+        }
+
+        public JsonResult GetAllPaymentItems(int paymentId)
+        {
+            var list = service.GetAllPaymentItems(paymentId);
+            return Json(list);
         }
 
         public void ExportAllPayments()

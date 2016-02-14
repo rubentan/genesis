@@ -23,5 +23,7 @@ namespace Genesis.DataAccess.Interfaces
         dtoResult SavePurchaseTransaction(dtoDocument header, List<dtoTransaction> details);
 
         List<dtoTransaction> GetAllPurchaseItems(int documentId);
+
+        List<dtoPaymentDetail> GetAllPaymentItems(int documentId);
     }
 }
