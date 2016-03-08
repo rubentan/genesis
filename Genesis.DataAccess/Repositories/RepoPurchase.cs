@@ -258,11 +258,11 @@ namespace Genesis.DataAccess.Repositories
                         break;
                     //Delivery Receipt - still sales invoice instead of 7.
                     case "DR":
-                        docType = 1;
+                        docType = 2;
                         break;
                     //Delivery Receipt - still sales invoice instead of 8.
                     case "OS":
-                        docType = 1;
+                        docType = 2;
                         break;
                 }
 
