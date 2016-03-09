@@ -4,11 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Genesis.BusinessLogic;
+using Genesis.Controllers;
 using Genesis.DTO;
 
 namespace Genesis.Areas.Administration.Controllers
 {
-    public class BranchController : Controller
+    public class BranchController : BaseController
     {
         BLBranch repo;
 

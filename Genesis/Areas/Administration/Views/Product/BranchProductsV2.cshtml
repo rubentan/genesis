@@ -180,6 +180,9 @@
                                 <a data-bind="click: $parent.editRow" class="btn default btn-xs purple" style="margin-bottom: 2px !important;">
                                     <i class="fa fa-edit"></i> Edit
                                 </a>
+                                <a data-bind="click: $parent.softDeleteRow" class="btn default btn-xs" style="margin-bottom: 2px !important;">
+                                    <i class="fa fa-trash"></i>
+                                </a>
                             </td>
 
                         </tr>
@@ -374,7 +377,8 @@
 <input type="hidden" id="hdnLoadBranchProductsExportUrl" data-url="@Url.Action("ExportBranchProducts", "Product", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnViewProductUrl" data-url="@Url.Action("ViewProductDetails", "Product", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnAddEditUrl" data-url="@Url.Action("AddEditProduct", "Product", new { area = "Administration" }, null)" />
-<input type="hidden" id="hdnInLineEditUrl" data-url="@Url.Action("InLineUpdate", "Product", new { area = "Administration" }, null)" />
+<input type="hidden" id="hdnInLineEditUrl" data-url="@Url.Action("InLineUpdate", "Product", new {area = "Administration"}, null)"/>
+<input type="hidden" id="hdnSoftDeleteUrl" data-url="@Url.Action("SoftDeleteProduct", "Product", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnProductCodeExistsUrl" data-url="@Url.Action("CheckProductCodeExists", "Product", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnLoadProductCategoriesUrl" data-url="@Url.Action("GetAllProductCategories", "Product", new { area = "Administration" }, null)" />
 <input type="hidden" id="hdnPriceHistoryUrl" data-url="@Url.Action("GetProductPriceHistory", "Product", new { area = "Administration" }, null)" />

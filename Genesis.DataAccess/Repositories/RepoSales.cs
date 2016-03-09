@@ -372,6 +372,13 @@ namespace Genesis.DataAccess.Repositories
             return DBContext.Database.SqlQuery<dtoTransaction>(sQuery).ToList();
         }
 
+        public List<dtoReceivableDetail> GetAllReceivableItems(int documentId)
+        {
+            string sQuery = string.Format("exec [GetAllReceivableItems] {0}", documentId);
+
+            return DBContext.Database.SqlQuery<dtoReceivableDetail>(sQuery).ToList();
+        }
+
         public List<dtoReceivable> GetAllReceivables(object filter = null, int? skip = null, int? take = null)
         {
             string sQuery = string.Format(@"select a.documentId,a.referenceId,a.documentNumber,a.dateCreated,b.clientName,b.clientCode, sum(c.unitPrice*c.quantity) as salesPrice

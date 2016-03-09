@@ -5,13 +5,14 @@ using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using Genesis.BusinessLogic;
+using Genesis.Controllers;
 using Genesis.DataAccess.Repositories;
 using Genesis.DTO;
 using OfficeOpenXml;
 
 namespace Genesis.Areas.Modules.Controllers
 {
-    public class SalesController : Controller
+    public class SalesController : BaseController
     {
         BLSales service;
         RepoReceivable repoReceivable;
@@ -132,6 +133,7 @@ namespace Genesis.Areas.Modules.Controllers
             var list = service.GetAllSaleItems(documentId);
             return Json(list);
         }
+
 
         [HttpPost]
         public JsonResult GetAllSales()
@@ -281,6 +283,13 @@ namespace Genesis.Areas.Modules.Controllers
 
             return Json(list);
 
+        }
+
+        [HttpPost]
+        public JsonResult GetAllReceivableItems(int receivableId)
+        {
+            var list = service.GetAllReceivableItems(receivableId);
+            return Json(list);
         }
 
         public void ExportAllReceivables()

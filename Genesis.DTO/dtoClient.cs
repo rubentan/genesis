@@ -64,6 +64,12 @@ namespace Genesis.DTO
 
         public decimal cashAmount { get; set; }
 
+        public string chequeNumber { get; set; }
+
+        public string chequeBank { get; set; }
+
+        public DateTime chequeDate { get; set; }
+
         public DateTime dateCreated { get; set; }
     }
 }

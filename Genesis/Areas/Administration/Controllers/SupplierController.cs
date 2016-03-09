@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Genesis.BusinessLogic;
+using Genesis.Controllers;
 using Genesis.DTO;
 
 namespace Genesis.Areas.Administration.Controllers
 {
-    public class SupplierController : Controller
+    public class SupplierController : BaseController
     {
         private SupplierAccount serviceSupplier;
 
