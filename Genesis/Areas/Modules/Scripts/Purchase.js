@@ -30,12 +30,9 @@ var viewModel = function () {
 
     var _self = this;
     this.isLoading = ko.observable(false);
-    this.isLoadingProducts = ko.observable(false);
     _self.documents = ko.observableArray();
-    _self.products = ko.observableArray();
     _self.records = ko.observable("0");
     _self.page = ko.observable("1");
-    _self.documentNumber = ko.observable();
 
     _self.pages = ko.pureComputed(function () {
         return Math.ceil(_self.records() / $('#recordPerPage').val());
@@ -114,37 +111,6 @@ var viewModel = function () {
         //window.location = "/Modules/Sales/AddBranchPurchaseOrder";
     };
 
-    _self.viewProducts = function (documents) {
-
-        _self.asyncOperationProducts(documents.documentId);
-        _self.documentNumber(documents.documentNumber);
-        $('#ViewProducts').modal('show');
-
-    };
-
-    _self.asyncOperationProducts = function (documentId) {
-        _self.isLoadingProducts(true);
-        var param = { documentId: documentId };
-
-        $.ajax({
-            //url: '/Home/GetReceivables',
-            url: $('#hdnGetAllPurchaseItemsUrl').attr('data-url'),
-            type: 'POST',
-            data: JSON.stringify(param),
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            success: function (d) {
-                $(".problemAjaxProducts").hide();
-                _self.isLoadingProducts(false);
-                //alert(JSON.stringify(d));
-                _self.products(d);
-            },
-            error: function () {
-                $(".problemAjaxProducts").show();
-                _self.isLoadingProducts(false);
-            }
-        });
-    };
 
     _self.ResetFilter = function () {
         $('#documentNumber').val('');

@@ -5,7 +5,6 @@ using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using Genesis.BusinessLogic;
-using Genesis.Controllers;
 using Genesis.DataAccess.Interfaces;
 using Genesis.DataAccess.Repositories;
 using Genesis.DTO;
@@ -13,7 +12,7 @@ using OfficeOpenXml;
 
 namespace Genesis.Areas.Modules.Controllers
 {
-    public class PurchaseController : BaseController
+    public class PurchaseController : Controller
     {
         BLPurchase service;
         SupplierAccount serviceSupplier;
@@ -121,8 +120,6 @@ namespace Genesis.Areas.Modules.Controllers
         }
 
         
-
-
         public void ExportAllPurchases()
         {
             var currentUser = (dtoUserAccount) Session["CurrentUser"];
@@ -270,12 +267,6 @@ namespace Genesis.Areas.Modules.Controllers
 
             return Json(list);
 
-        }
-
-        public JsonResult GetAllPaymentItems(int paymentId)
-        {
-            var list = service.GetAllPaymentItems(paymentId);
-            return Json(list);
         }
 
         public void ExportAllPayments()

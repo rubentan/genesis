@@ -2,12 +2,11 @@
 using System.Linq;
 using System.Web.Mvc;
 using Genesis.BusinessLogic;
-using Genesis.Controllers;
 using Genesis.DTO;
 
 namespace Genesis.Areas.Administration.Controllers
 {
-    public class ClientController : BaseController
+    public class ClientController : Controller
     {
         ClientAccount service;
         private ClientAccount serviceClientAccount;

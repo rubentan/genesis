@@ -1,0 +1,72 @@
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Genesis.dll.config
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Genesis.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Genesis.pdb
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Antlr3.Runtime.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\EntityFramework.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Genesis.BusinessLogic.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Genesis.DataAccess.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Genesis.DTO.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Newtonsoft.Json.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Net.Http.Formatting.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.Http.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.Http.WebHost.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.Mvc.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.Optimization.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.Providers.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.Razor.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.WebPages.Deployment.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.WebPages.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.WebPages.Razor.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\WebGrease.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Genesis.BusinessLogic.pdb
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Genesis.DataAccess.pdb
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Genesis.DTO.pdb
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\EntityFramework.xml
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\Newtonsoft.Json.xml
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Net.Http.Formatting.xml
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.Http.xml
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.Http.WebHost.xml
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.Mvc.xml
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.Razor.xml
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.WebPages.xml
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.WebPages.Deployment.xml
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\bin\System.Web.WebPages.Razor.xml
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\obj\Release\Genesis.csprojResolveAssemblyReference.cache
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\obj\Release\Genesis.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis\obj\Release\Genesis.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Genesis.dll.config
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Genesis.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Genesis.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Antlr3.Runtime.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\EntityFramework.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Genesis.BusinessLogic.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Genesis.DataAccess.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Genesis.DTO.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Newtonsoft.Json.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.Mvc.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.Optimization.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.Providers.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.Razor.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.WebPages.Deployment.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.WebPages.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.WebPages.Razor.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\WebGrease.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Genesis.BusinessLogic.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Genesis.DataAccess.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Genesis.DTO.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\EntityFramework.xml
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\Newtonsoft.Json.xml
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.Mvc.xml
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.Razor.xml
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.WebPages.xml
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.WebPages.Deployment.xml
+C:\Users\rj\Documents\GitHub\genesis\Genesis\bin\System.Web.WebPages.Razor.xml
+C:\Users\rj\Documents\GitHub\genesis\Genesis\obj\Release\Genesis.csprojResolveAssemblyReference.cache
+C:\Users\rj\Documents\GitHub\genesis\Genesis\obj\Release\Genesis.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis\obj\Release\Genesis.pdb
+C:\Users\rj\Documents\GitHub\Genesis\Genesis\bin\EPPlus.dll
+C:\Users\rj\Documents\GitHub\Genesis\Genesis\bin\EPPlus.xml

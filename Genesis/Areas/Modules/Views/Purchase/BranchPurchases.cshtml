@@ -149,10 +149,10 @@
                                 <th width="20%">
                                     Purchase Price
                                 </th>
-                                <th width="12%">
+                                <th width="15%">
                                     Date Created
                                 </th>
-                                <th width="13%">
+                                <th width="10%">
                                     Actions
                                 </th>
                             </tr>
@@ -167,9 +167,6 @@
                                 <td width="15%">
                                     <a data-bind="click: $parent.editRow" class="btn default btn-xs purple" style="margin-bottom: 2px !important;">
                                         <i class="fa fa-edit"></i> Edit
-                                    </a>
-                                    <a data-bind="click: $parent.viewProducts" class="btn default btn-xs blue" style="margin-bottom: 2px !important;">
-                                        <i class="fa fa-folder-open-o "></i> Products
                                     </a>
                                 </td>
                             </tr>
@@ -190,60 +187,11 @@
 </div>
 <!-- End: life time stats -->
 
-<div id="ViewProducts" class="modal fade" tabindex="-1">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-        <h4 class="modal-title" data-bind="text:documentNumber"></h4>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="scroller" style="height:350px" data-always-visible="1" data-rail-visible="1" data-rail-color="red" data-handle-color="blue">
-                    <div class="table-container" data-bind="loadingWhen: isLoadingProducts">
-                        <div class="alert display-hide alert-danger problemAjaxProducts">
-                            <button class="close" data-close="alert"></button>
-                            <span>
-                                Ajax encountered a problem, Please contact system administrator.
-                            </span>
-                        </div>
-                        <table class="table table-hover table-light">
-                            <thead>
-                                <tr class="uppercase">
-                                    <th>
-                                        Product Desc
-                                    </th>
-                                    <th>
-                                        Quantity
-                                    </th>
-                                    <th>
-                                        Price
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody data-bind="foreach: products">
-                                <tr>
-                                    <td data-bind="text:productName"></td>
-                                    <td data-bind="text:quantity"></td>
-                                    <td data-bind="text:convertToCurrency(unitPrice)"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
-    </div>
-</div>
-
-
-
 <input type="hidden" id="hdnGetBranchPurchasesUrl" data-url="@Url.Action("GetAllPurchases", "Purchase", new { area = "Modules" }, null)" />
 <input type="hidden" id="hdnExportBranchPurchasesUrl" data-url="@Url.Action("ExportAllPurchases", "Purchase", new { area = "Modules" }, null)" />
 <input type="hidden" id="hdnEditPurchaseOrderUrl" data-url="@Url.Action("EditBranchPurchaseOrder", "Purchase", new { area = "Modules" }, null)" />
 <input type="hidden" id="hdnAddPurchaseOrderUrl" data-url="@Url.Action("AddBranchPurchaseOrder", "Purchase", new { area = "Modules" }, null)" />
-<input type="hidden" id="hdnGetAllPurchaseItemsUrl" data-url="@Url.Action("GetAllPurchaseItems", "Purchase", new { area = "Modules" }, null)" />
+
+
 <script src="@Url.Content("~/Areas/Modules/Scripts/Purchase.js")"></script>
 

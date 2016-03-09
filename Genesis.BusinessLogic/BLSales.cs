@@ -47,11 +47,6 @@ namespace Genesis.BusinessLogic
             return repo.GetAllSaleItems(documentId);
         }
 
-        public List<dtoReceivableDetail> GetAllReceivableItems(int documentId)
-        {
-            return repo.GetAllReceivableItems(documentId);
-        }
-
         public List<dtoReceivable> GetAllReceivables(object filter = null, int? skip = null, int? take = null)
         {
             return repo.GetAllReceivables(filter, skip, take);

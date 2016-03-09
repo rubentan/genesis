@@ -5,13 +5,12 @@ using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using Genesis.BusinessLogic;
-using Genesis.Controllers;
 using Genesis.DTO;
 using OfficeOpenXml;
 
 namespace Genesis.Areas.Administration.Controllers
 {
-    public class ProductController : BaseController // BaseController // 
+    public class ProductController : Controller // BaseController // 
     {
         private BLProduct serviceProduct;
         private BLProductCategory serviceProductCategory;
@@ -148,19 +147,6 @@ namespace Genesis.Areas.Administration.Controllers
                 product.dateLastModified = DateTime.Now;
                 result = serviceProduct.Update(product);
             }
-
-            return Json(result);
-        }
-
-        [HttpPost]
-        public JsonResult SoftDeleteProduct(dtoProduct product)
-        {
-            var currentUser = (dtoUserAccount)Session["CurrentUser"];
-
-            //product.productId = product.productId;
-            product.modifiedBy = currentUser.userId;
-            product.dateLastModified = DateTime.Now;
-            var result = serviceProduct.SoftDeleteProduct(product);
 
             return Json(result);
         }

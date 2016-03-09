@@ -134,7 +134,7 @@ var ViewModel = function () {
 
     _self.viewProduct = function (products) {
         var dataUrl = $("#hdnViewProductUrl").attr("data-url");
-        window.location = dataUrl +"?id=" + products.productId();
+        window.location = dataUrl +"?id=" + products.productId;
         //window.location = "/Administration/Product/ViewProductDetails?id=" + products.productId;
 
     };
@@ -213,34 +213,6 @@ var ViewModel = function () {
 
 
     };
-
-    _self.softDeleteRow = function (products) {
-
-        var r = confirm("Are you sure you want to delete: " + products.productDescription() + "?");
-        if (r == true) {
-            _self.product.productId(products.productId);
-
-            var param = {
-                product: _self.product
-            };
-            var dataUrl = $("#hdnSoftDeleteUrl").attr("data-url");
-            $.ajax({
-                url: dataUrl,
-                type: 'POST',
-                contentType: 'application/json;charset=utf-8',
-                data: ko.toJSON(param),
-                dataType: 'json',
-                success: function (d) {
-                    _self.asyncOperation();
-                },
-                error: function (ex) {
-                    //alert("error: " + JSON.stringify(ex));
-                    alert("error");
-                }
-            });
-        }
-        
-    }
 
     _self.editRow = function (products) {
 
