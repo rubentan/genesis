@@ -1,0 +1,5 @@
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\bin\Debug\Genesis.DTO.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\bin\Debug\Genesis.DTO.pdb
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\obj\Debug\Genesis.DTO.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\obj\Debug\Genesis.DTO.pdb
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.DTO\obj\Debug\Genesis.DTO.csprojResolveAssemblyReference.cache

@@ -12,7 +12,7 @@ namespace Genesis.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
 
-            //base.OnActionExecuting(filterContext);
+            base.OnActionExecuting(filterContext);
 
             if (Session["CurrentUser"] == null)
             {

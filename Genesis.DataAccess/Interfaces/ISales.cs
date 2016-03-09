@@ -21,8 +21,6 @@ namespace Genesis.DataAccess.Interfaces
 
         List<dtoTransaction> GetAllSaleItems(int documentId);
 
-        List<dtoReceivableDetail> GetAllReceivableItems(int documentId);
-
         List<dtoReceivable> GetAllReceivables(object filter = null, int? skip = null, int? take = null);
 
         Boolean CheckExistingDocument(string documentNumber, DateTime? documentTime);

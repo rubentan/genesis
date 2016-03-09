@@ -333,7 +333,6 @@ var initSelect = function() {
 
 
                     query.callback(data);
-                    
                 }
             }).on('change', function(e) {
                 var param = {

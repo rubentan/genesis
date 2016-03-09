@@ -1,0 +1,22 @@
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.BusinessLogic\bin\Release\Genesis.BusinessLogic.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.BusinessLogic\bin\Release\Genesis.BusinessLogic.pdb
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.BusinessLogic\bin\Release\Genesis.DataAccess.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.BusinessLogic\bin\Release\Genesis.DTO.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.BusinessLogic\bin\Release\EntityFramework.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.BusinessLogic\bin\Release\Genesis.DataAccess.pdb
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.BusinessLogic\bin\Release\Genesis.DTO.pdb
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.BusinessLogic\bin\Release\EntityFramework.xml
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.BusinessLogic\obj\Release\Genesis.BusinessLogic.csprojResolveAssemblyReference.cache
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.BusinessLogic\obj\Release\Genesis.BusinessLogic.dll
+C:\Users\rj\Documents\Visual Studio 2013\Projects\Genesis\Genesis.BusinessLogic\obj\Release\Genesis.BusinessLogic.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis.BusinessLogic\bin\Release\Genesis.BusinessLogic.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis.BusinessLogic\bin\Release\Genesis.BusinessLogic.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis.BusinessLogic\bin\Release\Genesis.DataAccess.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis.BusinessLogic\bin\Release\Genesis.DTO.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis.BusinessLogic\bin\Release\EntityFramework.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis.BusinessLogic\bin\Release\Genesis.DataAccess.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis.BusinessLogic\bin\Release\Genesis.DTO.pdb
+C:\Users\rj\Documents\GitHub\genesis\Genesis.BusinessLogic\bin\Release\EntityFramework.xml
+C:\Users\rj\Documents\GitHub\genesis\Genesis.BusinessLogic\obj\Release\Genesis.BusinessLogic.csprojResolveAssemblyReference.cache
+C:\Users\rj\Documents\GitHub\genesis\Genesis.BusinessLogic\obj\Release\Genesis.BusinessLogic.dll
+C:\Users\rj\Documents\GitHub\genesis\Genesis.BusinessLogic\obj\Release\Genesis.BusinessLogic.pdb

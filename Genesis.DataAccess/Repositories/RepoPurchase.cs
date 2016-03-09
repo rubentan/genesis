@@ -258,11 +258,11 @@ namespace Genesis.DataAccess.Repositories
                         break;
                     //Delivery Receipt - still sales invoice instead of 7.
                     case "DR":
-                        docType = 2;
+                        docType = 1;
                         break;
                     //Delivery Receipt - still sales invoice instead of 8.
                     case "OS":
-                        docType = 2;
+                        docType = 1;
                         break;
                 }
 
@@ -354,13 +354,6 @@ namespace Genesis.DataAccess.Repositories
             string sQuery = string.Format("exec GetAllOrderItems {0}", documentId);
 
             return DBContext.Database.SqlQuery<dtoTransaction>(sQuery).ToList();
-        }
-
-        public List<dtoPaymentDetail> GetAllPaymentItems(int documentId)
-        {
-            string sQuery = string.Format("exec [GetAllPaymentItems] {0}", documentId);
-
-            return DBContext.Database.SqlQuery<dtoPaymentDetail>(sQuery).ToList();
         }
 
         public void AddDocument(ref dtoDocument t)

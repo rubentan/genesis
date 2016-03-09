@@ -27,7 +27,6 @@ namespace Genesis.DataAccess.Repositories
                                                       on a.referenceId = c.clientId 
                                                       where a.documentType = 1
                                                       and c.branchId = {0}
-                                                      and c.clientName <> 'CASH'
                                                       group by a.documentId,a.dateCreated,c.clientName,c.clientCode,c.clientId) price
                                                       inner join 
                                                       (select a.documentId, sum(paymentPrice) as paymentTotal
@@ -38,7 +37,6 @@ namespace Genesis.DataAccess.Repositories
                                                       on a.referenceId = c.clientId 
                                                       where a.documentType = 1
                                                       and c.branchId = {0}
-                                                      and c.clientName <> 'CASH'
                                                       group by a.documentId) payment
                                                       on price.documentId = payment.documentId
                                                       where price.documentTotal > isnull(payment.paymentTotal,0)

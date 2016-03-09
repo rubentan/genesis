@@ -2305,7 +2305,7 @@ Form Layouts
   background-color: #fcfcfc;
 }
 .form .form-horizontal.form-bordered.form-row-stripped .form-control {
-  background: #fff;
+  background: #fff !important;
 }
 .form .form-horizontal.form-bordered.form-label-stripped .form-group:nth-child(even) {
   background-color: #fcfcfc;
