@@ -192,19 +192,25 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Unit Price</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control input-sm" id="txtUnitPrice">
+                                        <input type="text" class="form-control input-sm" id="txtUnitPrice" data-bind="value: unitPrice, valueUpdate:'afterkeydown'">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Discount </label>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control input-sm" placeholder="Discount A" id="txtDiscountA">
+                                        <input type="text" class="form-control input-sm" placeholder="Discount A" id="txtDiscountA" data-bind="value: discountA, valueUpdate:'afterkeydown'">
                                     </div>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control input-sm" placeholder="Discount B" id="txtDiscountB">
+                                        <input type="text" class="form-control input-sm" placeholder="Discount B" id="txtDiscountB" data-bind="value: discountB, valueUpdate:'afterkeydown'">
                                     </div>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control input-sm" placeholder="Discount C" id="txtDiscountC">
+                                        <input type="text" class="form-control input-sm" placeholder="Discount C" id="txtDiscountC" data-bind="value: discountC, valueUpdate:'afterkeydown'">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Net Price</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control input-sm" disabled id="txtNetPrice" data-bind="value: netPrice">
                                     </div>
                                 </div>
                             </div>

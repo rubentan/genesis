@@ -16,6 +16,11 @@ var viewModel = function () {
     var _self = this;
     _self.orderItems = ko.observableArray();
     _self.grandTotal = ko.observable("0");
+    _self.unitPrice = ko.observable("0");
+    _self.discountA = ko.observable();
+    _self.discountB = ko.observable();
+    _self.discountC = ko.observable();
+
 
     _self.Product = {
         productId: ko.observable(),
@@ -34,8 +39,34 @@ var viewModel = function () {
         discountB: ko.observable(),
         discountC: ko.observable(),
         total: ko.observable()
+    };
+
+    var creditDiscount = function (currentDiscount, additionalDiscount) {
+
+        if (additionalDiscount != null && additionalDiscount.trim() != '' && additionalDiscount != undefined)
+            currentDiscount = currentDiscount * ((100 - Number(additionalDiscount)) / 100);
+
+        return currentDiscount;
 
     };
+
+    _self.netPrice = ko.computed(function () {
+        var unitPrice = _self.unitPrice();
+
+        if (_self.discountA() != 0 && _self.discountA() != '') {
+            unitPrice = creditDiscount(unitPrice, _self.discountA());
+        }
+
+        if (_self.discountB() != 0 && _self.discountB() != '') {
+            unitPrice = creditDiscount(unitPrice, _self.discountB());
+        }
+
+        if (_self.discountC() != 0 && _self.discountC() != '') {
+            unitPrice = creditDiscount(unitPrice, _self.discountC());
+        }
+        return unitPrice;
+
+    }, self);
 
     _self.backToList = function () {
         var dataUrl = $("#hdnReturnUrl").attr("data-url");
@@ -99,14 +130,6 @@ var viewModel = function () {
         }
     };
 
-    var creditDiscount = function (currentDiscount, additionalDiscount) {
-
-        if (additionalDiscount != null && additionalDiscount.trim() != '' && additionalDiscount != undefined)
-            currentDiscount = currentDiscount * ((100 - Number(additionalDiscount)) / 100);
-
-        return currentDiscount;
-
-    };
 
     _self.removeProduct = function () {
         //alert('remove: '+ orderItems.productId);
@@ -128,6 +151,7 @@ var viewModel = function () {
         $('#txtDiscountA').val('');
         $('#txtDiscountB').val('');
         $('#txtDiscountC').val('');
+        $('#txtNetPrice').val('');
         
     };
 
