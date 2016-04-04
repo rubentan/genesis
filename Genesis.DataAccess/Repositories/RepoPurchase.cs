@@ -442,9 +442,24 @@ namespace Genesis.DataAccess.Repositories
                         };
 
                         DBContext.tbl_productPriceHistory.Add(priceHistory);
+                            
+                        var discountedPrice = decimal.Parse(t.unitPrice.ToString());
+                          
+                        //Apply Discount A
+                        if (t.discountA != 0)
+                            discountedPrice = discountedPrice * ((100 - decimal.Parse(t.discountA.ToString())) / 100);
 
-                        product.unitPrice = t.unitPrice;
+                        //Apply Discount B
+                        if (t.discountB != 0)
+                            discountedPrice = discountedPrice * ((100 - decimal.Parse(t.discountB.ToString())) / 100);
+
+                        //Apply Discount C
+                        if (t.discountC != 0)
+                            discountedPrice = discountedPrice * ((100 - decimal.Parse(t.discountC.ToString())) / 100);
+
+                        product.unitPrice = discountedPrice;
                     }
+
                     product.incoming = product.incoming + t.quantity;
                     product.ending = (product.beginning + product.incoming) - product.outgoing;
                 }
@@ -454,10 +469,7 @@ namespace Genesis.DataAccess.Repositories
                     product.outgoing = product.outgoing + t.quantity;
                     product.ending = (product.beginning + product.incoming) - product.outgoing;
                 }
-
-                
             }
-
 
             DBContext.tbl_transaction.Add(transaction);
             t.transactionId = transaction.transactionId;
