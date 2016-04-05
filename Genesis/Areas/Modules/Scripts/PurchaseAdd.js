@@ -7,7 +7,6 @@
     //    }).datepicker("setDate", new Date());;
     //}
     initSelect();
-    
     vm = new viewModel();
     ko.applyBindings(vm);
 });
@@ -129,7 +128,6 @@ var viewModel = function () {
             alert('Product is required.');
         }
     };
-
 
     _self.removeProduct = function () {
         //alert('remove: '+ orderItems.productId);

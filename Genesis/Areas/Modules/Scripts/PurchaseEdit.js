@@ -19,6 +19,11 @@ var viewModel = function () {
     _self.supplier = ko.observable();
     _self.dateCreated = ko.observable();
     _self.grandTotal = ko.observable("0");
+    _self.unitPrice = ko.observable("0");
+    _self.discountA = ko.observable();
+    _self.discountB = ko.observable();
+    _self.discountC = ko.observable();
+
 
     _self.Product = {
         productId: ko.observable(),
@@ -37,11 +42,35 @@ var viewModel = function () {
         discountB: ko.observable(),
         discountC: ko.observable(),
         total: ko.observable()
+    };
+    
+    var creditDiscount = function (currentDiscount, additionalDiscount) {
+
+        if (additionalDiscount != null && additionalDiscount.trim() != '' && additionalDiscount != undefined)
+            currentDiscount = currentDiscount * ((100 - Number(additionalDiscount)) / 100);
+
+        return currentDiscount;
 
     };
 
-    
-    
+    _self.netPrice = ko.computed(function () {
+        var unitPrice = _self.unitPrice();
+
+        if (_self.discountA() != 0 && _self.discountA() != '') {
+            unitPrice = creditDiscount(unitPrice, _self.discountA());
+        }
+
+        if (_self.discountB() != 0 && _self.discountB() != '') {
+            unitPrice = creditDiscount(unitPrice, _self.discountB());
+        }
+
+        if (_self.discountC() != 0 && _self.discountC() != '') {
+            unitPrice = creditDiscount(unitPrice, _self.discountC());
+        }
+        return unitPrice;
+
+    }, self);
+
     _self.addProduct = function () {
 
         if ($('#ddProduct').val() != "") {
@@ -82,7 +111,7 @@ var viewModel = function () {
                     _self.grandTotal(Number(_self.grandTotal()) + Number(newProduct.total));
                     _self.clearProductAdd();
                     $('#ddProduct').select2('open');
-                    
+
                 } else {
                     alert('Quantity is required.');
                 }
@@ -92,15 +121,6 @@ var viewModel = function () {
         } else {
             alert('Product is required.');
         }
-    };
-
-    var creditDiscount = function (currentDiscount, additionalDiscount) {
-
-        if (additionalDiscount != null && additionalDiscount.trim() != '' && additionalDiscount != undefined)
-            currentDiscount = currentDiscount * ((100 - Number(additionalDiscount)) / 100);
-
-        return currentDiscount;
-
     };
 
     _self.removeProduct = function () {
@@ -173,8 +193,6 @@ var viewModel = function () {
         }
     };
 
-   
-
     _self.getDocumentDetails = function () {
         var dataUrl = $("#hdnGetDocumentDetailsUrl").attr("data-url");
         $.ajax({
@@ -190,7 +208,6 @@ var viewModel = function () {
             error: function () { alert('ajax error'); }
         });
     };
-
 
     _self.getOrderItems = function () {
         var param = { documentId: documentId };
