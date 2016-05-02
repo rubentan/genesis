@@ -446,15 +446,15 @@ namespace Genesis.DataAccess.Repositories
                         var discountedPrice = decimal.Parse(t.unitPrice.ToString());
                           
                         //Apply Discount A
-                        if (t.discountA != 0)
+                        if (t.discountA != 0 && t.discountA != null)
                             discountedPrice = discountedPrice * ((100 - decimal.Parse(t.discountA.ToString())) / 100);
 
                         //Apply Discount B
-                        if (t.discountB != 0)
+                        if (t.discountB != 0 && t.discountB != null)
                             discountedPrice = discountedPrice * ((100 - decimal.Parse(t.discountB.ToString())) / 100);
 
                         //Apply Discount C
-                        if (t.discountC != 0)
+                        if (t.discountC != 0 && t.discountC != null)
                             discountedPrice = discountedPrice * ((100 - decimal.Parse(t.discountC.ToString())) / 100);
 
                         product.unitPrice = discountedPrice;
